@@ -20,7 +20,6 @@ namespace IAmTwo.Game
 
         protected Stopwatch AirTime;
 
-        protected bool Passive = false;
 
         protected bool Grounded = false;
 
@@ -29,8 +28,12 @@ namespace IAmTwo.Game
         protected Vector2 Acceleration { get; private set; } = Vector2.Zero;
         protected Vector2 Velocity { get; private set; } = Vector2.Zero;
 
+        protected bool ChecksGrounded;
+
         public float Mass = 1;
         public float Drag = .75f;
+
+        public bool Passive = false;
 
         public PhysicsObject(bool active = false)
         {
@@ -54,8 +57,6 @@ namespace IAmTwo.Game
             if (Grounded) AirTime.Reset();
             else AirTime.Start();
             
-            Force.Y -= CalculateGravity();
-
             Grounded = false;
             foreach (PhysicsObject collider in Colliders)
             {
@@ -64,17 +65,17 @@ namespace IAmTwo.Game
                     Vector2 mtv;
                     if (Hitbox.TestIntersection(_hitbox, collider._hitbox, out mtv))
                     {
-                        
                         Collided(collider, mtv);
                     }
 
-                    if (mtv.Y > 0)
+                    if (mtv.Y > 0 && collider.ChecksGrounded)
                     {
                         Grounded = true;
                     }
                 }
             }
 
+            if (!Grounded) Force.Y -= CalculateGravity();
             CalculateForce(context.Deltatime);
         }
 
@@ -92,28 +93,5 @@ namespace IAmTwo.Game
         }
 
         public virtual void Collided(PhysicsObject obj, Vector2 mtv) {}
-
-        public Vector2 ElasticCollision(PhysicsObject obj)
-        {
-            float u1 = Velocity.Length;
-            float u2 = obj.Velocity.Length;
-
-            float m1 = Mass;
-            float m2 = obj.Mass;
-
-            float v1 = (((m1 - m2) / (m1 + m2)) * u1) + (((2 * m2) / (m1 + m2)) * u2);
-            float v2 = (((m2 - m1) / (m2 + m1)) * u2) + (((2 * m1) / (m2 + m1)) * u1);
-
-            Vector2 v1Norm = Velocity.LengthSquared == 0 ? Vector2.Zero : Velocity.Normalized();
-            Vector2 v2Norm = obj.Velocity.LengthSquared == 0 ? Vector2.Zero : obj.Velocity.Normalized();
-
-            Vector2 d1 = v2Norm - v1Norm;
-            Vector2 d2 = v1Norm - v2Norm;
-
-            Vector2 nv1 = d1 * v1;
-            Vector2 nv2 = d2 * v2;
-
-            return nv1;
-        }
     }
 }

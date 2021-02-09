@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Remoting;
+using IAmTwo.Game.SpecialObjects;
 using IAmTwo.Resources;
 using IAmTwo.Shaders;
 using SharpDX.Win32;
@@ -28,7 +29,14 @@ namespace IAmTwo.Game
             Player mirror = new Player(actor, true);
             mirror.Transform.Position.Set(500, 0);
 
-            Objects.Add(p, mirror);
+            GameObject obj = new GameObject();
+            obj.Transform.Size.Set(500, 20);
+            JumpBooster booster = new JumpBooster();
+            booster.Transform.Position.Set(250, -Camera.WorldScale.Y / 2 + 15 /2 + 33);
+            JumpBlocker blocker = new JumpBlocker();
+            blocker.Transform.Position.Set(-250, -Camera.WorldScale.Y / 2 + 15 /2 + 33);
+
+            Objects.Add(p, mirror, obj, booster, blocker);
         }
 
         public static void CreateBorders(ItemCollection collection)

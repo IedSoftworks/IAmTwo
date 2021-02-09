@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using System.Windows.Forms.VisualStyles;
+using IAmTwo.Game.SpecialObjects;
 using IAmTwo.Resources;
 using OpenTK;
 using OpenTK.Graphics;
@@ -24,14 +26,22 @@ namespace IAmTwo.Game
             {"jump", context => context.KeyboardState[Key.Space], context => context.ControllerState?.Buttons.A}
         });
 
+        public static float DefaultJumpMultiplier = 25;
+
         private GameKeybindActor _keybindActor;
         private bool _mirror;
 
-        private float _speed = 200;
+        private List<PhysicsObject> _collidedWith = new List<PhysicsObject>();
+
+        private float _speed = 1000;
 
         private bool _jumpCharging = false;
         private float _jumpMomentum;
         private float _jumpHeight;
+
+        private SpecialObject _lastSpecialObject = null;
+
+        public float JumpMultiplier = DefaultJumpMultiplier;
 
         public Player(GameKeybindActor actor, bool mirror) : base(true)
         {
@@ -52,7 +62,6 @@ namespace IAmTwo.Game
         public override void Update(UpdateContext context)
         {
             float speedMul = 1;
-            if (!Grounded) speedMul = .5f;
 
             float xDir = _keybindActor.Get<float>("move") * (_mirror ? -1 : 1);
             if (Math.Sign(xDir) != 0)
@@ -63,12 +72,18 @@ namespace IAmTwo.Game
             bool jump = _keybindActor.Get<bool>("jump");
             if (jump && Grounded)
             {
-                Force.Y += CalculateGravity() * 25;
+                Force.Y += CalculateGravity() * JumpMultiplier;
+
             }
 
-
+            _collidedWith.Clear();
             base.Update(context);
 
+            if (!_collidedWith.Contains(_lastSpecialObject))
+            {
+                _lastSpecialObject?.EndCollision(this, Vector2.Zero);
+                _lastSpecialObject = null;
+            }
         }
 
         protected override void DrawContext(ref DrawContext context)
@@ -81,8 +96,21 @@ namespace IAmTwo.Game
         public override void Collided(PhysicsObject obj, Vector2 mtv)
         {
             base.Collided(obj, mtv);
+            _collidedWith.Add(obj);
+
+            if (obj is SpecialObject special)
+            {
+                if (obj != _lastSpecialObject)
+                {
+                    special.BeganCollision(this, mtv);
+                    _lastSpecialObject = special;
+                }
+                return;
+            }
+
             Force += mtv * 75;
             Transform.Position.Add(mtv);
+
         }
     }
 }

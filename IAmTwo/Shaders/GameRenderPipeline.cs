@@ -23,7 +23,8 @@ namespace IAmTwo.Shaders
             {
                 Power = 1.05f,
                 AmountMap = Resource.RequestTexture(@".\Resources\bloom_amountMap.png"),
-                AmountTransform = BloomAmountTransform
+                AmountTransform = BloomAmountTransform,
+                MinAmount = .1f
             };
             _bloom.Initilize(this);
 
