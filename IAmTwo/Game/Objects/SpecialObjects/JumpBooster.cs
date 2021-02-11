@@ -1,26 +1,31 @@
 ﻿using IAmTwo.Resources;
 using OpenTK;
-using OpenTK.Graphics;
 using SM.Base.Windows;
 
-namespace IAmTwo.Game.SpecialObjects
+namespace IAmTwo.Game.Objects.SpecialObjects
 {
-    public class JumpBlocker : SpecialObject
+    public class JumpBooster : SpecialObject
     {
         public static float Multiplier = 40;
 
-        public JumpBlocker()
+        public JumpBooster()
         {
-            Color = Color4.Red;
+            Color = ColorPallete.Up;
             Texture = Resource.RequestTexture(@".\Resources\jump_arrow.png");
-            _material.Blending = true;
+            TextureTransform.Rotation = 180;
+            _Material.Blending = true;
         }
 
+        public override void Update(UpdateContext context)
+        {
+            base.Update(context);
+            TextureTransform.Offset.Add(0, -context.Deltatime);
+        }
         public override void BeganCollision(Player p, Vector2 mtv)
         {
             base.BeganCollision(p, mtv);
 
-            p.JumpMultiplier = 0;
+            p.JumpMultiplier = Multiplier;
         }
 
         public override void EndCollision(Player p, Vector2 mtv)

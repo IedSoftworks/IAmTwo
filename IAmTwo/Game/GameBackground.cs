@@ -9,14 +9,10 @@ namespace IAmTwo.Game
     {
         public GameBackground()
         {
-            Texture = Resource.RequestTexture(@".\Resources\bloom_amountMap.png");
-
-            TextureTransform = GameRenderPipeline.BloomAmountTransform;
         }
 
         protected override void DrawContext(ref DrawContext context)
         {
-            Material.ShaderArguments["ColorScale"] = .05f;
             base.DrawContext(ref context);
         }
     }

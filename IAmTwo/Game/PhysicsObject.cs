@@ -23,7 +23,7 @@ namespace IAmTwo.Game
 
         protected bool Grounded = false;
 
-        protected Vector2 Force = Vector2.Zero;
+        public Vector2 Force = Vector2.Zero;
 
         protected Vector2 Acceleration { get; private set; } = Vector2.Zero;
         protected Vector2 Velocity { get; private set; } = Vector2.Zero;

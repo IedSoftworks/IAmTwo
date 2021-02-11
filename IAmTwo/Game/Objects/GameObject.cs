@@ -1,12 +1,7 @@
 ﻿using OpenTK;
-using OpenTK.Graphics;
-using SM.Base.Drawing;
-using SM.Base.Scene;
 using SM.Base.Windows;
-using SM.Utility;
-using SM2D.Drawing;
 
-namespace IAmTwo.Game
+namespace IAmTwo.Game.Objects
 {
     public class GameObject : PhysicsObject
     {
@@ -14,11 +9,12 @@ namespace IAmTwo.Game
         {
             Mass = 100;
             ChecksGrounded = true;
+
+            _ShaderArguments["ColorScale"] = 1f;
         }
 
         protected override void DrawContext(ref DrawContext context)
         {
-            GetMaterialReference().ShaderArguments["ColorScale"] = 1f;
             base.DrawContext(ref context);
         }
 

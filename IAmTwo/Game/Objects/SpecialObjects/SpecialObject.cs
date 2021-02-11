@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Security.AccessControl;
 using OpenTK;
-using SM.Base.Windows;
 
-namespace IAmTwo.Game.SpecialObjects
+namespace IAmTwo.Game.Objects.SpecialObjects
 {
     public abstract class SpecialObject : GameObject
     {
@@ -14,6 +12,11 @@ namespace IAmTwo.Game.SpecialObjects
             ChecksGrounded = false;
             Transform.Size.Set(100,33);
             TextureTransform.Scale.Set(3f, 1);
+        }
+
+        public virtual void ColliedWithPlayer(Player p, Vector2 mtv)
+        {
+
         }
 
         public virtual void BeganCollision(Player p, Vector2 mtv)

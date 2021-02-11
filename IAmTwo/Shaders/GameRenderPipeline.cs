@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Dynamic;
 using System.Reflection;
 using IAmTwo.Resources;
 using OpenTK.Graphics.OpenGL4;
@@ -21,20 +22,18 @@ namespace IAmTwo.Shaders
             MainFramebuffer = CreateWindowFramebuffer();
             _bloom = new BloomEffect(0, true)
             {
-                Power = 1.05f,
+                Threshold = .9f,
+                Power = 1f,
                 AmountMap = Resource.RequestTexture(@".\Resources\bloom_amountMap.png"),
                 AmountTransform = BloomAmountTransform,
-                MinAmount = .1f
+                MinAmount = .1f,
+                MaxAmount = .9f
             };
             _bloom.Initilize(this);
 
-            DefaultShader = new SimpleShader("basic", AssemblyUtility.ReadAssemblyFile("IAmTwo.Shaders.GLSL.default_frag.glsl"),
-                (u, c) =>
-                {
-                    u["Texture"].SetTexture(c.Material.Texture, u["HasTexture"]);
-                    u["Tint"].SetUniform4(c.Material.Tint);
-                    u["Scale"].SetUniform1(c.Material.ShaderArguments.ContainsKey("ColorScale") ? (float)c.Material.ShaderArguments["ColorScale"] : 1f);
-                });
+            PostProcessFinals.Gamma = 2f;
+
+            DefaultShader = ShaderCollection.DefaultShader;
 
 
             base.Initialization();
@@ -46,9 +45,11 @@ namespace IAmTwo.Shaders
 
             context.Scene.Draw(context);
 
-            Framebuffer.Screen.Activate(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            BloomAmountTransform.Offset.Add(Deltatime.RenderDelta * .1f, 0);
+            BloomAmountTransform.Offset.Add(Deltatime.RenderDelta * .025f, 0);
             _bloom.Draw(context);
+
+            Framebuffer.Screen.Activate(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            PostProcessFinals.FinalizeHDR(MainFramebuffer.ColorAttachments["color"], .5f);
         }
     }
 }

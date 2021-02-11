@@ -59,24 +59,33 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collision\Hitbox.cs" />
+    <Compile Include="Game\ColorPallete.cs" />
     <Compile Include="Game\GameBackground.cs" />
     <Compile Include="Game\GameScene.cs" />
+    <Compile Include="Game\Level.cs" />
+    <Compile Include="Game\Objects\PlayerSpawner.cs" />
+    <Compile Include="Game\Objects\PortalConnector.cs" />
+    <Compile Include="Game\Objects\SpecialObjects\Portal.cs" />
     <Compile Include="Game\PhysicsObject.cs" />
     <Compile Include="Game\Player.cs" />
-    <Compile Include="Game\GameObject.cs" />
-    <Compile Include="Game\SpecialObjects\JumpBlocker.cs" />
-    <Compile Include="Game\SpecialObjects\JumpBooster.cs" />
-    <Compile Include="Game\SpecialObjects\SpecialObject.cs" />
+    <Compile Include="Game\Objects\GameObject.cs" />
+    <Compile Include="Game\Objects\SpecialObjects\Elevator.cs" />
+    <Compile Include="Game\Objects\SpecialObjects\Goal.cs" />
+    <Compile Include="Game\Objects\SpecialObjects\JumpBlocker.cs" />
+    <Compile Include="Game\Objects\SpecialObjects\JumpBooster.cs" />
+    <Compile Include="Game\Objects\SpecialObjects\SpecialObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Resource.cs" />
     <Compile Include="Shaders\GameRenderPipeline.cs" />
+    <Compile Include="Shaders\ShaderCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
     <EmbeddedResource Include="Shaders\GLSL\default_frag.glsl" />
+    <EmbeddedResource Include="Shaders\GLSL\spawner_frag.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\IedSoftworks\SMRendererV3\SMCode\SM.Base\SM.Base.csproj">
@@ -105,6 +114,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\player_spite.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\portal.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
