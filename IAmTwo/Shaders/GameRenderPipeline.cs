@@ -2,6 +2,7 @@
 using System.Dynamic;
 using System.Reflection;
 using IAmTwo.Resources;
+using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 using SM.Base.Drawing;
 using SM.Base.PostEffects;
@@ -15,23 +16,27 @@ namespace IAmTwo.Shaders
     public class GameRenderPipeline : RenderPipeline
     {
         private BloomEffect _bloom;
+        private Framebuffer _postBuffer;
         public static TextureTransformation BloomAmountTransform = new TextureTransformation();
 
         public override void Initialization()
         {
-            MainFramebuffer = CreateWindowFramebuffer();
-            _bloom = new BloomEffect(0, true)
+            MainFramebuffer = CreateWindowFramebuffer(0);
+            
+            //Framebuffers.Add(_postBuffer = CreateWindowFramebuffer(0));
+            _bloom = new BloomEffect(true)
             {
-                Threshold = .9f,
+                WeightCurvePickAmount = 8,
+
+                Threshold = 1f,
                 Power = 1f,
                 AmountMap = Resource.RequestTexture(@".\Resources\bloom_amountMap.png"),
                 AmountTransform = BloomAmountTransform,
                 MinAmount = .1f,
-                MaxAmount = .9f
             };
             _bloom.Initilize(this);
 
-            PostProcessFinals.Gamma = 2f;
+            PostProcessFinals.Gamma = 2.2f;
 
             DefaultShader = ShaderCollection.DefaultShader;
 
@@ -45,11 +50,13 @@ namespace IAmTwo.Shaders
 
             context.Scene.Draw(context);
 
+            //PostProcessFinals.ResolveMultisampledBuffers(MainFramebuffer, _postBuffer);
+            
             BloomAmountTransform.Offset.Add(Deltatime.RenderDelta * .025f, 0);
             _bloom.Draw(context);
 
             Framebuffer.Screen.Activate(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            PostProcessFinals.FinalizeHDR(MainFramebuffer.ColorAttachments["color"], .5f);
+            PostProcessFinals.FinalizeHDR(MainFramebuffer.ColorAttachments["color"], .75f);
         }
     }
 }

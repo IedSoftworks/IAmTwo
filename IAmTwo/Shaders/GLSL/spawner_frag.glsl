@@ -47,11 +47,13 @@ float cnoise(vec2 P){
 }
 
 void main() {
-    float outerRing = clamp(length(v_VertexPosition.xy * 2) - .2, 0,1);
+    float outerRing = clamp(length(v_VertexPosition.xy * 2) - .25, 0,1);
     float innerRing = 1 - outerRing;
 
     float noise = cnoise((Movement) * (innerRing * 10 + 15)) * cnoise(v_VertexPosition.xy * 20);
 
-    float result = innerRing * noise + outerRing;
-    Color = vec4(result) * ObjColor * 2;
+    float result = noise * 2 + outerRing * 1.5;
+    vec3 resultingCol = vec3(result, result, result) * ObjColor.rgb;
+
+    Color = vec4(resultingCol, 1);
 }

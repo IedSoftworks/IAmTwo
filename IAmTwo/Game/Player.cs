@@ -19,7 +19,7 @@ using SM2D.Drawing;
 
 namespace IAmTwo.Game
 {
-    public class Player : PhysicsObject
+    public class Player : SpecialActor
     {
         static GameKeybindHost keybindHost = new GameKeybindHost(new GameKeybindList()
         {
@@ -28,38 +28,34 @@ namespace IAmTwo.Game
         });
 
         public static float DefaultJumpMultiplier = 25;
-        public static Vector2 PlayerSize = new Vector2(40,60);
+        public static Vector2 PlayerSize = new Vector2(50);
+
 
         private GameKeybindActor _keybindActor;
 
-        private List<PhysicsObject> _collidedWith = new List<PhysicsObject>();
-
         private float _speed = 2000;
-
-        private bool _jumpCharging = false;
-        private float _jumpMomentum;
-        private float _jumpHeight;
-
-        private SpecialObject _lastSpecialObject = null;
-
+        
         public float JumpMultiplier = DefaultJumpMultiplier;
         public bool Mirror;
         public bool React;
 
-        public Player(GameKeybindActor actor, bool mirror) : base(true)
+        public Player(GameKeybindActor actor, bool mirror)
         {
             Mass = 10;
+            Passive = false;
 
             _Material.Blending = true;
 
             actor.ConnectHost(keybindHost);
             _keybindActor = actor;
 
-            _ShaderArguments["ColorScale"] = 1f;
+            Transform.Size.Set(50);
+            Texture = Resource.RequestTexture(@".\Resources\MovingBox_d.png");
 
-            Texture = Resource.RequestTexture(@".\Resources\player_spite.png");
-
-            Color = mirror ? ColorPallete.Mirror : ColorPallete.Player;
+            _ShaderArguments["EmissionTex"] = Resource.RequestTexture(@".\Resources\MovingBox_e.png");
+            _ShaderArguments["EmissionStrength"] = 2f;
+            
+            //Color = mirror ? ColorPallete.Mirror : ColorPallete.Player;
             Mirror = mirror;
 
             Transform.ZIndex = mirror ? -1 : 1;
@@ -80,42 +76,24 @@ namespace IAmTwo.Game
             bool jump = _keybindActor.Get<bool>("jump");
             if (jump && Grounded)
             {
-                Force.Y += CalculateGravity() * JumpMultiplier;
+                Force.Y += CalculateGravity(context.Deltatime) * JumpMultiplier;
 
             }
 
-            _collidedWith.Clear();
             base.Update(context);
-
-            if (!_collidedWith.Contains(_lastSpecialObject))
-            {
-                _lastSpecialObject?.EndCollision(this, Vector2.Zero);
-                _lastSpecialObject = null;
-            }
         }
 
         public override void Collided(PhysicsObject obj, Vector2 mtv)
         {
             base.Collided(obj, mtv);
-            _collidedWith.Add(obj);
 
             if (obj is SpecialObject special)
             {
-                if (obj != _lastSpecialObject)
-                {
-                    special.BeganCollision(this, mtv);
-                    _lastSpecialObject = special;
-                }
-
-                special.ColliedWithPlayer(this, mtv);
+                HandleCollision(special, mtv);
                 return;
             }
-
-            if (obj is PlayerSpawner) return;
-
-            Force += mtv * 75;
-            Transform.Position.Add(mtv);
-
+            
+            DefaultCollisionResolvement(mtv);
         }
     }
 }

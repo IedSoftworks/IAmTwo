@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters;
+using System.Windows.Forms;
 using OpenTK;
 
 namespace IAmTwo.Game.Objects.SpecialObjects
@@ -14,17 +16,17 @@ namespace IAmTwo.Game.Objects.SpecialObjects
             TextureTransform.Scale.Set(3f, 1);
         }
 
-        public virtual void ColliedWithPlayer(Player p, Vector2 mtv)
+        public virtual void ColliedWithPlayer(SpecialActor a, Vector2 mtv)
         {
 
         }
 
-        public virtual void BeganCollision(Player p, Vector2 mtv)
+        public virtual void BeganCollision(SpecialActor a, Vector2 mtv)
         {
 
         }
 
-        public virtual void EndCollision(Player p, Vector2 mtv)
+        public virtual void EndCollision(SpecialActor a, Vector2 mtv)
         {
 
         }

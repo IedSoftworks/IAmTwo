@@ -4,6 +4,7 @@ using System.Windows.Forms.VisualStyles;
 using IAmTwo.Resources;
 using IAmTwo.Shaders;
 using OpenTK;
+using OpenTK.Graphics.OpenGL4;
 using SM.Base.Drawing;
 using SM.Base.Textures;
 using SM.Base.Time;
@@ -38,8 +39,7 @@ namespace IAmTwo.Game.Objects
             SetShader(ShaderCollection.PortalShader);
             
             _Material.Blending = true;
-
-            _ShaderArguments["move"] = _shaderMove;
+            CanCollide = false;
 
             _spawnTimer = new Timer(1);
             _spawnTimer.Tick += SpawnAnimation;
@@ -51,11 +51,12 @@ namespace IAmTwo.Game.Objects
             _player.Transform.Size.Set(Player.PlayerSize * MathHelper.Clamp(arg1.Elapsed, 0,1));
             _player.Transform.Rotation = 360 * MathHelper.Clamp(arg1.Elapsed, 0, 1) % 360;
 
-            _shaderMove.X += Deltatime.RenderDelta * .1f * (_mirror ? -1 : 1);
         }
 
         protected override void DrawContext(ref DrawContext context)
         {
+            _shaderMove.X += Deltatime.RenderDelta * .1f * (_mirror ? -1 : 1);
+            _ShaderArguments["move"] = (Vector2)_shaderMove;
             base.DrawContext(ref context);
         }
 

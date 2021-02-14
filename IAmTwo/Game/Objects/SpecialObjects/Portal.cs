@@ -1,59 +1,75 @@
 ﻿using System;
 using System.Collections.Generic;
+using IAmTwo.Resources;
 using IAmTwo.Shaders;
 using OpenTK;
 using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL4;
+using SM.Base.Windows;
+using SM.Utility;
 
 namespace IAmTwo.Game.Objects.SpecialObjects
 {
     public class Portal : SpecialObject
     {
-        private Dictionary<Player, int> _entries = new Dictionary<Player, int>();
+        private Dictionary<SpecialActor, int> _entries = new Dictionary<SpecialActor, int>();
         private PortalConnector _connector;
 
         internal Portal _counterPart;
+        private Vector2 _shaderMove;
 
-        public List<Player> GotTransported = new List<Player>();
+
+        public List<SpecialActor> GotTransported = new List<SpecialActor>();
 
         public Portal(PortalConnector connector)
         {
             _connector = connector;
-            Transform.Size.Set(50,50);
+            Transform.Size.Set(50);
+            TextureTransform.Scale.Set(1);
 
             ApplyPolygon(PlayerSpawner.Circle);
             SetShader(ShaderCollection.PortalShader);
 
-            Color = Color4.Green;
+            Texture = Resource.RequestTexture(@".\Resources\portal_d.png");
+            _ShaderArguments["EmissionTex"] = Resource.RequestTexture(@".\Resources\portal_e.png");
+            Color = new Color4(0,1f,0,1f);
         }
 
-        public override void BeganCollision(Player p, Vector2 mtv)
+        protected override void DrawContext(ref DrawContext context)
         {
-            base.BeganCollision(p, mtv);
-            if (!_entries.ContainsKey(p))
-                _entries.Add(p, (int)Math.Sign(mtv.X));
+            _shaderMove.X += Deltatime.RenderDelta * .1f;
+            _ShaderArguments["move"] = (Vector2)_shaderMove;
+            base.DrawContext(ref context);
         }
 
-        public override void ColliedWithPlayer(Player p, Vector2 mtv)
+        public override void BeganCollision(SpecialActor a, Vector2 mtv)
         {
-            base.ColliedWithPlayer(p, mtv);
+            base.BeganCollision(a, mtv);
+            if (!_entries.ContainsKey(a))
+                _entries.Add(a, Math.Sign(Transform.Position.X - a.Transform.Position.X));
+        }
+
+        public override void ColliedWithPlayer(SpecialActor a, Vector2 mtv)
+        {
+            base.ColliedWithPlayer(a, mtv);
 
 
-            float distance = Vector2.Distance(Transform.Position, p.Transform.Position);
-            p.Color = new Color4(p.Color.R, p.Color.G, p.Color.B, distance / Transform.Size.X);
+            float distance = Transform.Position.X - a.Transform.Position.X;
+            a.Color = new Color4(a.Color.R, a.Color.G, a.Color.B, Math.Abs(distance) / Transform.Size.X);
 
-            if (GotTransported.Contains(p)) return;
-            if (Math.Sign(mtv.X) != _entries[p])
+            if (GotTransported.Contains(a)) return;
+            if (Math.Sign(distance) != _entries[a])
             {
-                _connector.ReadyTransport(this, _counterPart, p);
+                _connector.ReadyTransport(this, _counterPart, a);
             }
         }
 
-        public override void EndCollision(Player p, Vector2 mtv)
+        public override void EndCollision(SpecialActor a, Vector2 mtv)
         {
-            base.EndCollision(p, mtv);
-            p.Color = new Color4(p.Color.R, p.Color.G, p.Color.B, 1);
-            _entries.Remove(p);
-            if (GotTransported.Contains(p)) GotTransported.Remove(p);
+            base.EndCollision(a, mtv);
+            a.Color = new Color4(a.Color.R, a.Color.G, a.Color.B, 1);
+            _entries.Remove(a);
+            if (GotTransported.Contains(a)) GotTransported.Remove(a);
         }
     }
 }

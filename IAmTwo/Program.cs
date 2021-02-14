@@ -18,11 +18,12 @@ namespace IAmTwo
     {
         static void Main(string[] args)
         {
-            GLWindow window = new GLWindow(1600,900, "I am two - DevBuild", GameWindowFlags.Default);
+            GLWindow window = new GLWindow(1600,900, "I am two - DevBuild", GameWindowFlags.Default, VSyncMode.On);
             window.ApplySetup(new Window2DSetup()
             {
-                WorldScale = new Vector2(0, 650)
+                WorldScale = new Vector2(0, 700)
             });
+            window.TargetUpdateFrequency = 60;
             window.SetRenderPipeline(new GameRenderPipeline());
             window.SetScene(new GameScene());
             window.Run();

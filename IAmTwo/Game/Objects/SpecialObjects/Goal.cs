@@ -21,11 +21,13 @@ namespace IAmTwo.Game.Objects.SpecialObjects
             Color = _oldColor = listenToMirror ? ColorPallete.Mirror : ColorPallete.Player;
         }
 
-        public override void BeganCollision(Player p, Vector2 mtv)
+        public override void BeganCollision(SpecialActor p, Vector2 mtv)
         {
             base.BeganCollision(p, mtv);
+            if (!(p is Player)) return;
+            Player player = (Player) p;
 
-            bool allowed = (_listenToMirror && p.Mirror) || (!_listenToMirror && !p.Mirror);
+            bool allowed = (_listenToMirror && player.Mirror) || (!_listenToMirror && !player.Mirror);
 
             if (allowed)
             {
@@ -34,10 +36,13 @@ namespace IAmTwo.Game.Objects.SpecialObjects
             }
         }
 
-        public override void EndCollision(Player p, Vector2 mtv)
+        public override void EndCollision(SpecialActor p, Vector2 mtv)
         {
             base.EndCollision(p, mtv);
-            bool allowed = (_listenToMirror && p.Mirror) || (!_listenToMirror && !p.Mirror);
+            if (!(p is Player)) return;
+            Player player = (Player)p;
+
+            bool allowed = (_listenToMirror && player.Mirror) || (!_listenToMirror && !player.Mirror);
 
             if (allowed)
             {

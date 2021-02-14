@@ -10,6 +10,13 @@ namespace IAmTwo.Game
     public class Level : Scene
     {
         public int CompleteCount = 0;
+        
+        public override void Initialization()
+        {
+            base.Initialization();
+
+            Background = new GameBackground();
+        }
 
         public static void CreateBorders(ItemCollection collection)
         {

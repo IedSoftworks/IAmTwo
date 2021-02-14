@@ -63,17 +63,21 @@
     <Compile Include="Game\GameBackground.cs" />
     <Compile Include="Game\GameScene.cs" />
     <Compile Include="Game\Level.cs" />
+    <Compile Include="Game\Objects\Door.cs" />
+    <Compile Include="Game\Objects\MoveableObject.cs" />
     <Compile Include="Game\Objects\PlayerSpawner.cs" />
     <Compile Include="Game\Objects\PortalConnector.cs" />
+    <Compile Include="Game\Objects\SpecialObjects\IButtonTarget.cs" />
     <Compile Include="Game\Objects\SpecialObjects\Portal.cs" />
+    <Compile Include="Game\Objects\SpecialObjects\PressableButton.cs" />
     <Compile Include="Game\PhysicsObject.cs" />
     <Compile Include="Game\Player.cs" />
     <Compile Include="Game\Objects\GameObject.cs" />
     <Compile Include="Game\Objects\SpecialObjects\Elevator.cs" />
     <Compile Include="Game\Objects\SpecialObjects\Goal.cs" />
-    <Compile Include="Game\Objects\SpecialObjects\JumpBlocker.cs" />
-    <Compile Include="Game\Objects\SpecialObjects\JumpBooster.cs" />
+    <Compile Include="Game\Objects\SpecialObjects\JumpModifier.cs" />
     <Compile Include="Game\Objects\SpecialObjects\SpecialObject.cs" />
+    <Compile Include="Game\SpecialActor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Resource.cs" />
@@ -86,6 +90,11 @@
     <None Include="packages.config" />
     <EmbeddedResource Include="Shaders\GLSL\default_frag.glsl" />
     <EmbeddedResource Include="Shaders\GLSL\spawner_frag.glsl" />
+    <EmbeddedResource Include="Shaders\GLSL\portal_connector_frag.glsl" />
+    <EmbeddedResource Include="Shaders\GLSL\portal_connector_vert.glsl" />
+    <None Include="Resources\AGENCYR.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\IedSoftworks\SMRendererV3\SMCode\SM.Base\SM.Base.csproj">
@@ -107,16 +116,37 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Resources\background.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\bloom_amountMap.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\jump_arrow.png">
+    <Content Include="Resources\button_d.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\button_e.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\jumparrow_d.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\jumparrow_e.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MovingBox_d.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MovingBox_e.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\player_spite.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\portal.png">
+    <Content Include="Resources\portal_d.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\portal_e.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

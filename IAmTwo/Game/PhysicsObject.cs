@@ -20,6 +20,7 @@ namespace IAmTwo.Game
 
         protected Stopwatch AirTime;
 
+        protected List<PhysicsObject> CollidedWith = new List<PhysicsObject>();
 
         protected bool Grounded = false;
 
@@ -33,16 +34,15 @@ namespace IAmTwo.Game
         public float Mass = 1;
         public float Drag = .75f;
 
-        public bool Passive = false;
+        public bool Passive = true;
+        public bool CanCollide = true;
 
-        public PhysicsObject(bool active = false)
+        public PhysicsObject()
         {
             _hitbox = new Hitbox(this);
             Colliders.Add(this);
 
             AirTime = new Stopwatch();
-
-            Passive = !active;
         }
 
         public void UpdateHitbox()
@@ -56,17 +56,19 @@ namespace IAmTwo.Game
 
             if (Grounded) AirTime.Reset();
             else AirTime.Start();
-            
+
+            if (!Grounded) Force.Y -= CalculateGravity(context.Deltatime);
+            CollidedWith.Clear();
             Grounded = false;
             foreach (PhysicsObject collider in Colliders)
             {
-                if (collider != this)
+                if (collider == this || !collider.CanCollide || !collider.Active) continue;
+
+                Vector2 mtv;
+                if (Hitbox.TestIntersection(_hitbox, collider._hitbox, out mtv))
                 {
-                    Vector2 mtv;
-                    if (Hitbox.TestIntersection(_hitbox, collider._hitbox, out mtv))
-                    {
-                        Collided(collider, mtv);
-                    }
+                    CollidedWith.Add(collider);
+                    Collided(collider, mtv);
 
                     if (mtv.Y > 0 && collider.ChecksGrounded)
                     {
@@ -75,7 +77,6 @@ namespace IAmTwo.Game
                 }
             }
 
-            if (!Grounded) Force.Y -= CalculateGravity();
             CalculateForce(context.Deltatime);
         }
 
@@ -87,11 +88,17 @@ namespace IAmTwo.Game
             Transform.Position.Add(Acceleration);
         }
 
-        public float CalculateGravity()
+        public float CalculateGravity(float deltatime)
         {
             return Gravity * Mass;
         }
 
         public virtual void Collided(PhysicsObject obj, Vector2 mtv) {}
+
+        public void DefaultCollisionResolvement(Vector2 mtv)
+        {
+            Force += mtv * 75;
+            Transform.Position.Add(mtv);
+        }
     }
 }
