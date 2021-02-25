@@ -62,26 +62,48 @@
     <Compile Include="Game\ColorPallete.cs" />
     <Compile Include="Game\GameBackground.cs" />
     <Compile Include="Game\GameScene.cs" />
-    <Compile Include="Game\Level.cs" />
-    <Compile Include="Game\Objects\Door.cs" />
-    <Compile Include="Game\Objects\MoveableObject.cs" />
-    <Compile Include="Game\Objects\PlayerSpawner.cs" />
-    <Compile Include="Game\Objects\PortalConnector.cs" />
-    <Compile Include="Game\Objects\SpecialObjects\IButtonTarget.cs" />
-    <Compile Include="Game\Objects\SpecialObjects\Portal.cs" />
-    <Compile Include="Game\Objects\SpecialObjects\PressableButton.cs" />
     <Compile Include="Game\PhysicsObject.cs" />
     <Compile Include="Game\Player.cs" />
-    <Compile Include="Game\Objects\GameObject.cs" />
-    <Compile Include="Game\Objects\SpecialObjects\Elevator.cs" />
-    <Compile Include="Game\Objects\SpecialObjects\Goal.cs" />
-    <Compile Include="Game\Objects\SpecialObjects\JumpModifier.cs" />
-    <Compile Include="Game\Objects\SpecialObjects\SpecialObject.cs" />
     <Compile Include="Game\SpecialActor.cs" />
+    <Compile Include="LevelEditor\HelpScreen.cs" />
+    <Compile Include="LevelEditor\LevelEditor.cs" />
+    <Compile Include="LevelEditor\LevelEditorGrid.cs" />
+    <Compile Include="LevelEditor\LevelEditorMainMenu.cs" />
+    <Compile Include="LevelEditor\LevelEditorMenu.cs" />
+    <Compile Include="LevelEditor\LevelEditorSelection.cs" />
+    <Compile Include="LevelEditor\ObjectButton.cs" />
+    <Compile Include="LevelEditor\ObjectSelection.cs" />
+    <Compile Include="LevelEditor\PropertyControl.cs" />
+    <Compile Include="LevelEditor\PropertyObjectControl.cs" />
+    <Compile Include="LevelEditor\PropertySceneControl.cs" />
+    <Compile Include="LevelEditor\TestLevel.cs" />
+    <Compile Include="LevelEditor\TransformationActions.cs" />
+    <Compile Include="LevelObjects\IConnectable.cs" />
+    <Compile Include="LevelObjects\IPlaceableObject.cs" />
+    <Compile Include="LevelObjects\IPlayerDependent.cs" />
+    <Compile Include="LevelObjects\LevelConstructor.cs" />
+    <Compile Include="LevelObjects\LevelScene.cs" />
+    <Compile Include="LevelObjects\ObjectConstructor.cs" />
+    <Compile Include="LevelObjects\Objects\Door.cs" />
+    <Compile Include="LevelObjects\Objects\GameObject.cs" />
+    <Compile Include="LevelObjects\Objects\Cube.cs" />
+    <Compile Include="LevelObjects\Objects\PlayerSpawner.cs" />
+    <Compile Include="LevelObjects\Objects\PortalConnector.cs" />
+    <Compile Include="LevelObjects\Objects\SpecialObjects\Elevator.cs" />
+    <Compile Include="LevelObjects\Objects\SpecialObjects\Goal.cs" />
+    <Compile Include="LevelObjects\Objects\SpecialObjects\IButtonTarget.cs" />
+    <Compile Include="LevelObjects\Objects\SpecialObjects\JumpModifier.cs" />
+    <Compile Include="LevelObjects\Objects\SpecialObjects\Portal.cs" />
+    <Compile Include="LevelObjects\Objects\SpecialObjects\PressableButton.cs" />
+    <Compile Include="LevelObjects\Objects\SpecialObjects\SpecialObject.cs" />
+    <Compile Include="LevelObjects\PlaceableObjectRegister.cs" />
+    <Compile Include="Menu\Button.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\Fonts.cs" />
     <Compile Include="Resources\Resource.cs" />
     <Compile Include="Shaders\GameRenderPipeline.cs" />
+    <Compile Include="Shaders\ImportedShader.cs" />
     <Compile Include="Shaders\ShaderCollection.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -92,7 +114,14 @@
     <EmbeddedResource Include="Shaders\GLSL\spawner_frag.glsl" />
     <EmbeddedResource Include="Shaders\GLSL\portal_connector_frag.glsl" />
     <EmbeddedResource Include="Shaders\GLSL\portal_connector_vert.glsl" />
-    <None Include="Resources\AGENCYR.TTF">
+    <EmbeddedResource Include="Shaders\GLSL\door_frag.glsl" />
+    <EmbeddedResource Include="Shaders\GLSL\gameobject_frag.glsl" />
+    <EmbeddedResource Include="Shaders\GLSL\Editor\grid_frag.glsl" />
+    <EmbeddedResource Include="Shaders\GLSL\Editor\grid_vert.glsl" />
+    <None Include="Resources\segoeuil.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\unispace bd.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -116,6 +145,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <EmbeddedResource Include="LevelEditor\HelpText.txt" />
     <Content Include="Resources\background.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -128,9 +158,6 @@
     <Content Include="Resources\button_e.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\jumparrow_d.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Resources\jumparrow_e.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -138,15 +165,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\MovingBox_e.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\player_spite.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\portal_d.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\portal_e.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Reflection;
-using System.Windows.Forms.VisualStyles;
-using IAmTwo.Resources;
+﻿using IAmTwo.Game;
 using IAmTwo.Shaders;
 using OpenTK;
-using OpenTK.Graphics.OpenGL4;
-using SM.Base.Drawing;
-using SM.Base.Textures;
 using SM.Base.Time;
 using SM.Base.Types;
 using SM.Base.Windows;
@@ -15,30 +9,47 @@ using SM.Utility;
 using SM2D.Object;
 using SM2D.Scene;
 
-namespace IAmTwo.Game.Objects
+namespace IAmTwo.LevelObjects.Objects
 {
-    public class PlayerSpawner : GameObject
+    public class PlayerSpawner : GameObject, IPlayerDependent
     {
         public static GameKeybindActor KeybindActor = GameKeybindActor.CreateKeyboardActor();
 
         public static Polygon Circle = Polygon.GenerateCircle();
-        
-        private bool _mirror;
+
+
+
+        public bool Mirror
+        {
+            get => _mirror;
+            set
+            {
+                _mirror = value;
+                Color = _mirror ? ColorPallete.Mirror : ColorPallete.Player;
+            }
+        }
+
+        private bool _mirror = false;
         private Timer _spawnTimer;
 
         private Player _player;
         private CVector2 _shaderMove = new CVector2(0);
 
-        public PlayerSpawner(bool mirror)
+        public PlayerSpawner()
         {
+            Name = "Player Spawner";
+
+            AllowedRotationSteps = 0;
+            AllowedScaling = ScaleArgs.NoScaling;
+            StartSize = new Vector2(50);
+
             ApplyPolygon(Circle);
 
             _shaderMove = new Vector2(0, Randomize.GetFloat(-1, 1));
-            _mirror = mirror;
-            Color = mirror ? ColorPallete.Mirror : ColorPallete.Player;
-            SetShader(ShaderCollection.PortalShader);
+            Color = Mirror ? ColorPallete.Mirror : ColorPallete.Player;
+            SetShader(ShaderCollection.Shaders["Portal"].GetShader());
             
-            _Material.Blending = true;
+            Material.Blending = true;
             CanCollide = false;
 
             _spawnTimer = new Timer(1);
@@ -49,20 +60,20 @@ namespace IAmTwo.Game.Objects
         private void SpawnAnimation(Stopwatch arg1, UpdateContext arg2)
         {
             _player.Transform.Size.Set(Player.PlayerSize * MathHelper.Clamp(arg1.Elapsed, 0,1));
-            _player.Transform.Rotation = 360 * MathHelper.Clamp(arg1.Elapsed, 0, 1) % 360;
+            _player.Transform.Rotation.Set(360 * MathHelper.Clamp(arg1.Elapsed, 0, 1) % 360);
 
         }
 
         protected override void DrawContext(ref DrawContext context)
         {
-            _shaderMove.X += Deltatime.RenderDelta * .1f * (_mirror ? -1 : 1);
-            _ShaderArguments["move"] = (Vector2)_shaderMove;
+            _shaderMove.X += Deltatime.RenderDelta * .1f * (Mirror ? -1 : 1);
+            ShaderArguments["move"] = (Vector2)_shaderMove;
             base.DrawContext(ref context);
         }
 
         public void Spawn()
         {
-            _player = new Player(KeybindActor, _mirror);
+            _player = new Player(KeybindActor, Mirror);
             _player.Transform.Size.Set(0);
             _player.Transform.Position.Set(Transform.Position);
             (Parent as ItemCollection).Add(_player);

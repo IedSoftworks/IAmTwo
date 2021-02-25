@@ -10,11 +10,11 @@ namespace IAmTwo.Game
 {
     public class GameBackground : DrawBackground
     {
-        public GameBackground()
+        public GameBackground(Camera cam)
         {
             Texture = Resource.RequestTexture(@".\Resources\background.png", TextureMinFilter.Nearest, TextureWrapMode.Repeat);
 
-            float aspect = Camera.WorldScale.Y / Camera.WorldScale.X;
+            float aspect = cam.WorldScale.Y / cam.WorldScale.X;
             float size = 50;
             TextureTransform.Scale.Set(size, aspect * size);
 

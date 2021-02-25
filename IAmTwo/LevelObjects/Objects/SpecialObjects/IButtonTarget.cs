@@ -1,4 +1,6 @@
-﻿namespace IAmTwo.Game.Objects.SpecialObjects
+﻿using IAmTwo.Game;
+
+namespace IAmTwo.LevelObjects.Objects.SpecialObjects
 {
     public interface IButtonTarget
     {

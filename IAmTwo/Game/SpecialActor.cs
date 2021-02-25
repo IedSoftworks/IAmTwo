@@ -1,4 +1,4 @@
-﻿using IAmTwo.Game.Objects.SpecialObjects;
+﻿using IAmTwo.LevelObjects.Objects.SpecialObjects;
 using OpenTK;
 using SM.Base.Windows;
 

@@ -16,7 +16,7 @@ uniform vec4 PortalColor;
 layout(location = 0) out vec4 Color;
 
 void main() {
-    vec4 middle = PortalColor * vec4((abs(vE_ScaledPos.x) < 2.5 ? 1 : 0)) * 2;
+    vec4 middle = PortalColor * vec4((abs(vE_ScaledPos.x) < 2.5 ? 1 : 0));
 
     vec4 yColor = vec4(0);
     for(int i = 0; i < ActorAmount; i++) {
@@ -27,8 +27,8 @@ void main() {
 
         yColor += Actor.Color * (1 - clamp(distance(vec2(0, targetY), vE_ScaledPos) - 20, 0, 1));
     }
-    vec4 result = middle + vec4(vec3(yColor) * 2, 0);
 
-
+    middle *= length(yColor) > .1 ? 0 : 1;
+    vec4 result = (middle + vec4(vec3(yColor), 0));
     Color = result;
 }

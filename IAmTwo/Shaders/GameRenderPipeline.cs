@@ -38,7 +38,7 @@ namespace IAmTwo.Shaders
 
             PostProcessFinals.Gamma = 2.2f;
 
-            DefaultShader = ShaderCollection.DefaultShader;
+            DefaultShader = ShaderCollection.Shaders["Default"].GetShader();
 
 
             base.Initialization();

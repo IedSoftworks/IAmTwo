@@ -1,27 +1,28 @@
-﻿using System;
-using IAmTwo.Game.Objects.SpecialObjects;
+﻿using IAmTwo.Game;
+using IAmTwo.LevelObjects.Objects.SpecialObjects;
 using IAmTwo.Resources;
 using OpenTK;
-using OpenTK.Graphics.OpenGL4;
-using SM.Utility;
 
-namespace IAmTwo.Game.Objects
+namespace IAmTwo.LevelObjects.Objects
 {
-    public class MoveableObject : SpecialActor
+    public class Cube : SpecialActor, IPlaceableObject
     {
-        public MoveableObject()
+        public Cube()
         {
+
+            Name = "Cube";
+
             Mass = 10;
             Passive = false;
             Transform.Size.Set(50);
             Texture = Resource.RequestTexture(@".\Resources\MovingBox_d.png");
 
-            _ShaderArguments["EmissionTex"] = Resource.RequestTexture(@".\Resources\MovingBox_e.png");
-            _ShaderArguments["EmissionStrength"] = 2f;
+            ShaderArguments["EmissionTex"] = Resource.RequestTexture(@".\Resources\MovingBox_e.png");
+            ShaderArguments["EmissionStrength"] = 2f;
 
             //ChecksGrounded = true;
 
-            _Material.Blending = true;
+            Material.Blending = true;
         }
 
         public override void Collided(PhysicsObject obj, Vector2 mtv)
@@ -42,5 +43,11 @@ namespace IAmTwo.Game.Objects
 
             Force.X *= .9f;
         }
+
+        public ScaleArgs AllowedScaling { get; } = ScaleArgs.NoScaling;
+        public float AllowedRotationSteps { get; } = 0;
+        public float? TriggerRotation { get; } = null;
+        public string Category { get; } = "Special";
+        public Vector2 StartSize { get; } = new Vector2(50);
     }
 }

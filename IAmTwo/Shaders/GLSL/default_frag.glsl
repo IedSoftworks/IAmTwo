@@ -25,7 +25,7 @@ void main() {
 
 	color = v_Color * Tint;
 	if (HasTexture) {
-		color *= texture2DGamma(Texture, v_TexCoords) * Tint;
+		color *= texture2DGamma(Texture, v_TexCoords);
 	}
 	color *= Scale;
 	

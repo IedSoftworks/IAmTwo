@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using System.Windows.Forms.VisualStyles;
-using IAmTwo.Game.Objects;
-using IAmTwo.Game.Objects.SpecialObjects;
+using IAmTwo.LevelObjects.Objects.SpecialObjects;
 using IAmTwo.Resources;
 using OpenTK;
 using OpenTK.Graphics;
@@ -44,7 +43,7 @@ namespace IAmTwo.Game
             Mass = 10;
             Passive = false;
 
-            _Material.Blending = true;
+            Material.Blending = true;
 
             actor.ConnectHost(keybindHost);
             _keybindActor = actor;
@@ -52,10 +51,10 @@ namespace IAmTwo.Game
             Transform.Size.Set(50);
             Texture = Resource.RequestTexture(@".\Resources\MovingBox_d.png");
 
-            _ShaderArguments["EmissionTex"] = Resource.RequestTexture(@".\Resources\MovingBox_e.png");
-            _ShaderArguments["EmissionStrength"] = 2f;
+            ShaderArguments["EmissionTex"] = Resource.RequestTexture(@".\Resources\MovingBox_e.png");
+            ShaderArguments["EmissionStrength"] = 2f;
             
-            //Color = mirror ? ColorPallete.Mirror : ColorPallete.Player;
+            Color = mirror ? ColorPallete.Mirror : ColorPallete.Player;
             Mirror = mirror;
 
             Transform.ZIndex = mirror ? -1 : 1;

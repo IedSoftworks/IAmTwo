@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using IAmTwo.Game;
 using IAmTwo.Resources;
 using OpenTK;
 using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL4;
 
-namespace IAmTwo.Game.Objects.SpecialObjects
+namespace IAmTwo.LevelObjects.Objects.SpecialObjects
 {
     public class PressableButton : SpecialObject
     {
@@ -14,14 +13,20 @@ namespace IAmTwo.Game.Objects.SpecialObjects
 
         public PressableButton()
         {
+            Name = "Button";
+
+            AllowedScaling = ScaleArgs.NoScaling;
+            AllowedRotationSteps = 0;
+
             Color = Color4.Aqua;
             Texture = Resource.RequestTexture(@".\Resources\button_d.png");
-            _ShaderArguments["EmissionTex"] = Resource.RequestTexture(@".\Resources\button_e.png");
-            _ShaderArguments["EmissionStrength"] = 2f;
-            _Material.Blending = true;
+            ShaderArguments["EmissionTex"] = Resource.RequestTexture(@".\Resources\button_e.png");
+            ShaderArguments["EmissionStrength"] = 2f;
+            Material.Blending = true;
 
             Transform.ApplyTextureSize(Texture, 100);
             Transform.Size.Y *= 0.5f;
+            StartSize = Transform.Size;
 
             TextureTransform.Scale.Set(1, .5f);
         }
@@ -36,15 +41,15 @@ namespace IAmTwo.Game.Objects.SpecialObjects
         public override void BeganCollision(SpecialActor a, Vector2 mtv)
         {
             base.BeganCollision(a, mtv);
-            
-            ButtonActor.Activation(this, a);
+
+            ButtonActor?.Activation(this, a);
         }
 
         public override void ColliedWithPlayer(SpecialActor a, Vector2 mtv)
         {
             base.ColliedWithPlayer(a, mtv);
 
-            ButtonActor.Collision(this, a);
+            ButtonActor?.Collision(this, a);
             SetPressed(true);
         }
 
@@ -52,7 +57,7 @@ namespace IAmTwo.Game.Objects.SpecialObjects
         {
             base.EndCollision(a, mtv);
 
-            ButtonActor.Reset(this, a);
+            ButtonActor?.Reset(this, a);
             SetPressed(false);
         }
     }

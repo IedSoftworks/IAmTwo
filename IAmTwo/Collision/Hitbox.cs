@@ -1,6 +1,7 @@
 using System;
-using System.Numerics;
 using System.Runtime.Remoting.Messaging;
+using IAmTwo.Game;
+using OpenTK;
 
 namespace KWEngine.Hitbox
 {
@@ -22,15 +23,6 @@ namespace KWEngine.Hitbox
         /// Temporary Vector instance for storing the MTV (minimum-translation-vector). The MTV indicates by how much the object would have to move in order to NOT collide anymore.
         /// </summary>
         private static Vector2 MTVTemp = new Vector2(0, 0);
-
-        /// <summary>
-        /// Holds temporary information about the object's scaling (width, height).
-        /// </summary>
-        private Matrix4x4 scaleMatrix = new Matrix4x4();
-        /// <summary>
-        /// Holds the current information that concerns scale (width, height), rotation (in radians) and translation (position)
-        /// </summary>
-        private Matrix4x4 matrix = new Matrix4x4();
 
         /// <summary>
         /// Holds the current information about the Hitbox's center point.
@@ -58,24 +50,19 @@ namespace KWEngine.Hitbox
         };
 
         /// <summary>
-        /// Holds the Hitbox's current scale.
-        /// </summary>
-        private Vector2 scale = new Vector2(1, 1);
-
-        /// <summary>
         /// Stores a reference to the Hitbox's owner object.
         /// </summary>
-        private object parentObject;
+        public PhysicsObject PhysicsObject;
 
         /// <summary>
         /// Generates a new Hitbox instance
         /// </summary>
         /// <param name="parentObject">The Hitbox instance needs a parent object in order to later pass this information to the Intersection object.</param>
-        public Hitbox(object parentObject)
+        public Hitbox(PhysicsObject parentObject)
         {
             if (parentObject == null)
                 throw new Exception("Parent object needs to be a valid instance of a class.");
-            this.parentObject = parentObject;
+            PhysicsObject = parentObject;
         }
 
         /// <summary>
@@ -86,101 +73,20 @@ namespace KWEngine.Hitbox
         /// <param name="width">width (scale on x axis)</param>
         /// <param name="height">height (scale on y axis)</param>
         /// <param name="orientationDegrees">current orientation (will be converted to radians)</param>
-        public void Update(double centerX, double centerY, double width, double height, double orientationDegrees)
+        public void Update(Matrix4 matrix, double orientationDegrees)
         {
-            if (parentObject != null)
+            // Rotate the Hitbox's normal vectors according to the current orientation:
+            // TODO: Check if normals are normalized (i.e. their length must be 1 after rotation)...
+            normalsCurrent[0] = RotateVector(normalsSource[0], orientationDegrees * Math.PI / 180);
+            normalsCurrent[1] = RotateVector(normalsSource[1], orientationDegrees * Math.PI / 180);
+
+            // Translate the corner points (vertices) for this Hitbox:
+            for (int i = 0; i < verticesSource.Length; i++)
             {
-                scale.X = (float)width;
-                scale.Y = (float)height;
-                UpdateScaleAndRotationMatrix(orientationDegrees * Math.PI / 180);
-                UpdatePositionMatrix(centerX, centerY);
-
-                // Rotate the Hitbox's normal vectors according to the current orientation:
-                // TODO: Check if normals are normalized (i.e. their length must be 1 after rotation)...
-                normalsCurrent[0] = RotateVector(normalsSource[0], orientationDegrees * Math.PI / 180);
-                normalsCurrent[1] = RotateVector(normalsSource[1], orientationDegrees * Math.PI / 180);
-
-                // Translate the corner points (vertices) for this Hitbox:
-                for (int i = 0; i < verticesSource.Length; i++)
-                {
-                    verticesCurrent[i] = Vector2.Transform(new Vector2(verticesSource[i].X, verticesSource[i].Y), matrix);
-                }
-                // Translate its center as well:
-                vertexCenter = Vector2.Transform(new Vector2(0,0), matrix);
+                verticesCurrent[i] = (new Vector4(verticesSource[i].X, verticesSource[i].Y, 0, 1) *  matrix).Xy;
             }
-            else
-            {
-                throw new Exception("No object attached to hitbox.");
-            }
-        }
-
-        /// <summary>
-        /// Updates the position entries in the 4x4 matrix.
-        /// </summary>
-        /// <param name="x">new horizontal center position</param>
-        /// <param name="y">new vertical center position</param>
-        private void UpdatePositionMatrix(double x, double y)
-        {
-            matrix.M41 = (float)x;
-            matrix.M42 = (float)y;
-            matrix.M43 = 0;
-            matrix.M44 = 1;
-        }
-
-        /// <summary>
-        /// Updates the upper three rows of the 4x4 matrix.
-        /// </summary>
-        /// <param name="angle">orientation (in radians)</param>
-        private void UpdateScaleAndRotationMatrix(double angle)
-        {
-            // build scale matrix
-            scaleMatrix.M11 = scale.X;
-            scaleMatrix.M12 = 0;
-            scaleMatrix.M13 = 0;
-            scaleMatrix.M14 = 0;
-
-            scaleMatrix.M21 = 0;
-            scaleMatrix.M22 = scale.Y;
-            scaleMatrix.M23 = 0;
-            scaleMatrix.M24 = 0;
-
-            scaleMatrix.M31 = 0;
-            scaleMatrix.M32 = 0;
-            scaleMatrix.M33 = 1;
-            scaleMatrix.M34 = 0;
-
-            scaleMatrix.M41 = 0;
-            scaleMatrix.M42 = 0;
-            scaleMatrix.M43 = 0;
-            scaleMatrix.M44 = 1;
-
-
-            // build rotation matrix
-            float cos = (float)Math.Cos(angle);
-            float sin = (float)Math.Sin(angle);
-
-            // TODO: this can be reduced to just one 4x4 matrix instead of scale and general matrix...
-            matrix.M11 = cos;
-            matrix.M12 = sin;
-            matrix.M13 = 0;
-            matrix.M14 = 0;
-
-            matrix.M21 = -sin;
-            matrix.M22 = cos;
-            matrix.M23 = 0;
-            matrix.M24 = 0;
-
-            matrix.M31 = 0;
-            matrix.M32 = 0;
-            matrix.M33 = 1;
-            matrix.M34 = 0;
-
-            matrix.M41 = 0;
-            matrix.M42 = 0;
-            matrix.M43 = 0;
-            matrix.M44 = 1;
-
-            matrix = scaleMatrix * matrix;
+            // Translate its center as well:
+            vertexCenter = (new Vector4(0,0,0,1) * matrix).Xy;
         }
 
         /// <summary>

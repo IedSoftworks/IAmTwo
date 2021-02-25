@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Collections.Generic;
 using System.Linq.Expressions;
-using IAmTwo.Game.Objects.SpecialObjects;
+using IAmTwo.Game;
+using IAmTwo.LevelObjects.Objects.SpecialObjects;
 using IAmTwo.Shaders;
 using OpenTK;
 using OpenTK.Graphics;
-using SM.Base.Scene;
 using SM.Base.Time;
-using SM.Base.Windows;
 using SM.Utility;
 using SM2D.Drawing;
 using SM2D.Object;
 using SM2D.Scene;
 
-namespace IAmTwo.Game.Objects
+namespace IAmTwo.LevelObjects.Objects
 {
     public class PortalTraveler
     {
@@ -27,10 +24,6 @@ namespace IAmTwo.Game.Objects
     {
 
         public const float ConnectionWidth = 20;
-        static readonly PolyLine _connectionLine = new PolyLine(new List<Vector2>() {Vector2.Zero, Vector2.UnitY})
-        {
-            LineWidth = ConnectionWidth
-        };
 
         private float _distance;
         private List<PortalTraveler> _currentTravelers = new List<PortalTraveler>();
@@ -39,38 +32,45 @@ namespace IAmTwo.Game.Objects
         public Portal Exit;
         public DrawObject2D Connection;
 
-        public PortalConnector(Vector2 entrancePos, Vector2 exitPos)
+        public PortalConnector(Portal entrance, Portal exit)
         {
-            Entrance = new Portal(this);
-            Entrance.Transform.Position.Set(entrancePos);
-
-            Exit = new Portal(this);
-            Exit.Transform.Position.Set(exitPos);
+            Entrance = entrance;
+            Exit = exit;
 
             Entrance._counterPart = Exit;
             Exit._counterPart = Entrance;
 
-            Vector2 diff = exitPos - entrancePos;
+            Entrance.Transform.Position.Changed += UpdateConnection;
+            Exit.Transform.Position.Changed += UpdateConnection;
+            
+            Connection = new DrawObject2D {Color = Color4.Green};
+            Connection.SetShader(ShaderCollection.Shaders["PortalConnector"].GetShader());
+            Connection.ShaderArguments["Actors"] = _currentTravelers;
+            Connection.Material.Blending = true;
+            UpdateConnection();
+
+            Add(Connection);
+
+        }
+
+        private void UpdateConnection()
+        {
+            Vector2 diff = Exit.Transform.Position - (Vector2)Entrance.Transform.Position;
             _distance = diff.Length;
             Vector2 norm = diff.Normalized();
-            Connection = new DrawObject2D {Color = Color4.Green};
+
             Connection.Transform.Size.Set(ConnectionWidth, _distance);
-            Connection.Transform.Position.Set( entrancePos + diff * .5f);
-            Connection.Transform.Rotation = RotationUtility.TurnTowards(Vector2.Zero, norm);
-            Connection.SetShader(ShaderCollection.PortalConnectorShader);
+            Connection.Transform.Position.Set(Entrance.Transform.Position + diff * .5f);
+            Connection.Transform.Rotation.Set(RotationUtility.TurnTowards(Vector2.Zero, norm));
 
-            Connection.GetMaterialReference().ShaderArguments["ConnectorLength"] = (Vector2)Connection.Transform.Size;
-            Connection.GetMaterialReference().ShaderArguments["Actors"] = _currentTravelers;
-            Connection.GetMaterialReference().Blending = true;
-
-            Add(Connection, Entrance, Exit);
+            Connection.ShaderArguments["ConnectorLength"] = (Vector2)Connection.Transform.Size;
         }
 
         public void ReadyTransport(Portal emittingPortal, Portal counterPortal, SpecialActor a)
         {
             a.Transform.Position.Set(counterPortal.Transform.Position);
             counterPortal.GotTransported.Add(a);
-            a.Force *= 1.5f;
+            //a.Force += a.Force * 0.5f;
             a.Active = false;
             
             PortalTraveler traveler = new PortalTraveler()
@@ -92,6 +92,17 @@ namespace IAmTwo.Game.Objects
                 _currentTravelers.Remove(traveler);
             };
             timer.Start();
+        }
+
+        public void Disconnect()
+        {
+            Entrance._connector = Exit._connector = null;
+            Entrance._counterPart = Exit._counterPart = null;
+
+            Entrance.Transform.Position.Changed -= UpdateConnection;
+            Exit.Transform.Position.Changed -= UpdateConnection;
+
+            (Parent as ItemCollection).Remove(this);
         }
     }
 }
