@@ -9,6 +9,7 @@ using SM.Base.PostEffects;
 using SM.Base.Textures;
 using SM.Base.Windows;
 using SM.OGL.Framebuffer;
+using SM.OGL.Texture;
 using SM.Utility;
 
 namespace IAmTwo.Shaders
@@ -21,15 +22,16 @@ namespace IAmTwo.Shaders
 
         public override void Initialization()
         {
-            MainFramebuffer = CreateWindowFramebuffer(0);
-            
-            //Framebuffers.Add(_postBuffer = CreateWindowFramebuffer(0));
-            _bloom = new BloomEffect(true)
-            {
-                WeightCurvePickAmount = 4,
+            MainFramebuffer = CreateWindowFramebuffer(16);
+            MainFramebuffer.ColorAttachments["color"].PixelInformation = PixelInformation.RGBA_HDR;
 
-                Threshold = 1f,
-                Power = 1f,
+            Framebuffers.Add(_postBuffer = CreateWindowFramebuffer(0));
+            _bloom = new BloomEffect(_postBuffer, true)
+            {
+                WeightCurvePickAmount = 8,
+
+                Threshold = .9f,
+                Power = 1,
                 AmountMap = Resource.RequestTexture(@".\Resources\bloom_amountMap.png"),
                 AmountTransform = BloomAmountTransform,
                 MinAmount = .1f,
@@ -49,14 +51,15 @@ namespace IAmTwo.Shaders
             MainFramebuffer.Activate(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             context.Scene.Draw(context);
-
-            //PostProcessFinals.ResolveMultisampledBuffers(MainFramebuffer, _postBuffer);
             
+            _postBuffer.Activate(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            PostProcessFinals.ResolveMultisampledBuffers(MainFramebuffer, _postBuffer);
+
             BloomAmountTransform.Offset.Add(Deltatime.RenderDelta * .025f, 0);
             _bloom.Draw(context);
 
             Framebuffer.Screen.Activate(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            PostProcessFinals.FinalizeHDR(MainFramebuffer.ColorAttachments["color"], .5f);
+            PostProcessFinals.FinalizeHDR(_postBuffer.ColorAttachments["color"], .5f);
         }
     }
 }
