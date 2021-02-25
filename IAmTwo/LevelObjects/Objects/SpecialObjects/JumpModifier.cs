@@ -10,11 +10,11 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
 {
     public class JumpModifier : SpecialObject
     {
-        private float _multiplier = 10;
+        private float _multiplier = 40;
         
         public float Multiplier
         {
-            get => _multiplier * (Math.Abs(Transform.Rotation - 180) < 1 ? 0 : 1);
+            get => _multiplier * (Math.Abs(Transform.Rotation) < 0 ? 0 : 1);
             set
             {
                 _multiplier = value;

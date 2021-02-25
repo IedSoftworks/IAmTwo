@@ -26,7 +26,7 @@ namespace IAmTwo.Shaders
             //Framebuffers.Add(_postBuffer = CreateWindowFramebuffer(0));
             _bloom = new BloomEffect(true)
             {
-                WeightCurvePickAmount = 8,
+                WeightCurvePickAmount = 4,
 
                 Threshold = 1f,
                 Power = 1f,
@@ -56,7 +56,7 @@ namespace IAmTwo.Shaders
             _bloom.Draw(context);
 
             Framebuffer.Screen.Activate(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            PostProcessFinals.FinalizeHDR(MainFramebuffer.ColorAttachments["color"], .75f);
+            PostProcessFinals.FinalizeHDR(MainFramebuffer.ColorAttachments["color"], .5f);
         }
     }
 }

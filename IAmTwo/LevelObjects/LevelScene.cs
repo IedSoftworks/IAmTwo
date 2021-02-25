@@ -5,10 +5,12 @@ using IAmTwo.LevelObjects.Objects;
 using KWEngine.Hitbox;
 using OpenTK;
 using SM.Base;
+using SM.Base.Controls;
 using SM.Base.Scene;
 using SM.Base.Time;
 using SM.Base.Windows;
 using SM2D.Scene;
+using MouseCursor = IAmTwo.Menu.MouseCursor;
 
 namespace IAmTwo.LevelObjects
 {
@@ -91,6 +93,12 @@ namespace IAmTwo.LevelObjects
             GenerateWalls();
         }
 
+        public override void Draw(DrawContext context)
+        {
+            base.Draw(context);
+
+            MouseCursor.Cursor.Draw(context);
+        }
 
         public override void Update(UpdateContext context)
         {

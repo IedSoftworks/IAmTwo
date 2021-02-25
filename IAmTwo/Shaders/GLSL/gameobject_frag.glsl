@@ -29,14 +29,15 @@ vec3 bezier(vec3 A, vec3 B, vec3 C, vec3 D, float t) {
 void main() {
 	const float size = .1;
 	const float borderThickness = .1f;
-	vec3 b = bezier(vec3(0,.5,0), vec3(.5, 0, 0), vec3(.5, 1, 0), vec3(1, .5, 0), mod(v_TexCoords.x, 1));
 
+	vec3 b = bezier(vec3(0,.5,0), vec3(.5, 0, 0), vec3(.5, 1, 0), vec3(1, .5, 0), mod(v_TexCoords.x, 1));
 	float hit = abs(b.y - v_TexCoords.y);
+	
 	float bezierHit = hit < size  ? 1 : 0;
 	float bezierBorder = (hit < size + .1 ? 1 : 0);
 	float border = v_TexCoords.y < borderThickness || v_TexCoords.y > 1 - borderThickness || abs(v_TexCoords.x) < borderThickness || abs(v_TexCoords.x) > xTexScale - borderThickness ? 1 : 0;
 	float mergedBorders = (bezierBorder - bezierHit) + border;
 
-	vec3 result = mergedBorders * vec3(.05) + bezierHit * vec3(1,1,0) * 1.1 + (1 - bezierHit) * vec3(.01);
+	vec3 result = mergedBorders * vec3(.01) + bezierHit * vec3(1,1,0) * 1.3 + (1 - bezierHit) * vec3(.005);
 	Color = vec4(result, 1);
 }

@@ -98,6 +98,7 @@
     <Compile Include="LevelObjects\Objects\SpecialObjects\SpecialObject.cs" />
     <Compile Include="LevelObjects\PlaceableObjectRegister.cs" />
     <Compile Include="Menu\Button.cs" />
+    <Compile Include="Menu\MouseCursor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Fonts.cs" />
@@ -156,6 +157,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\button_e.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Cursor.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\jumparrow_e.png">

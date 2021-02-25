@@ -19,6 +19,6 @@ void main() {
 	vec2 grid = mod(vE_ScaledPos, GridSize);
 	float s = grid.x > GridSize - 2 || grid.y > GridSize - 2 ? 1 : 0;
 
-	vec4 result = tex * (1 - s) + s * .105;
+	vec4 result = tex * (1 - s) + s * .025;
 	color = result;
 }

@@ -26,6 +26,8 @@ namespace IAmTwo
             {
                 WorldScale = new Vector2(0, 700)
             });
+            window.CursorVisible = false;
+
             window.TargetUpdateFrequency = 60;
             window.SetRenderPipeline(new GameRenderPipeline());
             window.SetScene(new LevelEditor.LevelEditor(new LevelConstructor()));
