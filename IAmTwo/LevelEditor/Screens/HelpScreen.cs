@@ -16,7 +16,7 @@ namespace IAmTwo.LevelEditor
         {
             Transform.Size.Set(1);
 
-            DrawText text = new DrawText(Fonts.Text, AssemblyUtility.ReadAssemblyFile("IAmTwo.LevelEditor.HelpText.txt"))
+            DrawText text = new DrawText(Fonts.Text, AssemblyUtility.ReadAssemblyFile("IAmTwo.LevelEditor.Screens.HelpText.txt"))
             {
                 Spacing = .5f
             };

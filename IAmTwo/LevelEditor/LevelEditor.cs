@@ -152,10 +152,12 @@ namespace IAmTwo.LevelEditor
 
             foreach (LevelEditorMenu menu in _menus)
             {
+                menu.Keybinds();
+
                 if (menu.Input())
                 {
-                    menu.Active = !menu.Active;
-                    if (menu.Active)
+                    menu.RenderActive = !menu.RenderActive;
+                    if (menu.RenderActive)
                     {
                         CloseAllMenus(menu);
                         menu.Open();
@@ -230,11 +232,9 @@ namespace IAmTwo.LevelEditor
             else
             {
                 Vector2 mousePos = Mouse2D.InWorld(Camera);
-                bool overmenu = Mouse2D.MouseOver(Mouse2D.InWorld(HUDCamera), _menus.Where(a => a.Active).Select(a => a.Background).ToArray());
+                bool overmenu = Mouse2D.MouseOver(Mouse2D.InWorld(HUDCamera), _menus.Where(a => a.RenderActive).Select(a => a.Background).ToArray());
                 if (Mouse.IsDown(MouseButton.Left, true) && !overmenu)
                 {
-                    CloseAllMenus(null);
-
                     Mouse2D.MouseOver(mousePos, out IPlaceableObject obj,
                         _placedObjects);
 
@@ -291,8 +291,8 @@ namespace IAmTwo.LevelEditor
             {
                 if (menu != openedMenu)
                 {
-                    if (menu.Active) menu.Close();
-                    menu.Active = false;
+                    if (menu.RenderActive) menu.Close();
+                    menu.RenderActive = false;
                 }
             }
         }

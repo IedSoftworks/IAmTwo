@@ -11,7 +11,7 @@ namespace IAmTwo.LevelEditor
     {
         public static float Width = 200f;
 
-        private ItemCollection _sceneOptions;
+        private PropertySceneControl _sceneOptions;
         private PropertyObjectControl _objectOptions;
 
         private Camera _camera;
@@ -70,6 +70,13 @@ namespace IAmTwo.LevelEditor
 
         }
 
+        public override void Keybinds()
+        {
+            base.Keybinds();
+
+            _objectOptions.ExecuteKeybinds();
+            _sceneOptions.ExecuteKeybinds();
+        }
 
         public override bool Input()
         {

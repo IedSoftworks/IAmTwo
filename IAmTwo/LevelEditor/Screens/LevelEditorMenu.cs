@@ -9,6 +9,8 @@ namespace IAmTwo.LevelEditor
 
         public abstract bool Input();
 
+        public virtual void Keybinds() {}
+
         public virtual void Open() {}
         public virtual void Close() {}
     }

@@ -81,7 +81,7 @@ namespace IAmTwo.LevelEditor
                 Button b = new Button(pair.Key, -10, 110);
                 b.Transform.Size.Set(.75f);
                 b.Transform.Position.Set(0, Fonts.Button.Height * 1.25f * pi);
-                b.Click += context =>
+                b.Click += () =>
                 {
                     _items.ForEach(a => a.Active = false);
                     pair.Value.Item2.Active = true;

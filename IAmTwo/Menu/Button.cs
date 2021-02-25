@@ -25,7 +25,7 @@ namespace IAmTwo.Menu
         private InstancedMesh _borderMesh;
         private Camera _lastCam;
 
-        public event Action<UpdateContext> Click;
+        public event Action Click;
 
         public Button(string text, float? start = null, float? width = null)
         {
@@ -59,7 +59,7 @@ namespace IAmTwo.Menu
             if (_lastCam != null && Mouse2D.MouseOver(Mouse2D.InWorld(_lastCam), out _, _border))
             {
                 _border.Color = Color4.LightBlue;
-                if (Mouse.IsDown(MouseButton.Left, true)) Click?.Invoke(context);
+                if (Mouse.IsDown(MouseButton.Left, true)) TriggerClick();
             }
             else _border.Color = Color4.Blue;
         }
@@ -69,6 +69,11 @@ namespace IAmTwo.Menu
             _lastCam = context.UseCamera as Camera;
 
             base.Draw(context);
+        }
+
+        public void TriggerClick()
+        {
+            Click?.Invoke();
         }
     }
 }

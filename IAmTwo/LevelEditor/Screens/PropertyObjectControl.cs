@@ -22,6 +22,7 @@ namespace IAmTwo.LevelEditor
 {
     public class PropertyObjectControl : ItemCollection
     {
+        private Button connectButton;
         private bool _connectMode = false;
         private List<IPlaceableObject> _connectSelectList;
         private IConnectable _connectAsked;
@@ -59,9 +60,9 @@ namespace IAmTwo.LevelEditor
                 ItemCollection nConnected = new ItemCollection();
 
                 DrawText header = new DrawText(Fonts.Text, "Not connected");
-                Button connectButton = new Button("Connect", -10, 100);
+                connectButton = new Button("Connect [C]", -10, 100);
                 connectButton.Transform.Position.Set(10, -30);
-                connectButton.Click += context => EnterConnectMode(obj);
+                connectButton.Click += () => EnterConnectMode(obj);
                 
                 nConnected.Add(header, connectButton);
 
@@ -94,10 +95,19 @@ namespace IAmTwo.LevelEditor
                 }
             }
         }
+        
+        public void ExecuteKeybinds()
+        {
+            if (Keyboard.IsDown(Key.C, true))
+            {
+                if (_object is IConnectable) connectButton.TriggerClick();
+            }
+        }
 
         private void EnterConnectMode(IConnectable connectable)
         {
             LevelEditor.CurrentEditor.DisableInput = true;
+            LevelEditor.CurrentEditor.Background.Active = false;
             LevelEditor.CurrentEditor.HUD.RenderActive = false;
 
             _connectMode = true;
@@ -125,9 +135,10 @@ namespace IAmTwo.LevelEditor
         private void ExitConnectMode()
         {
             LevelEditor.CurrentEditor.DisableInput = false;
-            _connectMode = false;
-
+            LevelEditor.CurrentEditor.Background.Active = true;
             LevelEditor.CurrentEditor.HUD.RenderActive = true;
+
+            _connectMode = false;
             _connectSelectList = null;
 
             foreach (IShowItem item in LevelEditor.CurrentEditor.Objects)

@@ -3,30 +3,42 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using IAmTwo.Resources;
 using OpenTK;
+using OpenTK.Input;
 using SM.Base.Drawing.Text;
 using SM2D.Drawing;
 using SM2D.Scene;
 using Button = IAmTwo.Menu.Button;
+using Keyboard = SM.Base.Controls.Keyboard;
 
 namespace IAmTwo.LevelEditor
 {
     public class PropertySceneControl : ItemCollection
     {
+        private Button _testButton;
+
         public PropertySceneControl()
         {
             DrawText header = new DrawText(Fonts.Button, "Scene Properties");
 
-            Button testButton = new Button("Test Level (F2)", -10, 100);
-            testButton.Transform.Position.Set(10, -50);
-            testButton.Click += context => LevelEditor.CurrentEditor.StartTestLevel(false);
+            _testButton = new Button("Test Level [F2]", -10, 150);
+            _testButton.Transform.Position.Set(10, -50);
+            _testButton.Click += () => LevelEditor.CurrentEditor.StartTestLevel(false);
             
             ItemCollection levelsize = GenerateLevelSizeControl();
             levelsize.Transform.Position.Set(0, -100);
 
-            Add(header, testButton, levelsize);
+            Add(header, _testButton, levelsize);
         }
 
         private DrawText percentageViewer;
+
+        public void ExecuteKeybinds()
+        {
+            if (Keyboard.IsDown(Key.F2, true))
+            {
+                _testButton.TriggerClick();
+            } 
+        }
 
         private ItemCollection GenerateLevelSizeControl()
         {
@@ -39,11 +51,11 @@ namespace IAmTwo.LevelEditor
 
             Button decreaseButton = new Button("-", -10, 20);
             decreaseButton.Transform.Position.Set(10, -35);
-            decreaseButton.Click += context => UpdateSize(-.1f);
+            decreaseButton.Click += () => UpdateSize(-.1f);
 
             Button increaseButton = new Button("+", -10, 20);
             increaseButton.Transform.Position.Set(50, -35);
-            increaseButton.Click += context => UpdateSize(.1f);
+            increaseButton.Click += () => UpdateSize(.1f);
 
             col.Add(levelSizeText, percentageViewer, decreaseButton, increaseButton);
 

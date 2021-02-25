@@ -2,6 +2,7 @@
 using IAmTwo.LevelObjects;
 using IAmTwo.Menu;
 using OpenTK;
+using SM.Base;
 using SM.Base.Windows;
 using SM2D.Scene;
 
@@ -25,11 +26,11 @@ namespace IAmTwo.LevelEditor
             Objects.Add(newButton);
         }
 
-        private void CreateNewLevel(UpdateContext context)
+        private void CreateNewLevel()
         {
             LevelConstructor level = new LevelConstructor();
 
-            context.Window.SetScene(new LevelEditor(level));
+            SMRenderer.CurrentWindow.SetScene(new LevelEditor(level));
         }
     }
 }

@@ -65,17 +65,17 @@
     <Compile Include="Game\PhysicsObject.cs" />
     <Compile Include="Game\Player.cs" />
     <Compile Include="Game\SpecialActor.cs" />
-    <Compile Include="LevelEditor\HelpScreen.cs" />
+    <Compile Include="LevelEditor\Screens\HelpScreen.cs" />
     <Compile Include="LevelEditor\LevelEditor.cs" />
     <Compile Include="LevelEditor\LevelEditorGrid.cs" />
     <Compile Include="LevelEditor\LevelEditorMainMenu.cs" />
-    <Compile Include="LevelEditor\LevelEditorMenu.cs" />
+    <Compile Include="LevelEditor\Screens\LevelEditorMenu.cs" />
     <Compile Include="LevelEditor\LevelEditorSelection.cs" />
-    <Compile Include="LevelEditor\ObjectButton.cs" />
-    <Compile Include="LevelEditor\ObjectSelection.cs" />
-    <Compile Include="LevelEditor\PropertyControl.cs" />
-    <Compile Include="LevelEditor\PropertyObjectControl.cs" />
-    <Compile Include="LevelEditor\PropertySceneControl.cs" />
+    <Compile Include="LevelEditor\Screens\ObjectButton.cs" />
+    <Compile Include="LevelEditor\Screens\ObjectSelection.cs" />
+    <Compile Include="LevelEditor\Screens\PropertyControl.cs" />
+    <Compile Include="LevelEditor\Screens\PropertyObjectControl.cs" />
+    <Compile Include="LevelEditor\Screens\PropertySceneControl.cs" />
     <Compile Include="LevelEditor\TestLevel.cs" />
     <Compile Include="LevelEditor\TransformationActions.cs" />
     <Compile Include="LevelObjects\IConnectable.cs" />
@@ -145,7 +145,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="LevelEditor\HelpText.txt" />
+    <EmbeddedResource Include="LevelEditor\Screens\HelpText.txt" />
     <Content Include="Resources\background.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
