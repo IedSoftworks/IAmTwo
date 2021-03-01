@@ -49,9 +49,12 @@ namespace IAmTwo.LevelObjects
         {
             base.Initialization();
 
+            Vector2 worldScale = new Vector2(LevelConstructor.DefaultSize * Constructor.SizeMultiplier / Aspect,
+                LevelConstructor.DefaultSize * Constructor.SizeMultiplier);
+
             Camera = new Camera()
             {
-                RequestedWorldScale = new Vector2(0, LevelConstructor.DefaultSize * Constructor.SizeMultiplier)
+                RequestedWorldScale = worldScale,
             };
             Camera.CalculateWorldScale(SMRenderer.CurrentWindow);
 

@@ -21,10 +21,7 @@ namespace IAmTwo.LevelEditor
 {
     public class ObjectSelection : LevelEditorMenu
     {
-        public static PolyLine Line = new PolyLine(new Vector2[] {Vector2.Zero, Vector2.One})
-        {
-            LineWidth = 5f
-        };
+        
 
         public static float Height = 100;
 
@@ -41,8 +38,8 @@ namespace IAmTwo.LevelEditor
             Background.Color = ColorPallete.Background;
 
             DrawObject2D lineDraw = new DrawObject2D();
-            lineDraw.ApplyPolygon(Line);
-            lineDraw.Transform.Rotation.Set(-45);;
+            lineDraw.ApplyPolygon(Models.Border);
+            lineDraw.Transform.Rotation.Set(-90);
             lineDraw.Transform.Position.Set(-500, Height / 2);
             lineDraw.Transform.Size.Set(1000);
             lineDraw.Color = Color4.Blue;

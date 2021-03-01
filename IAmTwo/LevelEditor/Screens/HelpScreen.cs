@@ -31,7 +31,7 @@ namespace IAmTwo.LevelEditor
             {
                 Color = Color4.Green
             };
-            border.Mesh = ObjectButton.Border;
+            border.Mesh = Models.QuadricBorder;
             border.ShaderArguments["ColorScale"] = 2.1f;
             border.Transform.Size = Background.Transform.Size;
 

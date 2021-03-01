@@ -20,25 +20,6 @@ namespace IAmTwo.LevelEditor
 {
     public class ObjectButton : ItemCollection
     {
-        public static InstancedMesh Border;
-
-
-        static ObjectButton()
-        {
-            Border = new InstancedMesh(PrimitiveType.Lines, new string[0]);
-            Border.Vertex.Add(new[]
-            {
-                new Vector3(-.4f, .5f, 0f),
-                new Vector3(.4f, .5f, 0f),
-                new Vector3(.5f, .4f, 0f),
-                new Vector3(.5f, -.4f, 0f),
-                new Vector3(.4f, -.5f, 0f),
-                new Vector3(-.4f, -.5f, 0f),
-                new Vector3(-.5f, -.4f, 0f),
-                new Vector3(-.5f, .4f, 0f),
-            });
-            Border.LineWidth = 2;
-        }
         private static float _scale = .9f;
 
         private IPlaceableObject _placeObject;
@@ -55,7 +36,7 @@ namespace IAmTwo.LevelEditor
             else
                 obj.Transform.Size.Set(_scale / aspect, _scale, false);
 
-            _borderObject = new DrawObject2D {Mesh = Border, Transform = {Position = obj.Transform.Position}};
+            _borderObject = new DrawObject2D {Mesh = Models.QuadricBorder, Transform = {Position = obj.Transform.Position}};
             _borderObject.Transform.Size.Set(1f);
             _borderObject.Color = Color4.Blue;
             _borderObject.ShaderArguments["ColorScale"] = 1.4f;

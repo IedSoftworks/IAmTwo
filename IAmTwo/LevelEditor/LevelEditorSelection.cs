@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using IAmTwo.LevelObjects;
+using IAmTwo.Resources;
 using OpenTK;
 using OpenTK.Graphics;
 using SM.Base.Drawing;
@@ -18,7 +19,7 @@ namespace IAmTwo.LevelEditor
 
         public LevelEditorSelection()
         {
-            Mesh = ObjectButton.Border;
+            Mesh = Models.QuadricBorder;
             Color = Color4.YellowGreen;
             Active = false;
         }

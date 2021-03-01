@@ -77,11 +77,18 @@ namespace IAmTwo.LevelEditor
             PropertyControl propertyControl = new PropertyControl(Camera);
             propertyControl.Transform.Position.Set(500 - PropertyControl.Width / 2, 0);
 
+            EscapeControl escControl = new EscapeControl();
+
             _menus = new LevelEditorMenu[]{
-                objectMenu, helpScreen, propertyControl
+                objectMenu, helpScreen, propertyControl, escControl
             };
             HUD.Add(_menus);
-            CloseAllMenus(propertyControl);
+            CloseAllMenus();
+
+            HUDCamera.WorldScaleChanged += camera =>
+            {
+                objectMenu.Transform.Position.Set(0, -HUDCamera.WorldScale.Y / 2 + ObjectSelection.Height / 2);
+            };
         }
 
         public override void Activate()
@@ -285,7 +292,7 @@ namespace IAmTwo.LevelEditor
             }
         }
 
-        public void CloseAllMenus(LevelEditorMenu openedMenu)
+        public void CloseAllMenus(LevelEditorMenu openedMenu = null)
         {
             foreach (LevelEditorMenu menu in _menus)
             {

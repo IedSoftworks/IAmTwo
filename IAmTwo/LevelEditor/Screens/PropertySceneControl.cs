@@ -20,25 +20,16 @@ namespace IAmTwo.LevelEditor
         {
             DrawText header = new DrawText(Fonts.Button, "Scene Properties");
 
-            _testButton = new Button("Test Level [F2]", -10, 150);
-            _testButton.Transform.Position.Set(10, -50);
-            _testButton.Click += () => LevelEditor.CurrentEditor.StartTestLevel(false);
-            
             ItemCollection levelsize = GenerateLevelSizeControl();
-            levelsize.Transform.Position.Set(0, -100);
+            levelsize.Transform.Position.Set(0, -50);
 
-            Add(header, _testButton, levelsize);
+            Add(header, levelsize);
         }
 
         private DrawText percentageViewer;
 
         public void ExecuteKeybinds()
-        {
-            if (Keyboard.IsDown(Key.F2, true))
-            {
-                _testButton.TriggerClick();
-            } 
-        }
+        { }
 
         private ItemCollection GenerateLevelSizeControl()
         {
