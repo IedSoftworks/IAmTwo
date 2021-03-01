@@ -10,6 +10,10 @@ namespace IAmTwo.LevelEditor
 {
     public class LevelEditorMainMenu : Scene
     {
+        public static LevelEditorMainMenu Scene = new LevelEditorMainMenu();
+
+        private LevelEditorMainMenu() {}
+
         public override void Initialization()
         {
             base.Initialization();

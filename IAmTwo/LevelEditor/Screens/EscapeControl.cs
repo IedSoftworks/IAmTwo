@@ -5,6 +5,8 @@ using IAmTwo.Resources;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Input;
+using SM.Base;
+using SM.Base.Objects;
 using SM2D.Drawing;
 using SM2D.Scene;
 using Keyboard = SM.Base.Controls.Keyboard;
@@ -29,15 +31,27 @@ namespace IAmTwo.LevelEditor
                 Color = Color4.Red, 
                 Mesh = Models.QuadricBorder
             };
+            border.ShaderArguments["ColorScale"] = 1.2f;
             border.Transform.Size.Set(Size);
 
             ItemCollection items = new ItemCollection();
+            items.Transform.Position.Set(0, Size.Y / 2 - 30);
             items.Transform.Size.Set(.8f);
 
             ItemCollection testActions = CreateTestActions();
-            testActions.Transform.Position.Set(-(Size.X / 2) - 50, Size.Y / 2 + 40);
+            testActions.Transform.Position.Set(-(Size.X / 2) - 50, 0);
 
-            items.Add(testActions);
+            float borderBrightness = .2f;
+            DrawObject2D itemsBorder = new DrawObject2D {Mesh = Models.Border, Color = new Color4(borderBrightness, borderBrightness, borderBrightness, 1f)};
+            itemsBorder.Transform.Position.Set(0, 0);
+            itemsBorder.Transform.Rotation.Set(180);
+            itemsBorder.Transform.Size.Set(1, Size.Y);
+            itemsBorder.ShaderArguments["LineWidth"] = 1f;
+
+            ItemCollection fileActions = CreateFileActions();
+            fileActions.Transform.Position.Set(20, 0);
+
+            items.Add(testActions, itemsBorder, fileActions);
 
             Add(Background, border, items);
         }
@@ -47,10 +61,32 @@ namespace IAmTwo.LevelEditor
             ItemCollection col = new ItemCollection();
 
             _testLevelButton = new Button("Test Level [F2]", -10, 150);
-            _testLevelButton.Transform.Position.Set(10, -50);
+            _testLevelButton.Transform.Position.Set(10, 0);
             _testLevelButton.Click += () => LevelEditor.CurrentEditor.StartTestLevel(false);
 
             col.Add(_testLevelButton);
+
+            return col;
+        }
+
+        private ItemCollection CreateFileActions()
+        {
+            ItemCollection col = new ItemCollection();
+
+            DrawText header = new DrawText(Fonts.Text, "Save/Load");
+
+            Button newL = new Button("New Level", -10, 150);
+            newL.Transform.Position.Set(10, -50);
+            Button save = new Button("Save Level", -10, 150);
+            save.Transform.Position.Set(10, -100);
+            Button load = new Button("Load Level", -10, 150);
+            load.Transform.Position.Set(10, -150);
+
+            Button exit = new Button("Exit Editor", -10, 150);
+            exit.Transform.Position.Set(10, -400);
+            exit.Click += () => SMRenderer.CurrentWindow.SetScene(LevelEditorMainMenu.Scene);
+
+            col.Add(header, newL, save, load, exit);
 
             return col;
         }
