@@ -37,15 +37,16 @@ namespace IAmTwo.Menu
 
             _borderMesh = new InstancedMesh(PrimitiveType.Lines, new string[0]);
             _borderMesh.Vertex.Add(
-                new Vector3(s, Fonts.Button.Height / 2, 0),
-                new Vector3(s, -Fonts.Button.Height / 2,0),
-                new Vector3(s + w, -Fonts.Button.Height / 2, 0),
-                new Vector3(s + w, Fonts.Button.Height / 2, 0)
+                new Vector3(s, drawText.Height / 2, 0),
+                new Vector3(s, -drawText.Height / 2,0),
+                new Vector3(s + w, -drawText.Height / 2, 0),
+                new Vector3(s + w, drawText.Height / 2, 0)
             );
             _borderMesh.LineWidth = 2;
 
             _border = new DrawObject2D();
-            _border.Transform.Size.Set(1.5f);
+            _border.Transform.Size.Set(1.2f);
+            _border.Transform.Position.Y = -(drawText.Height - Fonts.Button.Height)/ 2;
             _border.Mesh = _borderMesh;
             _border.ShaderArguments["ColorScale"] = 1.4f;
             

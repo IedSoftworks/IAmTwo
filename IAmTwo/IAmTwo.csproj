@@ -70,6 +70,7 @@
     <Compile Include="LevelEditor\LevelEditor.cs" />
     <Compile Include="LevelEditor\LevelEditorGrid.cs" />
     <Compile Include="LevelEditor\LevelEditorMainMenu.cs" />
+    <Compile Include="LevelEditor\Screens\LevelEditorDialog.cs" />
     <Compile Include="LevelEditor\Screens\LevelEditorMenu.cs" />
     <Compile Include="LevelEditor\LevelEditorSelection.cs" />
     <Compile Include="LevelEditor\Screens\ObjectButton.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="LevelEditor\Screens\PropertyControl.cs" />
     <Compile Include="LevelEditor\Screens\PropertyObjectControl.cs" />
     <Compile Include="LevelEditor\Screens\PropertySceneControl.cs" />
+    <Compile Include="LevelEditor\Screens\SaveDialog.cs" />
     <Compile Include="LevelEditor\TestLevel.cs" />
     <Compile Include="LevelEditor\TransformationActions.cs" />
     <Compile Include="LevelObjects\IConnectable.cs" />

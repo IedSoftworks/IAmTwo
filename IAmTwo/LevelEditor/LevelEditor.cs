@@ -36,6 +36,7 @@ namespace IAmTwo.LevelEditor
         public Action<IPlaceableObject> MouseAction;
 
         public LevelEditorSelection EditorSelection;
+        public SaveDialog SaveDialog;
 
         public LevelEditor(LevelConstructor constructor) : base(constructor)
         {
@@ -79,8 +80,10 @@ namespace IAmTwo.LevelEditor
 
             EscapeControl escControl = new EscapeControl();
 
+            SaveDialog = new SaveDialog();
+
             _menus = new LevelEditorMenu[]{
-                objectMenu, helpScreen, propertyControl, escControl
+                objectMenu, helpScreen, propertyControl, escControl, SaveDialog
             };
             HUD.Add(_menus);
             CloseAllMenus();

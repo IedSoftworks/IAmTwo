@@ -1,5 +1,6 @@
 ﻿using System;
 using IAmTwo.Game;
+using IAmTwo.LevelObjects;
 using IAmTwo.Menu;
 using IAmTwo.Resources;
 using OpenTK;
@@ -60,7 +61,7 @@ namespace IAmTwo.LevelEditor
         {
             ItemCollection col = new ItemCollection();
 
-            _testLevelButton = new Button("Test Level [F2]", -10, 150);
+            _testLevelButton = new Button("Test Level\n\t[F2]", -10, 150);
             _testLevelButton.Transform.Position.Set(10, 0);
             _testLevelButton.Click += () => LevelEditor.CurrentEditor.StartTestLevel(false);
 
@@ -69,24 +70,34 @@ namespace IAmTwo.LevelEditor
             return col;
         }
 
+        private Button _newL;
+        private Button save;
+        private Button load;
+        private Button exit;
+
         private ItemCollection CreateFileActions()
         {
             ItemCollection col = new ItemCollection();
 
             DrawText header = new DrawText(Fonts.Text, "Save/Load");
 
-            Button newL = new Button("New Level", -10, 150);
-            newL.Transform.Position.Set(10, -50);
-            Button save = new Button("Save Level", -10, 150);
-            save.Transform.Position.Set(10, -100);
-            Button load = new Button("Load Level", -10, 150);
-            load.Transform.Position.Set(10, -150);
+            int width = 130;
+            float offset = -60;
 
-            Button exit = new Button("Exit Editor", -10, 150);
+            _newL = new Button("New Level \n  [CTRL-N]", -10, width);
+            _newL.Transform.Position.Set(10, offset);
+            _newL.Click += () => SMRenderer.CurrentWindow.SetScene(new LevelEditor(new LevelConstructor()));
+            save = new Button("Save Level\n  [CTRL-S]", -10, width);
+            save.Transform.Position.Set(10, offset * 2);
+            save.Click += () => LevelEditor.CurrentEditor.SaveDialog.Show();
+            load = new Button("Load Level\n  [CTRL-L]", -10, width);
+            load.Transform.Position.Set(10, offset * 3);
+
+            exit = new Button("Exit Editor\n  [CTRL-X]", -10, width);
             exit.Transform.Position.Set(10, -400);
             exit.Click += () => SMRenderer.CurrentWindow.SetScene(LevelEditorMainMenu.Scene);
 
-            col.Add(header, newL, save, load, exit);
+            col.Add(header, _newL, save, load, exit);
 
             return col;
         }
@@ -99,21 +110,19 @@ namespace IAmTwo.LevelEditor
             {
                 _testLevelButton.TriggerClick();
             }
+
+            if (Keyboard.IsDown(Key.ControlLeft))
+            {
+                if (Keyboard.IsDown(Key.N)) _newL.TriggerClick();
+                if (Keyboard.IsDown(Key.S, true)) save.TriggerClick();
+                if (Keyboard.IsDown(Key.L, true)) load.TriggerClick();
+                if (Keyboard.IsDown(Key.X, true)) exit.TriggerClick();
+            }
         }
 
         public override bool Input()
         {
             return Keyboard.IsDown(Key.Escape, true);
-        }
-
-        public override void Open()
-        {
-            base.Open();
-        }
-
-        public override void Close()
-        {
-            base.Close();
         }
     }
 }
