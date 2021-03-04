@@ -10,7 +10,6 @@ using OpenTK.Graphics;
 using OpenTK.Input;
 using SM.Base.Drawing;
 using SM.Base.Scene;
-using SM.Base.Windows;
 using SM2D.Controls;
 using SM2D.Drawing;
 using SM2D.Scene;
@@ -72,10 +71,8 @@ namespace IAmTwo.LevelEditor
             return new Tuple<IShowTransformItem<Transformation>, float>(new DrawText(Fonts.Text, "Connected to:\n"+obj.ConnectedTo), 40f);
         }
 
-        public override void Update(UpdateContext context)
+        public void ExecuteKeybinds()
         {
-            base.Update(context);
-
             if (_connectMode)
             {
                 if (Mouse.IsDown(MouseButton.Left, true))
@@ -94,11 +91,7 @@ namespace IAmTwo.LevelEditor
                     ExitConnectMode();
                 }
             }
-        }
-        
-        public void ExecuteKeybinds()
-        {
-            if (Keyboard.IsDown(Key.C, true))
+            else if (Keyboard.IsDown(Key.C, true))
             {
                 if (_object is IConnectable) connectButton.TriggerClick();
             }

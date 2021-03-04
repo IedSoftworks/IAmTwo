@@ -53,7 +53,7 @@ namespace IAmTwo.LevelEditor
             Camera.CalculateWorldScale(SMRenderer.CurrentWindow);
             HUDCamera = new Camera()
             {
-                RequestedWorldScale = new Vector2(1000, 0)
+                RequestedWorldScale = new Vector2(1000,  LevelScene.Aspect * 1000)
             };
             HUDCamera.CalculateWorldScale(SMRenderer.CurrentWindow);
 
@@ -157,24 +157,26 @@ namespace IAmTwo.LevelEditor
         public override void Update(UpdateContext context)
         {
             HUD.Update(context);
-
-            if (DisableInput) return;
-
+            
             foreach (LevelEditorMenu menu in _menus)
             {
                 menu.Keybinds();
 
+                if (DisableInput) continue;
+
                 if (menu.Input())
                 {
-                    menu.RenderActive = !menu.RenderActive;
-                    if (menu.RenderActive)
+                    menu.Active = !menu.Active;
+                    if (menu.Active)
                     {
                         CloseAllMenus(menu);
                         menu.Open();
                     } else menu.Close();
                 }
             }
-            
+
+            if (DisableInput) return;
+
             if (EditorSelection.SelectedObject != null)
             {
                 // Object Actions
@@ -301,8 +303,8 @@ namespace IAmTwo.LevelEditor
             {
                 if (menu != openedMenu)
                 {
-                    if (menu.RenderActive) menu.Close();
-                    menu.RenderActive = false;
+                    if (menu.Active) menu.Close();
+                    menu.Active = false;
                 }
             }
         }

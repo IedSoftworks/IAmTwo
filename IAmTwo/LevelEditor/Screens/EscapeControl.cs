@@ -8,6 +8,7 @@ using OpenTK.Graphics;
 using OpenTK.Input;
 using SM.Base;
 using SM.Base.Objects;
+using SM.Base.Windows;
 using SM2D.Drawing;
 using SM2D.Scene;
 using Keyboard = SM.Base.Controls.Keyboard;
@@ -17,6 +18,11 @@ namespace IAmTwo.LevelEditor
     public class EscapeControl : LevelEditorMenu
     {
         public static Vector2 Size = new Vector2(500, 400);
+
+        private Button _newL;
+        private Button save;
+        private Button load;
+        private Button exit;
 
         private Button _testLevelButton;
 
@@ -30,7 +36,7 @@ namespace IAmTwo.LevelEditor
             DrawObject2D border = new DrawObject2D
             {
                 Color = Color4.Red, 
-                Mesh = Models.QuadricBorder
+                Mesh = Models.QuadricBorderNotConnected
             };
             border.ShaderArguments["ColorScale"] = 1.2f;
             border.Transform.Size.Set(Size);
@@ -70,10 +76,29 @@ namespace IAmTwo.LevelEditor
             return col;
         }
 
-        private Button _newL;
-        private Button save;
-        private Button load;
-        private Button exit;
+
+        public override void Keybinds()
+        {
+            base.Keybinds();
+
+            if (Keyboard.IsDown(Key.F2, true))
+            {
+                _testLevelButton.TriggerClick();
+            }
+
+            if (Keyboard.IsDown(Key.ControlLeft))
+            {
+                if (Keyboard.IsDown(Key.N)) _newL.TriggerClick();
+                if (Keyboard.IsDown(Key.S, true)) save.TriggerClick();
+                if (Keyboard.IsDown(Key.L, true)) load.TriggerClick();
+                if (Keyboard.IsDown(Key.X, true)) exit.TriggerClick();
+            }
+        }
+
+        public override bool Input()
+        {
+            return Keyboard.IsDown(Key.Escape, true);
+        }
 
         private ItemCollection CreateFileActions()
         {
@@ -100,29 +125,6 @@ namespace IAmTwo.LevelEditor
             col.Add(header, _newL, save, load, exit);
 
             return col;
-        }
-
-        public override void Keybinds()
-        {
-            base.Keybinds();
-
-            if (Keyboard.IsDown(Key.F2, true))
-            {
-                _testLevelButton.TriggerClick();
-            }
-
-            if (Keyboard.IsDown(Key.ControlLeft))
-            {
-                if (Keyboard.IsDown(Key.N)) _newL.TriggerClick();
-                if (Keyboard.IsDown(Key.S, true)) save.TriggerClick();
-                if (Keyboard.IsDown(Key.L, true)) load.TriggerClick();
-                if (Keyboard.IsDown(Key.X, true)) exit.TriggerClick();
-            }
-        }
-
-        public override bool Input()
-        {
-            return Keyboard.IsDown(Key.Escape, true);
         }
     }
 }

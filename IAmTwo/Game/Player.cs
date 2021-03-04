@@ -56,8 +56,6 @@ namespace IAmTwo.Game
             
             Color = mirror ? ColorPallete.Mirror : ColorPallete.Player;
             Mirror = mirror;
-
-            Transform.ZIndex = mirror ? -1 : 1;
         }
 
         public override void Update(UpdateContext context)

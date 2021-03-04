@@ -12,24 +12,33 @@ namespace IAmTwo.Resources
             LineWidth = 5f
         };
 
-        public static InstancedMesh QuadricBorder;
+        public static PolyLine QuadricBorder;
+        public static PolyLine QuadricBorderNotConnected;
 
 
         static Models()
         {
-            QuadricBorder = new InstancedMesh(PrimitiveType.Lines, new string[0]);
-            QuadricBorder.Vertex.Add(new[]
+            QuadricBorder = new PolyLine(
+                new[]
+                {
+                    new Vector2(-.4f, .5f), new Vector2(.5f, .5f),
+                    new Vector2(.5f, -.4f), new Vector2(.4f, -.5f),
+                    new Vector2(-.5f, -.5f), new Vector2(-.5f, .4f),
+                }, PolyLineType.ConnectedLoop)
             {
-                new Vector3(-.4f, .5f, 0f),
-                new Vector3(.4f, .5f, 0f),
-                new Vector3(.5f, .4f, 0f),
-                new Vector3(.5f, -.4f, 0f),
-                new Vector3(.4f, -.5f, 0f),
-                new Vector3(-.4f, -.5f, 0f),
-                new Vector3(-.5f, -.4f, 0f),
-                new Vector3(-.5f, .4f, 0f),
-            });
-            QuadricBorder.LineWidth = 2;
+                LineWidth = 2
+            };
+
+            QuadricBorderNotConnected = new PolyLine(new []
+            {
+                new Vector2(-.4f, .5f), new Vector2(.4f, .5f),
+                new Vector2(.5f, .4f), new Vector2(.5f, -.4f),
+                new Vector2(.4f, -.5f), new Vector2(-.4f, -.5f),
+                new Vector2(-.5f, -.4f), new Vector2(-.5f, .4f),
+            })
+            {
+                LineWidth = 2
+            };
         }
     }
 }

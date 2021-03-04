@@ -5,6 +5,7 @@ using SM.Base.Windows;
 using SM2D.Controls;
 using SM2D.Drawing;
 using SM2D.Scene;
+using SM2D.Types;
 
 namespace IAmTwo.Menu
 {
@@ -25,7 +26,7 @@ namespace IAmTwo.Menu
             cursor.Transform.ApplyTextureSize(cursor.Texture);
 
             cursor.Transform.Position.Set(cursor.Texture.Width / 2f, -cursor.Texture.Height / 2f);
-
+            cursor.Transform.ZIndex.Set(Transformation.ZIndexPercision * 1.9f);
 
             Add(cursor);
         }
@@ -33,6 +34,7 @@ namespace IAmTwo.Menu
         public override void Draw(DrawContext context)
         {
             Transform.Position.Set(Mouse2D.InWorld(context.UseCamera as Camera));
+
 
             base.Draw(context);
         }

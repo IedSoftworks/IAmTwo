@@ -12,5 +12,6 @@ namespace IAmTwo.Game
         public static Color4 Down = Color4.OrangeRed;
 
         public static Color4 Background = new Color4(.01f, .01f, .01f, 1);
+        public static Color4 DarkBackground = new Color4(.005f, .005f, .005f, 1);
     }
 }

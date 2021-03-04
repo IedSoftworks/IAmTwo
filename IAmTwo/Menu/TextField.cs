@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows.Forms.VisualStyles;
+using IAmTwo.Game;
 using IAmTwo.Resources;
 using OpenTK;
 using OpenTK.Graphics;
@@ -37,7 +38,7 @@ namespace IAmTwo.Menu
             float height = font.FontSize * 1.6f;
 
             Background = new DrawObject2D();
-            Background.Color = new Color4(.005f, .005f, .005f, 1);
+            Background.Color = ColorPallete.DarkBackground;
             Background.Transform.Size.Set(width, height);
             Background.Transform.Position.Set(width / 2, 0);
 

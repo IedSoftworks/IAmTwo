@@ -16,7 +16,7 @@ namespace IAmTwo.LevelObjects
 {
     public class LevelScene : Scene
     {
-        private const float Aspect = 0.5625f;
+        public const float Aspect = 0.5625f;
         protected List<IPlaceableObject> _placedObjects = new List<IPlaceableObject>();
 
         public LevelConstructor Constructor;
@@ -135,6 +135,7 @@ namespace IAmTwo.LevelObjects
                 bool reverse = i > 1;
 
                 GameObject wall = new GameObject();
+                wall.Transform.ZIndex.Set(10);
                 if (vert)
                 {
                     wall.Transform.Size.Set(levelSize.X - thickness * 2, thickness);

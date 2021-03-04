@@ -70,7 +70,6 @@
     <Compile Include="LevelEditor\LevelEditor.cs" />
     <Compile Include="LevelEditor\LevelEditorGrid.cs" />
     <Compile Include="LevelEditor\LevelEditorMainMenu.cs" />
-    <Compile Include="LevelEditor\Screens\LevelEditorDialog.cs" />
     <Compile Include="LevelEditor\Screens\LevelEditorMenu.cs" />
     <Compile Include="LevelEditor\LevelEditorSelection.cs" />
     <Compile Include="LevelEditor\Screens\ObjectButton.cs" />
@@ -101,6 +100,7 @@
     <Compile Include="LevelObjects\Objects\SpecialObjects\SpecialObject.cs" />
     <Compile Include="LevelObjects\PlaceableObjectRegister.cs" />
     <Compile Include="Menu\Button.cs" />
+    <Compile Include="Menu\FileBrowser.cs" />
     <Compile Include="Menu\MouseCursor.cs" />
     <Compile Include="Menu\TextField.cs" />
     <Compile Include="Program.cs" />
