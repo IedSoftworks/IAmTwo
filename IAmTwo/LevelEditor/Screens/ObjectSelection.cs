@@ -75,7 +75,7 @@ namespace IAmTwo.LevelEditor
             float itemSize = 60;
             foreach (KeyValuePair<string, Tuple<List<IPlaceableObject>, ItemCollection>> pair in sorted)
             {
-                Button b = new Button(pair.Key, -10, 110);
+                Button b = new Button(pair.Key, 110);
                 b.Transform.Size.Set(.75f);
                 b.Transform.Position.Set(0, Fonts.Button.Height * 1.25f * pi);
                 b.Click += () =>

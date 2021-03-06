@@ -67,7 +67,7 @@ namespace IAmTwo.LevelEditor
         {
             ItemCollection col = new ItemCollection();
 
-            _testLevelButton = new Button("Test Level\n\t[F2]", -10, 150);
+            _testLevelButton = new Button("Test Level\n\t[F2]", 150);
             _testLevelButton.Transform.Position.Set(10, 0);
             _testLevelButton.Click += () => LevelEditor.CurrentEditor.StartTestLevel(false);
 
@@ -109,16 +109,16 @@ namespace IAmTwo.LevelEditor
             int width = 130;
             float offset = -60;
 
-            _newL = new Button("New Level \n  [CTRL-N]", -10, width);
+            _newL = new Button("New Level \n  [CTRL-N]", width);
             _newL.Transform.Position.Set(10, offset);
             _newL.Click += () => SMRenderer.CurrentWindow.SetScene(new LevelEditor(new LevelConstructor()));
-            save = new Button("Save Level\n  [CTRL-S]", -10, width);
+            save = new Button("Save Level\n  [CTRL-S]", width);
             save.Transform.Position.Set(10, offset * 2);
             save.Click += () => LevelEditor.CurrentEditor.SaveDialog.Show();
-            load = new Button("Load Level\n  [CTRL-L]", -10, width);
+            load = new Button("Load Level\n  [CTRL-L]", width);
             load.Transform.Position.Set(10, offset * 3);
 
-            exit = new Button("Exit Editor\n  [CTRL-X]", -10, width);
+            exit = new Button("Exit Editor\n  [CTRL-X]", width);
             exit.Transform.Position.Set(10, -400);
             exit.Click += () => SMRenderer.CurrentWindow.SetScene(LevelEditorMainMenu.Scene);
 

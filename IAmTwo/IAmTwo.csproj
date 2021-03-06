@@ -101,6 +101,8 @@
     <Compile Include="LevelObjects\PlaceableObjectRegister.cs" />
     <Compile Include="Menu\Button.cs" />
     <Compile Include="Menu\FileBrowser.cs" />
+    <Compile Include="Menu\FileButton.cs" />
+    <Compile Include="Menu\ImageButton.cs" />
     <Compile Include="Menu\MouseCursor.cs" />
     <Compile Include="Menu\TextField.cs" />
     <Compile Include="Program.cs" />
@@ -124,10 +126,10 @@
     <EmbeddedResource Include="Shaders\GLSL\gameobject_frag.glsl" />
     <EmbeddedResource Include="Shaders\GLSL\Editor\grid_frag.glsl" />
     <EmbeddedResource Include="Shaders\GLSL\Editor\grid_vert.glsl" />
-    <None Include="Resources\segoeuil.ttf">
+    <None Include="Resources\GapSansBold.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\unispace bd.ttf">
+    <None Include="Resources\Urbanist-Regular.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -165,6 +167,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Cursor.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\fileIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\jumparrow_e.png">

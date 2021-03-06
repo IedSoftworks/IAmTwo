@@ -139,7 +139,7 @@ namespace IAmTwo.LevelEditor
 
         public void StartTestLevel(bool finialize)
         {
-            StoreInConstructor();
+            Constructor.ApplyItemLists(Objects);
 
             TestLevel lvl = new TestLevel(Constructor);
 
@@ -157,21 +157,27 @@ namespace IAmTwo.LevelEditor
         public override void Update(UpdateContext context)
         {
             HUD.Update(context);
-            
-            foreach (LevelEditorMenu menu in _menus)
+
+            bool overmenu = Mouse2D.MouseOver(Mouse2D.InWorld(HUDCamera), _menus.Where(a => a.Active).Select(a => a.Background).ToArray());
+
+            if (!overmenu)
             {
-                menu.Keybinds();
-
-                if (DisableInput) continue;
-
-                if (menu.Input())
+                foreach (LevelEditorMenu menu in _menus)
                 {
-                    menu.Active = !menu.Active;
-                    if (menu.Active)
+                    menu.Keybinds();
+
+                    if (DisableInput) continue;
+
+                    if (menu.Input())
                     {
-                        CloseAllMenus(menu);
-                        menu.Open();
-                    } else menu.Close();
+                        menu.Active = !menu.Active;
+                        if (menu.Active)
+                        {
+                            CloseAllMenus(menu);
+                            menu.Open();
+                        }
+                        else menu.Close();
+                    }
                 }
             }
 
@@ -244,55 +250,13 @@ namespace IAmTwo.LevelEditor
             else
             {
                 Vector2 mousePos = Mouse2D.InWorld(Camera);
-                bool overmenu = Mouse2D.MouseOver(Mouse2D.InWorld(HUDCamera), _menus.Where(a => a.RenderActive).Select(a => a.Background).ToArray());
+                
                 if (Mouse.IsDown(MouseButton.Left, true) && !overmenu)
                 {
                     Mouse2D.MouseOver(mousePos, out IPlaceableObject obj,
                         _placedObjects);
 
                     EditorSelection.UpdateSelection(obj);
-                }
-            }
-        }
-
-        public void StoreInConstructor()
-        {
-            Constructor.Objects = new List<ObjectConstructor>();
-            Constructor.Connections = new List<Tuple<int, int>>();
-            Constructor.Spawner = new List<int>();
-
-            foreach (IShowItem show in Objects)
-            {
-                if (show is IPlaceableObject basis)
-                {
-
-                    ObjectConstructor objConst = new ObjectConstructor()
-                    {
-                        ObjectType = basis.GetType(),
-                        ID = basis.ID,
-
-                        Position = basis.Transform.Position,
-                        Rotation = basis.Transform.Rotation,
-                        Size = basis.Transform.Size,
-
-                        Mirror = false,
-
-                        ConnectToID = -1,
-                    };
-                    if (basis is PlayerSpawner spawner) Constructor.Spawner.Add(spawner.ID);
-
-                    if (basis is IPlayerDependent pd) objConst.Mirror = pd.Mirror;
-
-                    if (basis is IConnectable con && con.ConnectedTo != null)
-                    {
-                        if (!Constructor.Connections.Contains(new Tuple<int, int>(basis.ID, con.ConnectedTo.ID)) &&
-                            !Constructor.Connections.Contains(new Tuple<int, int>(con.ConnectedTo.ID, basis.ID)))
-                        {
-                            Constructor.Connections.Add(new Tuple<int, int>(basis.ID, con.ConnectedTo.ID));
-                        }
-                    }
-
-                    Constructor.Objects.Add(objConst);
                 }
             }
         }

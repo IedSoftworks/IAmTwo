@@ -59,7 +59,7 @@ namespace IAmTwo.LevelEditor
                 ItemCollection nConnected = new ItemCollection();
 
                 DrawText header = new DrawText(Fonts.Text, "Not connected");
-                connectButton = new Button("Connect [C]", -10, 100);
+                connectButton = new Button("Connect [C]", 100);
                 connectButton.Transform.Position.Set(10, -30);
                 connectButton.Click += () => EnterConnectMode(obj);
                 

@@ -51,6 +51,8 @@ namespace IAmTwo.Game
             _hitbox.Update(Transform.GetMatrix(), Transform.Rotation);
         }
 
+        public bool UpdateActive { get; set; }
+
         public virtual void Update(UpdateContext context)
         {
             if (Disabled || Passive) return;

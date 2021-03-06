@@ -40,5 +40,23 @@ namespace IAmTwo.Resources
                 LineWidth = 2
             };
         }
+
+        public static Polygon CreateBackgroundPolygon(Vector2 size, float cornerSize)
+        {
+            Vector2 halfSize = size / 2;
+
+            return new Polygon(new Vector2[]
+            {
+                new Vector2(-halfSize.X, halfSize.Y - cornerSize),
+                new Vector2(-halfSize.X + cornerSize, halfSize.Y),
+                new Vector2(halfSize.X, halfSize.Y),
+                new Vector2(halfSize.X, -halfSize.Y + cornerSize),
+                new Vector2(halfSize.X - cornerSize, -halfSize.Y),
+                new Vector2(-halfSize.X, -halfSize.Y),
+            })
+            {
+                LineWidth = 2f
+            };
+        }
     }
 }

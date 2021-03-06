@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Security.Cryptography;
+using IAmTwo.Game;
 using IAmTwo.Resources;
 using OpenTK;
 using OpenTK.Graphics;
@@ -21,34 +22,29 @@ namespace IAmTwo.Menu
 {
     public class Button : ItemCollection
     {
-        private DrawObject2D _border;
-        private InstancedMesh _borderMesh;
+        protected DrawObject2D _border;
+        protected Polygon _borderMesh;
         private Camera _lastCam;
 
         public event Action Click;
 
-        public Button(string text, float? start = null, float? width = null)
+        public Button(string text, float? width = null)
         {
             DrawText drawText = new DrawText(Fonts.Button, text);
             drawText.GenerateMatrixes();
 
-            float w = width.HasValue ? width.Value : drawText.Width;
-            float s = start.HasValue ? start.Value : -Fonts.Button.Positions[text[0]].Width / 2;
+            float w = width ?? drawText.Width;
 
-            _borderMesh = new InstancedMesh(PrimitiveType.Lines, new string[0]);
-            _borderMesh.Vertex.Add(
-                new Vector3(s, drawText.Height / 2, 0),
-                new Vector3(s, -drawText.Height / 2,0),
-                new Vector3(s + w, -drawText.Height / 2, 0),
-                new Vector3(s + w, drawText.Height / 2, 0)
-            );
-            _borderMesh.LineWidth = 2;
+            _borderMesh = Models.CreateBackgroundPolygon(new Vector2(w, drawText.Height), 10);
 
-            _border = new DrawObject2D();
+            _border = new DrawObject2D()
+            {
+                Mesh = _borderMesh,
+                ForcedMeshType = PrimitiveType.LineLoop,
+                ShaderArguments = { ["ColorScale"] = 1.4f},
+            };
             _border.Transform.Size.Set(1.2f);
-            _border.Transform.Position.Y = -(drawText.Height - Fonts.Button.Height)/ 2;
-            _border.Mesh = _borderMesh;
-            _border.ShaderArguments["ColorScale"] = 1.4f;
+            _border.Transform.Position.Set(w / 2 - 10, -(drawText.Height - Fonts.Button.Height) / 2);
             
             Add(drawText, _border);
         }

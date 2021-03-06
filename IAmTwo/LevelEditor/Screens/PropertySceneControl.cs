@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using IAmTwo.Menu;
 using IAmTwo.Resources;
 using OpenTK;
 using OpenTK.Input;
@@ -14,19 +15,32 @@ namespace IAmTwo.LevelEditor
 {
     public class PropertySceneControl : ItemCollection
     {
-        private Button _testButton;
+        private DrawText percentageViewer;
 
         public PropertySceneControl()
         {
             DrawText header = new DrawText(Fonts.Button, "Scene Properties");
 
-            ItemCollection levelsize = GenerateLevelSizeControl();
-            levelsize.Transform.Position.Set(0, -50);
 
-            Add(header, levelsize);
+            ItemCollection levelName = new ItemCollection();
+            levelName.Transform.Position.Set(0, -50);
+            
+            DrawText levelNameText = new DrawText(Fonts.Text, "Level Name");
+
+            TextField levelNameEntry = new TextField(Fonts.Button, width: 175);
+            levelNameEntry.Transform.Position.Set(17.5f, -30f);
+            levelNameEntry.Changed += () => LevelEditor.CurrentEditor.Constructor.LevelName = levelNameEntry.Text;
+
+            levelName.Add(levelNameText, levelNameEntry);
+
+
+            ItemCollection levelsize = GenerateLevelSizeControl();
+            levelsize.Transform.Position.Set(0, -120);
+
+
+            Add(header, levelName, levelsize);
         }
 
-        private DrawText percentageViewer;
 
         public void ExecuteKeybinds()
         { }
@@ -40,11 +54,11 @@ namespace IAmTwo.LevelEditor
             percentageViewer = new DrawText(Fonts.Text, "100%");
             percentageViewer.Transform.Position.Set(100, -35);
 
-            Button decreaseButton = new Button("-", -10, 20);
+            Button decreaseButton = new Button("-", 20);
             decreaseButton.Transform.Position.Set(10, -35);
             decreaseButton.Click += () => UpdateSize(-.1f);
 
-            Button increaseButton = new Button("+", -10, 20);
+            Button increaseButton = new Button("+", 20);
             increaseButton.Transform.Position.Set(50, -35);
             increaseButton.Click += () => UpdateSize(.1f);
 

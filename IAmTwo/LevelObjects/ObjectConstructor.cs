@@ -3,6 +3,7 @@ using OpenTK;
 
 namespace IAmTwo.LevelObjects
 {
+    [Serializable]
     public struct ObjectConstructor
     {
         public Type ObjectType;
