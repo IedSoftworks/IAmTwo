@@ -1,6 +1,7 @@
 ﻿F1 - Open/Closes Help
 
 Menus:
+ESC - Guess...
 Q - Open Object Selection
 P - Open Proerty Menu 
 	Context Specific: When Object selected, it will show the object properties.

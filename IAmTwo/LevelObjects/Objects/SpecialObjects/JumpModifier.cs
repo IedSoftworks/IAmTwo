@@ -32,7 +32,7 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
             Transform.Rotation.Changed += HandleMultiplierChange;
 
             Texture = Resource.RequestTexture(@".\Resources\jumparrow_e.png");
-            Transform.Rotation.Set(180);
+            TextureTransform.Rotation.Set(180);
             ShaderArguments["ColorScale"] = 1f;
             Material.Blending = true;
         }

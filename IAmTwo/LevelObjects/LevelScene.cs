@@ -9,6 +9,7 @@ using SM.Base.Controls;
 using SM.Base.Scene;
 using SM.Base.Time;
 using SM.Base.Windows;
+using SM.Utility;
 using SM2D.Scene;
 using MouseCursor = IAmTwo.Menu.MouseCursor;
 
@@ -118,6 +119,7 @@ namespace IAmTwo.LevelObjects
             base.Deactivate();
 
             PhysicsObject.Colliders.Clear();
+            Util.CallGarbageCollector();
         }
 
         protected void GenerateWalls()

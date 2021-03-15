@@ -2,11 +2,10 @@
 
 in vec3 v_VertexPosition;
 
-uniform vec4 ObjColor;
-uniform float Rot;
-uniform float RingLoc;
+uniform float yPos;
+uniform vec4 Color;
 
-layout(location = 0) out vec4 Color;
+layout(location = 0) out vec4 color;
 
 #define rot(x, k) (((x) << (k)) | ((x) >> (32 - (k))))
 #define final(a, b, c)  { c ^= b; c -= rot(b, 14); a ^= c; a -= rot(c, 11); b ^= a; b -= rot(a, 25); c ^= b; c -= rot(b, 16); a ^= c; a -= rot(c, 4); b ^= a; b -= rot(a, 14); c ^= b; c -= rot(b, 24); }
@@ -126,7 +125,6 @@ float noise(vec2 p)
 {
   return 0.5 * snoise(p) + 0.5;
 }
-
 float fractal_noise(vec2 p, float octaves, float roughness)
 {
   float fscale = 1.0;
@@ -156,7 +154,7 @@ float fractal_noise(vec2 p, float octaves, float roughness)
 }
 
 
-vec4 node_noise_texture_2d(vec3 co, float w, float scale, float detail, float roughness, float distortion)
+float node_noise_texture_2d(vec3 co, float w, float scale, float detail, float roughness, float distortion)
 {
   vec2 p = co.xy * scale;
   if (distortion != 0.0) {
@@ -164,10 +162,7 @@ vec4 node_noise_texture_2d(vec3 co, float w, float scale, float detail, float ro
               snoise(p + random_vec2_offset(1.0)) * distortion);
   }
   
-  return vec4(fractal_noise(p, detail, roughness),
-               fractal_noise(p + random_vec2_offset(2.0), detail, roughness),
-               fractal_noise(p + random_vec2_offset(3.0), detail, roughness),
-               1.0);
+  return fractal_noise(p, detail, roughness);
 }
 
 vec4 mix_linear(float fac, vec4 col1, vec4 col2)
@@ -183,16 +178,16 @@ float math_compare(float a, float b, float c)
 }
 
 void main() {
+	vec3 vertex = v_VertexPosition * 2;
 
-    vec4 noise = node_noise_texture_2d(v_VertexPosition * 2, 0, 14.4, 0, 1, 0);
-    vec3 mapped = mapping_point(v_VertexPosition * 2, vec3(0), vec3(0,0,Rot), vec3(1));
+    
+    vec3 map = mapping_point(vertex, vec3(0, -yPos, 0), vec3(0), vec3(1));
+    float noise = node_noise_texture_2d(map,0, 1, 3, .5, 3.49);
 
-    vec4 col = mix_linear(0.04, vec4(mapped, 1), noise);
+    float v = .34;
+    float s = (noise < v + .10 ? 1 : 0) - (noise < v ? 1 : 0);
 
-    float len = length(col.rgb);
+    float fResult = s;
 
-    float com = math_compare(len, 1, .075) + math_compare(len, RingLoc, .075);
-
-    Color = ObjColor * vec4(com, com, com, 1) * 1.2;
-
+    color = vec4(fResult, fResult, fResult, (.86 - vertex.y) * (fResult + .5)) * Color * 1.2;
 }

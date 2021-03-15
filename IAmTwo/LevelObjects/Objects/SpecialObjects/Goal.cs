@@ -1,6 +1,9 @@
 ﻿using IAmTwo.Game;
+using IAmTwo.Shaders;
 using OpenTK;
 using OpenTK.Graphics;
+using SM.Base.Windows;
+using SM.Utility;
 
 namespace IAmTwo.LevelObjects.Objects.SpecialObjects
 {
@@ -20,6 +23,7 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
         }
 
         private Color4 _oldColor;
+        private float y;
 
         public Goal()
         {
@@ -28,12 +32,22 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
             AllowedScaling = ScaleArgs.NoScaling;
             AllowedRotationSteps = 0;
             Category = "Essential";
-            StartSize = new Vector2(50);
+            StartSize = new Vector2(75, 200);
 
+            Transform.Size.Set(StartSize);
 
-            Transform.Size.Set(50);
+            Material.Blending = true;
+            Material.CustomShader = ShaderCollection.Shaders["Goal"].GetShader();
 
             Color = ColorPallete.Player;
+        }
+
+        protected override void DrawContext(ref DrawContext context)
+        {
+            y += Deltatime.RenderDelta / 20;
+            ShaderArguments["yPos"] = y;
+
+            base.DrawContext(ref context);
         }
 
         public override void BeganCollision(SpecialActor p, Vector2 mtv)
@@ -49,20 +63,5 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
                 Color = Color4.White;
             }
         }
-
-        public override void EndCollision(SpecialActor p, Vector2 mtv)
-        {
-            base.EndCollision(p, mtv);
-            if (!(p is Player)) return;
-            Player player = (Player)p;
-
-            bool allowed = (Mirror && player.Mirror) || (!Mirror && !player.Mirror);
-
-            if (allowed)
-            {
-                Color = _oldColor;
-            }
-        }
-
     }
 }

@@ -36,12 +36,9 @@ namespace IAmTwo.LevelEditor
         public Action<IPlaceableObject> MouseAction;
 
         public LevelEditorSelection EditorSelection;
-        public SaveDialog SaveDialog;
 
         public LevelEditor(LevelConstructor constructor) : base(constructor)
-        {
-            ConstructWorld = false;
-        }
+        { }
 
         public override void Initialization()
         {
@@ -79,11 +76,9 @@ namespace IAmTwo.LevelEditor
             propertyControl.Transform.Position.Set(500 - PropertyControl.Width / 2, 0);
 
             EscapeControl escControl = new EscapeControl();
-
-            SaveDialog = new SaveDialog();
-
+            
             _menus = new LevelEditorMenu[]{
-                objectMenu, helpScreen, propertyControl, escControl, SaveDialog
+                objectMenu, helpScreen, propertyControl, escControl
             };
             HUD.Add(_menus);
             CloseAllMenus();
@@ -159,25 +154,21 @@ namespace IAmTwo.LevelEditor
             HUD.Update(context);
 
             bool overmenu = Mouse2D.MouseOver(Mouse2D.InWorld(HUDCamera), _menus.Where(a => a.Active).Select(a => a.Background).ToArray());
-
-            if (!overmenu)
+            foreach (LevelEditorMenu menu in _menus)
             {
-                foreach (LevelEditorMenu menu in _menus)
+                if (!overmenu) menu.Keybinds();
+
+                if (DisableInput) continue;
+
+                if (menu.Input())
                 {
-                    menu.Keybinds();
-
-                    if (DisableInput) continue;
-
-                    if (menu.Input())
+                    menu.Active = !menu.Active;
+                    if (menu.Active)
                     {
-                        menu.Active = !menu.Active;
-                        if (menu.Active)
-                        {
-                            CloseAllMenus(menu);
-                            menu.Open();
-                        }
-                        else menu.Close();
+                        CloseAllMenus(menu);
+                        menu.Open();
                     }
+                    else menu.Close();
                 }
             }
 

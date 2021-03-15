@@ -17,7 +17,8 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
 
         internal PortalConnector _connector;
         internal Portal _counterPart;
-        private Vector2 _shaderMove;
+        private float _rot;
+        public float _ringLoc;
         
         public List<SpecialActor> GotTransported = new List<SpecialActor>();
 
@@ -27,6 +28,9 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
 
         public Portal()
         {
+            _rot = 0;
+            _ringLoc = 1;
+
             Name = "Portal";
 
             AllowedScaling = ScaleArgs.NoScaling;
@@ -44,8 +48,12 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
 
         protected override void DrawContext(ref DrawContext context)
         {
-            _shaderMove.X += Deltatime.RenderDelta * .1f;
-            ShaderArguments["move"] = (Vector2)_shaderMove;
+            _rot += Deltatime.RenderDelta * .1f;
+            _ringLoc -= Deltatime.RenderDelta / 2;
+            if (_ringLoc < 0) _ringLoc = 1;
+
+            ShaderArguments["move"] = _rot;
+            ShaderArguments["ringLoc"] = _ringLoc;
             base.DrawContext(ref context);
         }
 
@@ -92,6 +100,7 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
             if (obj is Portal portal)
             {
                 _connector = portal._connector = new PortalConnector(this, portal);
+                portal._ringLoc = _ringLoc;
 
                 ConnectedTo = portal;
                 portal.ConnectedTo = this;

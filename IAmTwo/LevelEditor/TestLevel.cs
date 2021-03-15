@@ -27,7 +27,7 @@ namespace IAmTwo.LevelEditor
 
         public override void Update(UpdateContext context)
         {
-            if (Keyboard.IsDown(Key.F5, true) || Keyboard.IsDown(Key.Escape, true))
+            if (Keyboard.IsDown(Key.F2, true) || Keyboard.IsDown(Key.Escape, true))
                 SMRenderer.CurrentWindow.SetScene(LevelEditor.CurrentEditor);
 
             base.Update(context);

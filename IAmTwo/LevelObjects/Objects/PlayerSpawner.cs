@@ -33,7 +33,8 @@ namespace IAmTwo.LevelObjects.Objects
         private Timer _spawnTimer;
 
         private Player _player;
-        private CVector2 _shaderMove = new CVector2(0);
+        private float _rot;
+        private float _ringLoc;
 
         public PlayerSpawner()
         {
@@ -45,7 +46,8 @@ namespace IAmTwo.LevelObjects.Objects
 
             ApplyPolygon(Circle);
 
-            _shaderMove = new Vector2(0, Randomize.GetFloat(-1, 1));
+            _rot = 0;
+            _ringLoc = 0;
             Color = Mirror ? ColorPallete.Mirror : ColorPallete.Player;
             SetShader(ShaderCollection.Shaders["Portal"].GetShader());
             
@@ -66,8 +68,12 @@ namespace IAmTwo.LevelObjects.Objects
 
         protected override void DrawContext(ref DrawContext context)
         {
-            _shaderMove.X += Deltatime.RenderDelta * .1f * (Mirror ? -1 : 1);
-            ShaderArguments["move"] = (Vector2)_shaderMove;
+            _rot += Deltatime.RenderDelta * .1f * (Mirror ? -1 : 1);
+            _ringLoc += Deltatime.RenderDelta / 2;
+            _ringLoc %= 1.1f;
+
+            ShaderArguments["move"] = _rot;
+            ShaderArguments["ringLoc"] = _ringLoc;
             base.DrawContext(ref context);
         }
 

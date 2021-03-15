@@ -21,8 +21,6 @@ namespace IAmTwo.LevelEditor
 {
     public class ObjectSelection : LevelEditorMenu
     {
-        
-
         public static float Height = 100;
 
         private ItemCollection _buttons;
@@ -107,7 +105,7 @@ namespace IAmTwo.LevelEditor
             col.Add(_buttons);
 
             _items.Transform.Position.Set(-300, 0);
-            _items.Transform.Size.Set(1.1f);
+            _items.Transform.Size.Set(1f);
             col.Add(_items);
 
             return col;

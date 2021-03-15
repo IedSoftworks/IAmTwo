@@ -80,12 +80,14 @@ namespace IAmTwo.Menu
                     }
 
                     TextObj.Text = _text;
+                    Changed?.Invoke();
                 }
 
                 if (Keyboard.IsDown(Key.Space, true))
                 {
                     _text += " ";
                     TextObj.Text = _text;
+                    Changed?.Invoke();
                 }
 
                 if (Keyboard.IsDown(Key.BackSpace, true) && _text.Length > 0)
@@ -93,6 +95,7 @@ namespace IAmTwo.Menu
                     _text = _text.Remove(_text.Length - 1);
 
                     TextObj.Text = _text;
+                    Changed?.Invoke();
                 }
             }
             else
@@ -101,9 +104,9 @@ namespace IAmTwo.Menu
             }
         }
 
-        public void SetText(string text)
+        public void SetText(string text, bool force = false)
         {
-            if (!string.IsNullOrEmpty(_text)) TextObj.Text = _text = text;
+            if (!string.IsNullOrEmpty(_text) || force) TextObj.Text = _text = text;
         }
 
         public override void Draw(DrawContext context)

@@ -18,17 +18,23 @@ using Mouse = SM.Base.Controls.Mouse;
 
 namespace IAmTwo.LevelEditor
 {
-    public class ObjectButton : ItemCollection
+    public class ObjectButton : Button
     {
         private static float _scale = .9f;
+
+        private Camera _lastCam;
 
         private IPlaceableObject _placeObject;
         private bool _allowedClick;
         private DrawObject2D _borderObject;
 
-        public ObjectButton(IPlaceableObject obj)
+        public ObjectButton(IPlaceableObject obj) : base("")
         {
+            Name = "Object Button";
             _placeObject = obj;
+
+            Objects.Clear();
+            Click += ClickEvent;
 
             float aspect = CalculateAspect(obj.StartSize, out bool xGTRy);
             if (xGTRy)
@@ -36,17 +42,19 @@ namespace IAmTwo.LevelEditor
             else
                 obj.Transform.Size.Set(_scale / aspect, _scale, false);
 
-            _borderObject = new DrawObject2D {Mesh = Models.QuadricBorder, Transform = {Position = obj.Transform.Position}};
-            _borderObject.Transform.Size.Set(1f);
-            _borderObject.Color = Color4.Blue;
-            _borderObject.ShaderArguments["ColorScale"] = 1.4f;
-            _borderObject.Transform.Position.Set(0, -.1f);
+            Remove(_border);
+
+            _border = new DrawObject2D {Mesh = Models.QuadricBorder, Transform = {Position = obj.Transform.Position}};
+            _border.Transform.Size.Set(1f, 1f);
+            _border.Color = Color4.Blue;
+            _border.ShaderArguments["ColorScale"] = 1.4f;
+            _border.Transform.Position.Set(0, -.1f);
 
             DrawText title = new DrawText(Fonts.Button, obj.Name);
             title.Transform.Position.Set(-.5f, .6f);
-            title.Transform.Size.Set(.005f);
+            title.Transform.Size.Set(.0075f);
             
-            Add(obj, _borderObject, title);
+            Add(obj, _border, title);
             PhysicsObject.Colliders.Remove(obj.Hitbox);
         }
 
@@ -64,33 +72,15 @@ namespace IAmTwo.LevelEditor
             }
         }
 
-        public override void Update(UpdateContext context)
+        private void ClickEvent()
         {
-            if (_allowedClick)
+            IPlaceableObject obj = (IPlaceableObject)Activator.CreateInstance(_placeObject.GetType());
+            obj.Transform.Size.Set(_placeObject.StartSize);
+
+            if (!LevelEditor.CurrentEditor.Add(obj))
             {
-                _borderObject.Color = Color4.LightBlue;
-
-                if (Mouse.IsDown(MouseButton.Left, true))
-                {
-                    IPlaceableObject obj = (IPlaceableObject)Activator.CreateInstance(_placeObject.GetType());
-                    obj.Transform.Size.Set(_placeObject.StartSize);
-
-                    if (!LevelEditor.CurrentEditor.Add(obj))
-                    {
-                        _borderObject.Color = Color4.Red;
-                    }
-                }
-            } 
-            else _borderObject.Color = Color4.Blue;
-        }
-
-        public override void Draw(DrawContext context)
-        {
-            Vector2 mousePos = Mouse2D.InWorld(context.UseCamera as Camera);
-
-            _allowedClick = Mouse2D.MouseOver(mousePos, out _, _borderObject);
-
-            base.Draw(context);
+                _borderObject.Color = Color4.Red;
+            }
         }
     }
 }

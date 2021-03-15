@@ -1,7 +1,8 @@
 ﻿using System;
+using System.IO;
+using System.Windows.Forms;
 using IAmTwo.Game;
 using IAmTwo.LevelObjects;
-using IAmTwo.Menu;
 using IAmTwo.Resources;
 using OpenTK;
 using OpenTK.Graphics;
@@ -11,11 +12,12 @@ using SM.Base.Objects;
 using SM.Base.Windows;
 using SM2D.Drawing;
 using SM2D.Scene;
+using Button = IAmTwo.Menu.Button;
 using Keyboard = SM.Base.Controls.Keyboard;
 
 namespace IAmTwo.LevelEditor
 {
-    public class EscapeControl : LevelEditorMenu
+    public class EscapeControl : LevelEditorDialog
     {
         public static Vector2 Size = new Vector2(500, 400);
 
@@ -28,19 +30,8 @@ namespace IAmTwo.LevelEditor
 
         public override DrawObject2D Background { get; set; }
 
-        public EscapeControl()
+        public EscapeControl() : base(Size)
         {
-            Background = new DrawObject2D {Color = ColorPallete.Background};
-            Background.Transform.Size.Set(Size);
-
-            DrawObject2D border = new DrawObject2D
-            {
-                Color = Color4.Red, 
-                Mesh = Models.QuadricBorderNotConnected
-            };
-            border.ShaderArguments["ColorScale"] = 1.2f;
-            border.Transform.Size.Set(Size);
-
             ItemCollection items = new ItemCollection();
             items.Transform.Position.Set(0, Size.Y / 2 - 30);
             items.Transform.Size.Set(.8f);
@@ -60,7 +51,7 @@ namespace IAmTwo.LevelEditor
 
             items.Add(testActions, itemsBorder, fileActions);
 
-            Add(Background, border, items);
+            Add(items);
         }
 
         private ItemCollection CreateTestActions()
@@ -114,9 +105,10 @@ namespace IAmTwo.LevelEditor
             _newL.Click += () => SMRenderer.CurrentWindow.SetScene(new LevelEditor(new LevelConstructor()));
             save = new Button("Save Level\n  [CTRL-S]", width);
             save.Transform.Position.Set(10, offset * 2);
-            save.Click += () => LevelEditor.CurrentEditor.SaveDialog.Show();
+            save.Click += SaveFile;
             load = new Button("Load Level\n  [CTRL-L]", width);
             load.Transform.Position.Set(10, offset * 3);
+            load.Click += LevelEditorMainMenu.LoadLevel;
 
             exit = new Button("Exit Editor\n  [CTRL-X]", width);
             exit.Transform.Position.Set(10, -400);
@@ -125,6 +117,29 @@ namespace IAmTwo.LevelEditor
             col.Add(header, _newL, save, load, exit);
 
             return col;
+        }
+
+        private void SaveFile()
+        {
+            LevelConstructor constructor = LevelEditor.CurrentEditor.Constructor;
+
+            if (string.IsNullOrEmpty(constructor.LevelPath))
+            {
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.DefaultExt = ".iatl";
+                sfd.Title = "Select a path where to store the level.";
+                sfd.InitialDirectory = Path.GetFullPath("Levels");
+                sfd.OverwritePrompt = true;
+                
+                if (sfd.ShowDialog() != DialogResult.OK) return;
+
+                constructor.LevelPath = sfd.FileName;
+            }
+
+            if (File.Exists(constructor.LevelPath)) File.Delete(constructor.LevelPath);
+            using (FileStream stream = new FileStream(constructor.LevelPath, FileMode.OpenOrCreate))
+                constructor.Store(stream, LevelEditor.CurrentEditor.Objects);
+
         }
     }
 }

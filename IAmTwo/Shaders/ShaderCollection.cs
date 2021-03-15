@@ -20,7 +20,7 @@ namespace IAmTwo.Shaders
             {"Default", new ImportedShader()
             {
                 VertexPreset = "instanced",
-                Fragment = "default_frag.glsl",
+                HighFragment = "default_frag.glsl",
                 Uniform = (u, c) =>
                 {
                     u["Texture"].SetTexture(c.Material.Texture, u["HasTexture"]);
@@ -38,21 +38,24 @@ namespace IAmTwo.Shaders
             {"Portal", new ImportedShader()
             {
                 VertexPreset = "basic",
-                Fragment = "spawner_frag.glsl",
+                HighFragment = "spawner_frag.glsl",
                 Uniform = (u, c) =>
                 {
                     u["ObjColor"].SetUniform4(c.Material.Tint);
-                    u["Movement"].SetUniform2(c.Material.ShaderArguments.Get("move", Vector2.Zero));
+                    u["Rot"].SetUniform1(c.Material.ShaderArguments.Get("move", 0f));
+                    u["RingLoc"].SetUniform1(c.Material.ShaderArguments.Get("ringLoc",   0f));
                 }
             }},
             {"PortalConnector", new ImportedShader()
             {
                 VertexPreset = "basic",
                 VertexExtension = "portal_connector_vert.glsl",
-                Fragment = "portal_connector_frag.glsl",
+                HighFragment = "portal_connector_frag.glsl",
                 Uniform = (u, c) =>
                 {
-                    u["Size"].SetUniform2(c.Material.ShaderArguments.Get("ConnectorLength", Vector2.One));
+                    u["Size"].SetUniform2(c.Material.ShaderArguments.Get("ConnectorLength", Vector2.Zero));
+
+                    u["Motion"].SetUniform1(c.Material.ShaderArguments.Get("shaderMotion", 0f));
 
                     List<PortalTraveler> currentTravelers = c.Material.ShaderArguments.Get<List<PortalTraveler>>("Actors");
                     UniformArray uniformArray = u.GetArray("Actors");
@@ -73,7 +76,7 @@ namespace IAmTwo.Shaders
                 {
                     VertexPreset = "basic",
                     VertexExtension = "portal_connector_vert.glsl",
-                    Fragment = "door_frag.glsl",
+                    HighFragment = "door_frag.glsl",
                     Uniform = (u, c) =>
                     {
                         u["Size"].SetUniform2(c.Material.ShaderArguments.Get("Size", Vector2.One));
@@ -86,10 +89,21 @@ namespace IAmTwo.Shaders
             {"GameObject", new ImportedShader()
             {
                 VertexPreset = "basic",
-                Fragment = "gameobject_frag.glsl",
+                HighFragment = "gameobject_frag.glsl",
                 Uniform = (collection, context) =>
                 {
                     collection["xTexScale"].SetUniform1(context.Material.ShaderArguments.Get("xTex", 1f));
+                }
+            }
+            },
+            {"Goal", new ImportedShader()
+            {
+                VertexPreset = "basic",
+                HighFragment = "goal_frag.glsl",
+                Uniform = (u, c) =>
+                {
+                    u["yPos"].SetUniform1(c.Material.ShaderArguments.Get("yPos", 0f));
+                    u["Color"].SetUniform4(c.Material.Tint);
                 }
             }}
         };
@@ -100,7 +114,7 @@ namespace IAmTwo.Shaders
             {
                 VertexPreset = "basic",
                 VertexExtension = "Editor.grid_vert.glsl",
-                Fragment = "Editor.grid_frag.glsl",
+                HighFragment = "Editor.grid_frag.glsl",
                 Uniform = (u, c) =>
                 {
                     u["Gamma"].SetUniform1(PostProcessFinals.Gamma);

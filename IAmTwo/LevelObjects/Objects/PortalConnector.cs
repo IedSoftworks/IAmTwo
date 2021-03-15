@@ -6,6 +6,7 @@ using IAmTwo.Shaders;
 using OpenTK;
 using OpenTK.Graphics;
 using SM.Base.Time;
+using SM.Base.Windows;
 using SM.Utility;
 using SM2D.Drawing;
 using SM2D.Object;
@@ -26,6 +27,7 @@ namespace IAmTwo.LevelObjects.Objects
         public const float ConnectionWidth = 20;
 
         private float _distance;
+        private float _shaderMotion;
         private List<PortalTraveler> _currentTravelers = new List<PortalTraveler>();
 
         public Portal Entrance;
@@ -34,6 +36,8 @@ namespace IAmTwo.LevelObjects.Objects
 
         public PortalConnector(Portal entrance, Portal exit)
         {
+            _shaderMotion = 0;
+
             Entrance = entrance;
             Exit = exit;
 
@@ -65,6 +69,14 @@ namespace IAmTwo.LevelObjects.Objects
             Connection.Transform.Rotation.Set(RotationUtility.TurnTowards(Vector2.Zero, norm));
 
             Connection.ShaderArguments["ConnectorLength"] = (Vector2)Connection.Transform.Size;
+        }
+
+        public override void Draw(DrawContext context)
+        {
+            _shaderMotion += Deltatime.RenderDelta / 10;
+            Connection.ShaderArguments["shaderMotion"] = _shaderMotion;
+
+            base.Draw(context);
         }
 
         public void ReadyTransport(Portal emittingPortal, Portal counterPortal, SpecialActor a)

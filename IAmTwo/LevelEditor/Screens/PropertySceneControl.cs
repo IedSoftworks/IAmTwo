@@ -29,7 +29,8 @@ namespace IAmTwo.LevelEditor
 
             TextField levelNameEntry = new TextField(Fonts.Button, width: 175);
             levelNameEntry.Transform.Position.Set(17.5f, -30f);
-            levelNameEntry.Changed += () => LevelEditor.CurrentEditor.Constructor.LevelName = levelNameEntry.Text;
+            levelNameEntry.Changed += () => 
+                LevelEditor.CurrentEditor.Constructor.LevelName = levelNameEntry.Text;
 
             levelName.Add(levelNameText, levelNameEntry);
 
