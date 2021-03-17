@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using IAmTwo.Game;
 using IAmTwo.LevelObjects;
+using IAmTwo.Resources;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Input;
@@ -10,6 +11,7 @@ using SM.Base;
 using SM.Base.Time;
 using SM.Base.Window;
 using SM2D.Controls;
+using SM2D.Drawing;
 using SM2D.Scene;
 using Keyboard = SM.Base.Controls.Keyboard;
 using Mouse = SM.Base.Controls.Mouse;
@@ -22,6 +24,7 @@ namespace IAmTwo.LevelEditor
         
         private Dictionary<Type, bool> _playerDependentObjects = new Dictionary<Type, bool>();
         private LevelEditorMenu[] _menus;
+        private DrawText _firstHelptext;
 
         public bool DisableInput = false;
 
@@ -53,6 +56,17 @@ namespace IAmTwo.LevelEditor
             EditorSelection = new LevelEditorSelection();
 
             Objects.Add(EditorSelection);
+
+            _firstHelptext = new DrawText(Fonts.Text, "Press F1 to open the help.");
+            _firstHelptext.Transform.Position.Set(-50, (HUDCamera.RequestedWorldScale.Value.Y / 2)- 20);
+            HUD.Add(_firstHelptext);
+
+            Timer helpTimer = new Timer(5f);
+            helpTimer.End += (timer, context) =>
+            {
+                if (HUD.Contains(_firstHelptext)) HUD.Remove(_firstHelptext);
+            };
+            helpTimer.Start();
 
             // HUD (menus)
             ObjectSelection objectMenu = new ObjectSelection();
@@ -154,6 +168,8 @@ namespace IAmTwo.LevelEditor
 
                 if (menu.Input())
                 {
+                    if (HUD.Contains(_firstHelptext)) HUD.Remove(_firstHelptext);
+
                     menu.Active = !menu.Active;
                     if (menu.Active)
                     {

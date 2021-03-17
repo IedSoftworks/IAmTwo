@@ -1,9 +1,12 @@
 ﻿using IAmTwo.Game;
 using IAmTwo.Resources;
+using OpenTK;
 using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL4;
 using OpenTK.Input;
 using SM.Base.Utility;
 using SM2D.Drawing;
+using SM2D.Object;
 using Keyboard = SM.Base.Controls.Keyboard;
 
 namespace IAmTwo.LevelEditor
@@ -22,14 +25,17 @@ namespace IAmTwo.LevelEditor
             text.Transform.Position.Set(-text.Width / 2 + 10, text.Height/ 2 - 10);
             text.Transform.Size.Set(.7f);
 
-            Background = new DrawObject2D {Color = ColorPallete.Background};
-            Background.Transform.Size.Set(text.Width, text.Height);
+            Polygon p = Models.CreateBackgroundPolygon(new Vector2(text.Width, text.Height), 10);
+
+            Background = new DrawObject2D {Color = ColorPallete.Background, Mesh = p };
+            Background.Transform.Size.Set(1);
 
             DrawObject2D border = new DrawObject2D()
             {
-                Color = Color4.Green
+                Color = Color4.Green,
+                Mesh = p,
+                ForcedMeshType = PrimitiveType.LineLoop
             };
-            border.Mesh = Models.QuadricBorder;
             border.ShaderArguments["ColorScale"] = 2.1f;
             border.Transform.Size = Background.Transform.Size;
 
