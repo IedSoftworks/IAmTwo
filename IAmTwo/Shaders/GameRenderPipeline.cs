@@ -22,14 +22,13 @@ namespace IAmTwo.Shaders
 
         public override void Initialization()
         {
-            MainFramebuffer = CreateWindowFramebuffer(16);
+            MainFramebuffer = CreateWindowFramebuffer(0);
             MainFramebuffer.ColorAttachments["color"].PixelInformation = PixelInformation.RGBA_HDR;
 
             Framebuffers.Add(_postBuffer = CreateWindowFramebuffer(0));
             _bloom = new BloomEffect(_postBuffer, true, .75f)
             {
-                WeightCurvePickAmount = 4,
-
+                Iterations = 8,
                 Threshold = .9f,
                 Power = 1,
                 AmountMap = Resource.RequestTexture(@".\Resources\bloom_amountMap.png"),
@@ -55,8 +54,8 @@ namespace IAmTwo.Shaders
             _postBuffer.Activate(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             PostProcessFinals.ResolveMultisampledBuffers(MainFramebuffer, _postBuffer);
 
-            BloomAmountTransform.Offset.Add(Deltatime.RenderDelta * .025f, 0);
-            _bloom.Draw(context);
+            //BloomAmountTransform.Offset.Add(Deltatime.RenderDelta * .025f, 0);
+            //_bloom.Draw(context);
 
             Framebuffer.Screen.Activate(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             PostProcessFinals.FinalizeHDR(_postBuffer.ColorAttachments["color"], .5f);

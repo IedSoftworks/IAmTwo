@@ -8,6 +8,7 @@ using SM.Base;
 using SM.Base.Controls;
 using SM.Base.Scene;
 using SM.Base.Time;
+using SM.Base.Window.Contexts;
 using SM.Base.Windows;
 using SM.Utility;
 using SM2D.Scene;
@@ -104,14 +105,14 @@ namespace IAmTwo.LevelObjects
             MouseCursor.Cursor.Draw(context);
         }
 
-        public override void Update(UpdateContext context)
+        public override void FixedUpdate(FixedUpdateContext context)
         {
-            foreach (Hitbox collider in PhysicsObject.Colliders)
+            foreach (Hitbox collider in PhysicsObject.Colliders.ToArray())
             {
                 collider.PhysicsObject.UpdateHitbox();
             }
 
-            base.Update(context);
+            base.FixedUpdate(context);
         }
 
         public override void Deactivate()

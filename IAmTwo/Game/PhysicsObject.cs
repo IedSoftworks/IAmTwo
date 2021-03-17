@@ -5,12 +5,14 @@ using KWEngine.Hitbox;
 using OpenTK;
 using SM.Base.Scene;
 using SM.Base.Time;
+using SM.Base.Window.Contexts;
 using SM.Base.Windows;
+using SM.Utility;
 using SM2D.Drawing;
 
 namespace IAmTwo.Game
 {
-    public class PhysicsObject : DrawObject2D, IScriptable
+    public class PhysicsObject : DrawObject2D, IScriptable, IFixedScriptable
     {
         public const float Gravity = 9.8f;
         public static List<Hitbox> Colliders = new List<Hitbox>();
@@ -55,12 +57,14 @@ namespace IAmTwo.Game
 
         public virtual void Update(UpdateContext context)
         {
+
             if (Disabled || Passive) return;
 
             if (Grounded) AirTime.Reset();
             else AirTime.Start();
 
-            if (!Grounded) Force.Y -= CalculateGravity(context.Deltatime);
+            if (!Grounded) Force.Y -= CalculateGravity();
+
             CollidedWith.Clear();
             Grounded = false;
             foreach (Hitbox hitbox in Colliders)
@@ -80,7 +84,12 @@ namespace IAmTwo.Game
                 }
             }
 
-            CalculateForce(context.Deltatime);
+            CalculateForce(Deltatime.FixedUpdateDelta);
+        }
+
+        public virtual void FixedUpdate(FixedUpdateContext context)
+        {
+            
         }
 
         public override void OnAdded(object sender)
@@ -106,7 +115,7 @@ namespace IAmTwo.Game
             Transform.Position.Add(Acceleration);
         }
 
-        public float CalculateGravity(float deltatime)
+        public float CalculateGravity()
         {
             return Gravity * Mass;
         }

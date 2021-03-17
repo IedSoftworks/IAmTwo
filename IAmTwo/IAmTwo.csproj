@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{2CD5EC57-E65E-4B28-80A7-8CF492C48D05}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>IAmTwo</RootNamespace>
     <AssemblyName>IAmTwo</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -134,19 +134,19 @@
     <EmbeddedResource Include="Shaders\GLSL\goal_frag.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\IedSoftworks\SMRendererV3\SMCode\SM.Base\SM.Base.csproj">
+    <ProjectReference Include="..\..\SMRendererV3\SMCode\SM.Base\SM.Base.csproj">
       <Project>{8e733844-4204-43e7-b3dc-3913cddabb0d}</Project>
       <Name>SM.Base</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\IedSoftworks\SMRendererV3\SMCode\SM.OGL\SM.OGL.csproj">
+    <ProjectReference Include="..\..\SMRendererV3\SMCode\SM.OGL\SM.OGL.csproj">
       <Project>{f604d684-bc1d-4819-88b5-8b5d03a17be0}</Project>
       <Name>SM.OGL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\IedSoftworks\SMRendererV3\SMCode\SM2D\SM2D.csproj">
+    <ProjectReference Include="..\..\SMRendererV3\SMCode\SM2D\SM2D.csproj">
       <Project>{a4565538-625a-42c6-a330-dd4f1abb3986}</Project>
       <Name>SM2D</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\IedSoftworks\SMRendererV3\SMOptionals\SM.Game\SM.Game.csproj">
+    <ProjectReference Include="..\..\SMRendererV3\SMOptionals\SM.Game\SM.Game.csproj">
       <Project>{079bab31-3dc4-40da-90c7-efaa8517c647}</Project>
       <Name>SM.Game</Name>
     </ProjectReference>
