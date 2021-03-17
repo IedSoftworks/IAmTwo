@@ -151,7 +151,6 @@
       <Name>SM.Game</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="LevelEditor\Screens\HelpText.txt" />
     <Content Include="Resources\background.png">

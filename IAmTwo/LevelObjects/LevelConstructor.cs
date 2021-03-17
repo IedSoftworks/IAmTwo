@@ -36,6 +36,7 @@ namespace IAmTwo.LevelObjects
             {
                 if (show is IPlaceableObject basis)
                 {
+                    if (basis.ID < 0) continue;
 
                     ObjectConstructor objConst = new ObjectConstructor()
                     {

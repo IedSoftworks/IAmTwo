@@ -5,6 +5,7 @@ using OpenTK;
 using OpenTK.Input;
 using SM.Base.Utility;
 using SM.Base.Window;
+using SM.Base.Window.Contexts;
 using SM.Game.Controls;
 
 namespace IAmTwo.Game

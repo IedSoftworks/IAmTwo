@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using IAmTwo.Game;
 using IAmTwo.LevelObjects;
 using IAmTwo.LevelObjects.Objects;
 using IAmTwo.Menu;
@@ -43,8 +44,8 @@ namespace IAmTwo.LevelEditor
             Add(txt);
             float yPos = 50;
 
-            _resolveCollisions = new Button("Resolve Collisions\n [X]", 100);
-            _resolveCollisions.Transform.Position.Set(0, -yPos);
+            _resolveCollisions = new Button("Resolve Collisions\n [X]", 200);
+            _resolveCollisions.Transform.Position.Set(20, -yPos);
             _resolveCollisions.Click += () => ResolveCollisions(obj);
             Add(_resolveCollisions);
 
@@ -93,13 +94,14 @@ namespace IAmTwo.LevelEditor
         private void ResolveCollisions(IPlaceableObject o)
         {
             o.Hitbox.Update(o.Transform.GetMatrix(), o.Transform.Rotation);
-            foreach (IPlaceableObject obj in LevelEditor.CurrentEditor._placedObjects)
+            foreach (Hitbox _hitbox in PhysicsObject.Colliders)
             {
-                if (obj == o) continue;
+                if (_hitbox == o.Hitbox) continue;
 
-                obj.Hitbox.Update(o.Transform.GetMatrix(), o.Transform.Rotation);
+                _hitbox.Update(_hitbox.PhysicsObject.Transform.GetMatrix(), _hitbox.PhysicsObject.Transform.Rotation);
 
-                if (Hitbox.TestIntersection(o.Hitbox, obj.Hitbox, out Vector2 mtv))
+                Vector2 mtv;
+                if (Hitbox.TestIntersection(o.Hitbox, _hitbox, out mtv))
                 {
                     o.Transform.Position.Add(mtv);
                 }

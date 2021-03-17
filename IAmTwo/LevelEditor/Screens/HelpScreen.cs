@@ -16,10 +16,10 @@ namespace IAmTwo.LevelEditor
 
             DrawText text = new DrawText(Fonts.Text, AssemblyUtility.ReadAssemblyFile("IAmTwo.LevelEditor.Screens.HelpText.txt"))
             {
-                Spacing = .5f
+                Spacing = .75f
             };
             text.GenerateMatrixes();
-            text.Transform.Position.Set(-text.Width / 2 + 10, -text.Height/ 2 - 10);
+            text.Transform.Position.Set(-text.Width / 2 + 10, text.Height/ 2 - 10);
             text.Transform.Size.Set(.7f);
 
             Background = new DrawObject2D {Color = ColorPallete.Background};

@@ -21,7 +21,7 @@ namespace IAmTwo.Shaders
                 {
                     u["Texture"].SetTexture(c.Material.Texture, u["HasTexture"]);
 
-                    u["Gamma"].SetUniform1(PostProcessFinals.Gamma);
+                    u["Gamma"].SetUniform1(PostProcessUtility.Gamma);
 
                     u["Emission"].SetTexture(c.Material.ShaderArguments.Get<Texture>("EmissionTex"), u["HasEmission"]);
                     u["EmissionStrength"].SetUniform1(c.Material.ShaderArguments.Get("EmissionStrength", 1f));
@@ -113,7 +113,7 @@ namespace IAmTwo.Shaders
                 HighFragment = "Editor.grid_frag.glsl",
                 Uniform = (u, c) =>
                 {
-                    u["Gamma"].SetUniform1(PostProcessFinals.Gamma);
+                    u["Gamma"].SetUniform1(PostProcessUtility.Gamma);
 
                     u["Texture"].SetTexture(c.Material.Texture);
                     u["Tint"].SetUniform4(c.Material.Tint);

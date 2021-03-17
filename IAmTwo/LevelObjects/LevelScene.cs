@@ -7,6 +7,7 @@ using OpenTK;
 using SM.Base;
 using SM.Base.Utility;
 using SM.Base.Window;
+using SM.Base.Window.Contexts;
 using SM2D.Scene;
 using MouseCursor = IAmTwo.Menu.MouseCursor;
 

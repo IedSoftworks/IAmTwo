@@ -38,6 +38,6 @@ void main() {
 	float border = v_TexCoords.y < borderThickness || v_TexCoords.y > 1 - borderThickness || abs(v_TexCoords.x) < borderThickness || abs(v_TexCoords.x) > xTexScale - borderThickness ? 1 : 0;
 	float mergedBorders = (bezierBorder - bezierHit) + border;
 
-	vec3 result = mergedBorders * vec3(.01) + bezierHit * vec3(1,1,0) * 1.3 + (1 - bezierHit) * vec3(.005);
+	vec3 result = mergedBorders * vec3(.01) + bezierHit * vec3(1,.5,0) * 1.3 + (1 - bezierHit) * vec3(.005);
 	Color = vec4(result, 1);
 }

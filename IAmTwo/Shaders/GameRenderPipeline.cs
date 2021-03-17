@@ -21,18 +21,16 @@ namespace IAmTwo.Shaders
             MainFramebuffer.ColorAttachments["color"].PixelInformation = PixelInformation.RGBA_HDR;
 
             Framebuffers.Add(_postBuffer = CreateWindowFramebuffer(0));
-            _bloom = new BloomEffect(_postBuffer, true, .75f)
+            _bloom = new BloomEffect(_postBuffer, true, 1f)
             {
-                Iterations = 8,
-                Threshold = .9f,
-                Power = 1,
+                WeightCurvePickAmount = 16,
                 AmountMap = Resource.RequestTexture(@".\Resources\bloom_amountMap.png"),
                 AmountTransform = BloomAmountTransform,
                 MinAmount = .1f,
             };
             _bloom.Initilize(this);
 
-            PostProcessFinals.Gamma = 2.2f;
+            PostProcessUtility.Gamma = 2.2f;
 
             DefaultShader = ShaderCollection.Shaders["Default"].GetShader();
 
@@ -47,13 +45,13 @@ namespace IAmTwo.Shaders
             context.Scene.Draw(context);
             
             _postBuffer.Activate(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            PostProcessFinals.ResolveMultisampledBuffers(MainFramebuffer, _postBuffer);
+            PostProcessUtility.ResolveMultisampledBuffers(MainFramebuffer, _postBuffer);
 
-            //BloomAmountTransform.Offset.Add(Deltatime.RenderDelta * .025f, 0);
-            //_bloom.Draw(context);
+            BloomAmountTransform.Offset.Add(Deltatime.RenderDelta * .025f, 0);
+            _bloom.Draw(context);
 
             Framebuffer.Screen.Activate(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            PostProcessFinals.FinalizeHDR(_postBuffer.ColorAttachments["color"], .5f);
+            PostProcessUtility.FinalizeHDR(_postBuffer.ColorAttachments["color"], .5f);
         }
     }
 }

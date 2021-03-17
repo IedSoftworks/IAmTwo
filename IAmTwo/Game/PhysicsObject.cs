@@ -2,10 +2,11 @@
 using OpenTK;
 using SM.Base.Scene;
 using SM.Base.Time;
-using SM.Utility;
 using SM2D.Drawing;
 using System.Collections.Generic;
+using SM.Base.Utility;
 using SM.Base.Window;
+using SM.Base.Window.Contexts;
 
 namespace IAmTwo.Game
 {
