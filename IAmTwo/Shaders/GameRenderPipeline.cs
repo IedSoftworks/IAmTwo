@@ -1,16 +1,11 @@
-﻿using System.Drawing;
-using System.Dynamic;
-using System.Reflection;
-using IAmTwo.Resources;
-using OpenTK;
+﻿using IAmTwo.Resources;
 using OpenTK.Graphics.OpenGL4;
 using SM.Base.Drawing;
 using SM.Base.PostEffects;
-using SM.Base.Textures;
-using SM.Base.Windows;
+using SM.Base.Utility;
+using SM.Base.Window;
 using SM.OGL.Framebuffer;
 using SM.OGL.Texture;
-using SM.Utility;
 
 namespace IAmTwo.Shaders
 {
@@ -22,7 +17,7 @@ namespace IAmTwo.Shaders
 
         public override void Initialization()
         {
-            MainFramebuffer = CreateWindowFramebuffer(16);
+            MainFramebuffer = CreateWindowFramebuffer(0);
             MainFramebuffer.ColorAttachments["color"].PixelInformation = PixelInformation.RGBA_HDR;
 
             Framebuffers.Add(_postBuffer = CreateWindowFramebuffer(0));

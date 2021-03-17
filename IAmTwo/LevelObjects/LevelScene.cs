@@ -5,11 +5,8 @@ using IAmTwo.LevelObjects.Objects;
 using KWEngine.Hitbox;
 using OpenTK;
 using SM.Base;
-using SM.Base.Controls;
-using SM.Base.Scene;
-using SM.Base.Time;
-using SM.Base.Windows;
-using SM.Utility;
+using SM.Base.Utility;
+using SM.Base.Window;
 using SM2D.Scene;
 using MouseCursor = IAmTwo.Menu.MouseCursor;
 
@@ -18,7 +15,7 @@ namespace IAmTwo.LevelObjects
     public class LevelScene : Scene
     {
         public const float Aspect = 0.5625f;
-        protected List<IPlaceableObject> _placedObjects = new List<IPlaceableObject>();
+        public List<IPlaceableObject> _placedObjects = new List<IPlaceableObject>();
 
         public LevelConstructor Constructor;
         public GameObject[] Walls;

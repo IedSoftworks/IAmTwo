@@ -1,5 +1,4 @@
-﻿using System.Windows.Forms;
-using OpenTK.Graphics;
+﻿using OpenTK.Graphics;
 
 namespace IAmTwo.Game
 {

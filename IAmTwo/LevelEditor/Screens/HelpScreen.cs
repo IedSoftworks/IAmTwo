@@ -1,11 +1,9 @@
 ﻿using IAmTwo.Game;
-using IAmTwo.Menu;
 using IAmTwo.Resources;
 using OpenTK.Graphics;
 using OpenTK.Input;
-using SM.Utility;
+using SM.Base.Utility;
 using SM2D.Drawing;
-using SM2D.Scene;
 using Keyboard = SM.Base.Controls.Keyboard;
 
 namespace IAmTwo.LevelEditor

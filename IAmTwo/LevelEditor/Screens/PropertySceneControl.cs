@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
 using IAmTwo.Menu;
 using IAmTwo.Resources;
 using OpenTK;
-using OpenTK.Input;
-using SM.Base.Drawing.Text;
 using SM2D.Drawing;
 using SM2D.Scene;
 using Button = IAmTwo.Menu.Button;
-using Keyboard = SM.Base.Controls.Keyboard;
 
 namespace IAmTwo.LevelEditor
 {

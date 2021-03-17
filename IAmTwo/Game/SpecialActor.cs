@@ -1,6 +1,6 @@
 ﻿using IAmTwo.LevelObjects.Objects.SpecialObjects;
 using OpenTK;
-using SM.Base.Windows;
+using SM.Base.Window;
 
 namespace IAmTwo.Game
 {

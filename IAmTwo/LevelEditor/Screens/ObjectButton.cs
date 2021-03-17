@@ -1,20 +1,12 @@
 ﻿using System;
-using System.Runtime.Remoting;
 using IAmTwo.Game;
 using IAmTwo.LevelObjects;
 using IAmTwo.Menu;
 using IAmTwo.Resources;
 using OpenTK;
 using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL4;
-using OpenTK.Input;
-using SM.Base.Objects;
-using SM.Base.Windows;
-using SM2D.Controls;
 using SM2D.Drawing;
-using SM2D.Object;
 using SM2D.Scene;
-using Mouse = SM.Base.Controls.Mouse;
 
 namespace IAmTwo.LevelEditor
 {

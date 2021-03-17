@@ -1,4 +1,4 @@
-﻿using SM.Base.Windows;
+﻿using SM.Base.Window;
 
 namespace IAmTwo
 {

@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Windows.Forms;
 using IAmTwo.LevelObjects;
 using IAmTwo.Resources;
 using OpenTK;
 using OpenTK.Graphics;
-using SM.Base.Drawing;
-using SM.Base.Types;
 using SM2D.Drawing;
-using SM2D.Types;
 
 namespace IAmTwo.LevelEditor
 {

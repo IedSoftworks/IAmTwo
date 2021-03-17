@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms.VisualStyles;
 using IAmTwo.Game;
 using IAmTwo.Shaders;
 using OpenTK;
 using OpenTK.Graphics;
-using SM.Base.Windows;
-using SM.Utility;
+using SM.Base.Utility;
+using SM.Base.Window;
 using SM2D.Scene;
 
 namespace IAmTwo.LevelObjects.Objects.SpecialObjects

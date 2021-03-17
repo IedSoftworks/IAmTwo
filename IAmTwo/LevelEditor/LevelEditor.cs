@@ -1,24 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
-using System.Windows.Forms.VisualStyles;
 using IAmTwo.Game;
 using IAmTwo.LevelObjects;
-using IAmTwo.LevelObjects.Objects;
-using KWEngine.Hitbox;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Input;
 using SM.Base;
-using SM.Base.Drawing;
-using SM.Base.Scene;
 using SM.Base.Time;
-using SM.Base.Windows;
+using SM.Base.Window;
 using SM2D.Controls;
-using SM2D.Drawing;
 using SM2D.Scene;
-using SM2D.Types;
 using Keyboard = SM.Base.Controls.Keyboard;
 using Mouse = SM.Base.Controls.Mouse;
 

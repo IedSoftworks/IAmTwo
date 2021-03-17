@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using IAmTwo.Game;
 using IAmTwo.LevelObjects;
 using IAmTwo.LevelObjects.Objects;
 using IAmTwo.Menu;
 using IAmTwo.Resources;
-using OpenTK.Graphics;
+using KWEngine.Hitbox;
+using OpenTK;
 using OpenTK.Input;
-using SM.Base.Drawing;
 using SM.Base.Scene;
 using SM2D.Controls;
 using SM2D.Drawing;
@@ -22,6 +21,8 @@ namespace IAmTwo.LevelEditor
     public class PropertyObjectControl : ItemCollection
     {
         private Button connectButton;
+        private Button _resolveCollisions;
+
         private bool _connectMode = false;
         private List<IPlaceableObject> _connectSelectList;
         private IConnectable _connectAsked;
@@ -42,6 +43,13 @@ namespace IAmTwo.LevelEditor
             Add(txt);
             float yPos = 50;
 
+            _resolveCollisions = new Button("Resolve Collisions\n [X]", 100);
+            _resolveCollisions.Transform.Position.Set(0, -yPos);
+            _resolveCollisions.Click += () => ResolveCollisions(obj);
+            Add(_resolveCollisions);
+
+            yPos += 50;
+
             if (_object is IConnectable connectable)
             {
                 Tuple<IShowTransformItem<Transformation>, float> d = GenerateConnectable(connectable);
@@ -52,24 +60,6 @@ namespace IAmTwo.LevelEditor
             }
         }
 
-        private Tuple<IShowTransformItem<Transformation>, float> GenerateConnectable(IConnectable obj)
-        {
-            if (obj.ConnectedTo == null)
-            {
-                ItemCollection nConnected = new ItemCollection();
-
-                DrawText header = new DrawText(Fonts.Text, "Not connected");
-                connectButton = new Button("Connect [C]", 100);
-                connectButton.Transform.Position.Set(10, -30);
-                connectButton.Click += () => EnterConnectMode(obj);
-                
-                nConnected.Add(header, connectButton);
-
-                return new Tuple<IShowTransformItem<Transformation>, float>(nConnected, 60f);
-            }
-            
-            return new Tuple<IShowTransformItem<Transformation>, float>(new DrawText(Fonts.Text, "Connected to:\n"+obj.ConnectedTo), 40f);
-        }
 
         public void ExecuteKeybinds()
         {
@@ -94,7 +84,45 @@ namespace IAmTwo.LevelEditor
             else if (Keyboard.IsDown(Key.C, true))
             {
                 if (_object is IConnectable) connectButton.TriggerClick();
+            } else if (Keyboard.IsDown(Key.X, true))
+            {
+                _resolveCollisions.TriggerClick();
             }
+        }
+
+        private void ResolveCollisions(IPlaceableObject o)
+        {
+            o.Hitbox.Update(o.Transform.GetMatrix(), o.Transform.Rotation);
+            foreach (IPlaceableObject obj in LevelEditor.CurrentEditor._placedObjects)
+            {
+                if (obj == o) continue;
+
+                obj.Hitbox.Update(o.Transform.GetMatrix(), o.Transform.Rotation);
+
+                if (Hitbox.TestIntersection(o.Hitbox, obj.Hitbox, out Vector2 mtv))
+                {
+                    o.Transform.Position.Add(mtv);
+                }
+            }
+        }
+
+        private Tuple<IShowTransformItem<Transformation>, float> GenerateConnectable(IConnectable obj)
+        {
+            if (obj.ConnectedTo == null)
+            {
+                ItemCollection nConnected = new ItemCollection();
+
+                DrawText header = new DrawText(Fonts.Text, "Not connected");
+                connectButton = new Button("Connect [C]", 100);
+                connectButton.Transform.Position.Set(10, -30);
+                connectButton.Click += () => EnterConnectMode(obj);
+
+                nConnected.Add(header, connectButton);
+
+                return new Tuple<IShowTransformItem<Transformation>, float>(nConnected, 60f);
+            }
+
+            return new Tuple<IShowTransformItem<Transformation>, float>(new DrawText(Fonts.Text, "Connected to:\n" + obj.ConnectedTo), 40f);
         }
 
         private void EnterConnectMode(IConnectable connectable)

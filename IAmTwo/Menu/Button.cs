@@ -1,21 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Security.Cryptography;
-using IAmTwo.Game;
 using IAmTwo.Resources;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Input;
-using SM.Base.Controls;
-using SM.Base.Objects;
-using SM.Base.Windows;
+using SM.Base.Window;
 using SM2D.Controls;
 using SM2D.Drawing;
 using SM2D.Object;
 using SM2D.Scene;
-using Font = SM.Base.Drawing.Text.Font;
 using Mouse = SM.Base.Controls.Mouse;
 
 namespace IAmTwo.Menu

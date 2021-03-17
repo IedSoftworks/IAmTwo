@@ -1,5 +1,4 @@
-﻿using System.Windows.Forms;
-using IAmTwo.Resources;
+﻿using IAmTwo.Resources;
 using OpenTK.Graphics.OpenGL4;
 using SM.Base.Drawing;
 using SM.Base.Textures;

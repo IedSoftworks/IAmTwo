@@ -1,15 +1,11 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Windows.Forms;
-using IAmTwo.Game;
 using IAmTwo.LevelObjects;
 using IAmTwo.Resources;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Input;
 using SM.Base;
-using SM.Base.Objects;
-using SM.Base.Windows;
 using SM2D.Drawing;
 using SM2D.Scene;
 using Button = IAmTwo.Menu.Button;

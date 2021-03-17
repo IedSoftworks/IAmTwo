@@ -1,8 +1,7 @@
 ﻿using IAmTwo.Resources;
-using IAmTwo.Shaders;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
-using SM.Base.Windows;
+using SM.Base.Window;
 using SM2D.Drawing;
 using SM2D.Scene;
 

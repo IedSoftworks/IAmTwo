@@ -1,20 +1,11 @@
-﻿using System;
-using System.Diagnostics;
-using System.Runtime.Remoting;
-using IAmTwo.LevelObjects;
+﻿using IAmTwo.LevelObjects;
 using IAmTwo.LevelObjects.Objects;
 using IAmTwo.LevelObjects.Objects.SpecialObjects;
 using IAmTwo.Resources;
-using IAmTwo.Shaders;
-using OpenTK;
-using SharpDX.Win32;
-using SM.Base.Drawing.Text;
-using SM.Base.Types;
-using SM.Base.Windows;
-using SM.Game.Controls;
-using SM.Utility;
+using SM.Base.Utility;
+using SM.Base.Window;
 using SM2D.Drawing;
-using SM2D.Scene;
+using System;
 
 namespace IAmTwo.Game
 {

@@ -1,20 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Reflection;
-using System.Windows.Forms.VisualStyles;
 using IAmTwo.LevelObjects.Objects.SpecialObjects;
 using IAmTwo.Resources;
 using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
-using SM.Base.Drawing;
-using SM.Base.Scene;
-using SM.Base.Windows;
+using SM.Base.Utility;
+using SM.Base.Window;
 using SM.Game.Controls;
-using SM.Utility;
-using SM2D.Drawing;
 
 namespace IAmTwo.Game
 {

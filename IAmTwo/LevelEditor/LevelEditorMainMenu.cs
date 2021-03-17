@@ -1,10 +1,9 @@
-﻿using System.Dynamic;
-using System.IO;
+﻿using System.IO;
 using System.Windows.Forms;
 using IAmTwo.LevelObjects;
 using OpenTK;
 using SM.Base;
-using SM.Base.Windows;
+using SM.Base.Window;
 using SM2D.Scene;
 using Button = IAmTwo.Menu.Button;
 using MouseCursor = IAmTwo.Menu.MouseCursor;

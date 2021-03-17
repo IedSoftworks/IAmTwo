@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using OpenTK.Graphics.OpenGL4;
-using SM.Base.Drawing;
 using SM.Base.Textures;
 
 namespace IAmTwo.Resources

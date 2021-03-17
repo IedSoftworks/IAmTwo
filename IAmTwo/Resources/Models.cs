@@ -1,6 +1,4 @@
 ﻿using OpenTK;
-using OpenTK.Graphics.OpenGL4;
-using SM.Base.Objects;
 using SM2D.Object;
 
 namespace IAmTwo.Resources

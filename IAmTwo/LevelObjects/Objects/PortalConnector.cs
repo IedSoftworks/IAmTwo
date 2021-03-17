@@ -1,15 +1,13 @@
 ﻿using System.Collections.Generic;
-using System.Linq.Expressions;
 using IAmTwo.Game;
 using IAmTwo.LevelObjects.Objects.SpecialObjects;
 using IAmTwo.Shaders;
 using OpenTK;
 using OpenTK.Graphics;
 using SM.Base.Time;
-using SM.Base.Windows;
-using SM.Utility;
+using SM.Base.Utility;
+using SM.Base.Window;
 using SM2D.Drawing;
-using SM2D.Object;
 using SM2D.Scene;
 
 namespace IAmTwo.LevelObjects.Objects

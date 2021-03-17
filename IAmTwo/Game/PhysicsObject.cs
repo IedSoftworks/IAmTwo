@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using KWEngine.Hitbox;
+﻿using KWEngine.Hitbox;
 using OpenTK;
 using SM.Base.Scene;
 using SM.Base.Time;
-using SM.Base.Windows;
 using SM2D.Drawing;
+using System.Collections.Generic;
+using SM.Base.Window;
 
 namespace IAmTwo.Game
 {

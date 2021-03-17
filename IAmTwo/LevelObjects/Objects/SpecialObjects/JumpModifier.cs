@@ -2,9 +2,8 @@
 using IAmTwo.Game;
 using IAmTwo.Resources;
 using OpenTK;
-using OpenTK.Graphics;
-using SM.Base.Windows;
-using SM.Utility;
+using SM.Base.Utility;
+using SM.Base.Window;
 
 namespace IAmTwo.LevelObjects.Objects.SpecialObjects
 {

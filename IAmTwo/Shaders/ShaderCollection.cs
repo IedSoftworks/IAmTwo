@@ -2,13 +2,9 @@
 using IAmTwo.LevelEditor;
 using IAmTwo.LevelObjects.Objects;
 using OpenTK;
-using OpenTK.Graphics;
-using SM.Base.Drawing;
 using SM.Base.PostEffects;
 using SM.Base.Textures;
-using SM.Base.Types;
 using SM.OGL.Shaders;
-using SM.Utility;
 using SM2D.Scene;
 
 namespace IAmTwo.Shaders

@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Reflection;
 using IAmTwo.Game;
 using IAmTwo.LevelObjects;
 using IAmTwo.Menu;
 using IAmTwo.Resources;
-using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Input;
-using SM.Base.Scene;
-using SM.Base.Windows;
 using SM2D.Drawing;
-using SM2D.Object;
 using SM2D.Scene;
-using SM2D.Types;
 using Mouse = SM.Base.Controls.Mouse;
 
 namespace IAmTwo.LevelEditor

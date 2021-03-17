@@ -1,7 +1,5 @@
 ﻿using IAmTwo.Game;
 using IAmTwo.Shaders;
-using SM.Base.Windows;
-using SM2D.Drawing;
 using SM2D.Scene;
 
 namespace IAmTwo.LevelEditor
@@ -16,7 +14,7 @@ namespace IAmTwo.LevelEditor
             Material.CustomShader = ShaderCollection.EditorShader["GridBackground"].GetShader();
         }
 
-        protected override void DrawContext(ref DrawContext context)
+        protected override void DrawContext(ref SM.Base.Window.DrawContext context)
         {
             
             base.DrawContext(ref context);

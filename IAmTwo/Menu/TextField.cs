@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Windows.Forms.VisualStyles;
 using IAmTwo.Game;
-using IAmTwo.Resources;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Input;
 using SM.Base.Drawing.Text;
-using SM.Base.Windows;
+using SM.Base.Window;
 using SM2D.Controls;
 using SM2D.Drawing;
 using SM2D.Object;

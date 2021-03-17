@@ -1,11 +1,7 @@
-﻿using IAmTwo.Game;
-using IAmTwo.LevelObjects;
-using IAmTwo.LevelObjects.Objects;
-using KWEngine.Hitbox;
+﻿using IAmTwo.LevelObjects;
 using OpenTK.Input;
 using SM.Base;
-using SM.Base.Windows;
-using SM2D.Scene;
+using SM.Base.Window;
 using Keyboard = SM.Base.Controls.Keyboard;
 
 namespace IAmTwo.LevelEditor

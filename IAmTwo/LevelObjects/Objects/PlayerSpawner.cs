@@ -2,10 +2,9 @@
 using IAmTwo.Shaders;
 using OpenTK;
 using SM.Base.Time;
-using SM.Base.Types;
-using SM.Base.Windows;
+using SM.Base.Utility;
+using SM.Base.Window;
 using SM.Game.Controls;
-using SM.Utility;
 using SM2D.Object;
 using SM2D.Scene;
 
