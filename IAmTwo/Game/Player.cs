@@ -64,11 +64,18 @@ namespace IAmTwo.Game
             bool jump = _keybindActor.Get<bool>("jump");
             if (jump && Grounded)
             {
-                Force.Y += CalculateGravity(context.Deltatime) * JumpMultiplier;
+                Force.Y += CalculateGravity() * JumpMultiplier;
 
             }
 
             base.Update(context);
+        }
+
+        public override void FixedUpdate(FixedUpdateContext context)
+        {
+            if (!React) return;
+
+            base.FixedUpdate(context);
         }
 
         public override void Collided(PhysicsObject obj, Vector2 mtv)
