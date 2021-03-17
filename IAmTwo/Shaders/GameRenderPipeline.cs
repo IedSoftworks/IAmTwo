@@ -21,9 +21,9 @@ namespace IAmTwo.Shaders
             MainFramebuffer.ColorAttachments["color"].PixelInformation = PixelInformation.RGBA_HDR;
 
             Framebuffers.Add(_postBuffer = CreateWindowFramebuffer(0));
-            _bloom = new BloomEffect(_postBuffer, true, 1f)
+            _bloom = new BloomEffect(_postBuffer, true, .75f)
             {
-                WeightCurvePickAmount = 16,
+                WeightCurvePickAmount = 5,
                 AmountMap = Resource.RequestTexture(@".\Resources\bloom_amountMap.png"),
                 AmountTransform = BloomAmountTransform,
                 MinAmount = .1f,
