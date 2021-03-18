@@ -22,18 +22,22 @@ namespace IAmTwo.LevelEditor
 
             Camera = new Camera()
             {
-                RequestedWorldScale = new Vector2(0, 1000)
+                RequestedWorldScale = new Vector2(0, 500)
             };
 
-            Button newButton = new Button("New Level");
+            Button newButton = new Button("New Level", 150);
             newButton.Click += CreateNewLevel;
 
-            Button loadButton = new Button("Load Level");
+            Button loadButton = new Button("Load Level", 150);
             loadButton.Click += LoadLevel;
             loadButton.Transform.Position.Set(0, 50);
 
+            Button backButton = new Button("Return", 150);
+            backButton.Click += () => SMRenderer.CurrentWindow.SetScene(MainMenu.Menu);
+            backButton.Transform.Position.Set(0, -200);
 
-            Objects.Add(newButton, loadButton);
+
+            Objects.Add(newButton, loadButton, backButton);
         }
 
         public static void LoadLevel()

@@ -21,7 +21,7 @@ namespace IAmTwo
 
             window.TargetUpdateFrequency = 60;
             window.SetRenderPipeline(new GameRenderPipeline());
-            window.SetScene(new LevelEditor.LevelEditor(new LevelConstructor()));
+            window.SetScene(MainMenu.Menu);
             //window.SetScene(new GameScene(new LevelConstructor() { Size = 650 }));
             window.Run();
         }

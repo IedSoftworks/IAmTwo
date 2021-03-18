@@ -85,7 +85,7 @@ namespace IAmTwo.LevelEditor
             else if (Keyboard.IsDown(Key.C, true))
             {
                 if (_object is IConnectable) connectButton.TriggerClick();
-            } else if (Keyboard.IsDown(Key.X, true))
+            } else if (Keyboard.IsDown(Key.X, true) && !Keyboard.IsDown(Key.ControlLeft))
             {
                 _resolveCollisions.TriggerClick();
             }

@@ -9,6 +9,7 @@ using OpenTK.Graphics;
 using OpenTK.Input;
 using SM.Base;
 using SM.Base.Time;
+using SM.Base.Types;
 using SM.Base.Window;
 using SM2D.Controls;
 using SM2D.Drawing;
@@ -236,6 +237,32 @@ namespace IAmTwo.LevelEditor
                         }
                     }
                     EditorSelection.SelectedObject.Transform.Rotation.Set(rot % 360);
+                }
+
+                if (Keyboard.AreSpecificKeysPressed(45, 48, out Key[] pressed))
+                {
+                    CVector2 vector = EditorSelection.SelectedObject.Transform.Position;
+                    const float steps = 5;
+                    float step = steps * context.Deltatime;
+
+                    foreach(Key key in pressed)
+                    {
+                        switch(key)
+                        {
+                            case Key.Up:
+                                vector.Add(0, step);
+                                break;
+                            case Key.Down:
+                                vector.Add(0, -step);
+                                break;
+                            case Key.Left:
+                                vector.Add(-step, 0);
+                                break;
+                            case Key.Right:
+                                vector.Add(step, 0);
+                                break;
+                        }
+                    }
                 }
             }
 

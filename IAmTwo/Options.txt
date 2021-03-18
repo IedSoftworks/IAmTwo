@@ -1,0 +1,11 @@
+﻿Window Type - Window, Borderless Window, Exclusive Fullscreen
+Window Resolution (Exclusive Fullscreen) - Generate!
+vSync - Off, On
+Render Resolution - 50% -> 300%
+
+Brightness - 1 -> 10
+Gamma - 1 -> 10
+
+Anti Aliasing - Off, 2, 4, 8, 16
+Bloom - Off, Low, High
+Material Complexity - Low, High

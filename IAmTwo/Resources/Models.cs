@@ -22,7 +22,10 @@ namespace IAmTwo.Resources
                     new Vector2(-.4f, .5f), new Vector2(.5f, .5f),
                     new Vector2(.5f, -.4f), new Vector2(.4f, -.5f),
                     new Vector2(-.5f, -.5f), new Vector2(-.5f, .4f),
-                }, PolyLineType.ConnectedLoop);
+                }, PolyLineType.ConnectedLoop)
+            { 
+                LineWidth = 2
+            };
 
             QuadricBorderNotConnected = new PolyLine(new []
             {
@@ -30,7 +33,10 @@ namespace IAmTwo.Resources
                 new Vector2(.5f, .4f), new Vector2(.5f, -.4f),
                 new Vector2(.4f, -.5f), new Vector2(-.4f, -.5f),
                 new Vector2(-.5f, -.4f), new Vector2(-.5f, .4f),
-            });
+            })
+            {
+                LineWidth = 2
+            };
         }
 
         public static Polygon CreateBackgroundPolygon(Vector2 size, float cornerSize)
@@ -45,7 +51,10 @@ namespace IAmTwo.Resources
                 new Vector2(halfSize.X, -halfSize.Y + cornerSize),
                 new Vector2(halfSize.X - cornerSize, -halfSize.Y),
                 new Vector2(-halfSize.X, -halfSize.Y),
-            });
+            })
+            {
+                LineWidth = 2
+            };
         }
     }
 }

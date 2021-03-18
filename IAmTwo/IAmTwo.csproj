@@ -99,9 +99,11 @@
     <Compile Include="LevelObjects\Objects\SpecialObjects\PressableButton.cs" />
     <Compile Include="LevelObjects\Objects\SpecialObjects\SpecialObject.cs" />
     <Compile Include="LevelObjects\PlaceableObjectRegister.cs" />
+    <Compile Include="MainMenu.cs" />
     <Compile Include="Menu\Button.cs" />
     <Compile Include="Menu\ImageButton.cs" />
     <Compile Include="Menu\MouseCursor.cs" />
+    <Compile Include="Menu\OptionSelector.cs" />
     <Compile Include="Menu\TextField.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -111,6 +113,7 @@
     <Compile Include="Shaders\GameRenderPipeline.cs" />
     <Compile Include="Shaders\ImportedShader.cs" />
     <Compile Include="Shaders\ShaderCollection.cs" />
+    <Compile Include="UserOption.cs" />
     <Compile Include="UserSettings.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -153,6 +156,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="LevelEditor\Screens\HelpText.txt" />
+    <Content Include="Options.txt" />
     <Content Include="Resources\background.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

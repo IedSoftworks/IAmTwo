@@ -20,6 +20,7 @@ namespace IAmTwo.Menu
         private Camera _lastCam;
 
         public event Action Click;
+        public bool React = true;
 
         public Button(string text, float? width = null)
         {
@@ -46,7 +47,7 @@ namespace IAmTwo.Menu
         {
             base.Update(context);
 
-            if (_lastCam != null && Mouse2D.MouseOver(Mouse2D.InWorld(_lastCam), out _, _border))
+            if (React && _lastCam != null && Mouse2D.MouseOver(Mouse2D.InWorld(_lastCam), out _, _border))
             {
                 _border.Color = Color4.LightBlue;
                 if (Mouse.IsDown(MouseButton.Left, true)) TriggerClick();
