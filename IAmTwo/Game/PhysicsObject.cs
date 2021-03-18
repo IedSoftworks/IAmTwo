@@ -61,7 +61,7 @@ namespace IAmTwo.Game
             if (Grounded) AirTime.Reset();
             else AirTime.Start();
 
-            if (!Grounded) Force.Y -= CalculateGravity();
+            if (!Grounded) Force.Y -= CalculateGravity(context.Deltatime);
 
             CollidedWith.Clear();
             Grounded = false;
@@ -82,7 +82,7 @@ namespace IAmTwo.Game
                 }
             }
 
-            CalculateForce(Deltatime.FixedUpdateDelta);
+            CalculateForce(context.Deltatime);
         }
 
         public virtual void FixedUpdate(FixedUpdateContext context)
@@ -113,9 +113,9 @@ namespace IAmTwo.Game
             Transform.Position.Add(Acceleration);
         }
 
-        public float CalculateGravity()
+        public float CalculateGravity(float deltatime)
         {
-            return Gravity * Mass;
+            return Gravity * Mass * deltatime * 30;
         }
 
         public virtual void Collided(PhysicsObject obj, Vector2 mtv) {}

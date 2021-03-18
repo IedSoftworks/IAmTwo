@@ -7,9 +7,11 @@ P - Open Proerty Menu
 	Context Specific: When Object selected, it will show the object properties.
 			Otherwise it will show the Level properties.
 
+When a button has brackets then its most likely to be a keybind.
+
 Controls:
 Left Click - (Un-)Selects a object and accepts modes.
 W - Move Mode
 S - Scaling Mode
 R - Rotate Object
-F5 - Start test level
+F2 - Start test level
