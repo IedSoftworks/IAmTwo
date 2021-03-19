@@ -103,6 +103,7 @@
     <Compile Include="Menu\Button.cs" />
     <Compile Include="Menu\CheckBox.cs" />
     <Compile Include="Menu\DebugScreen.cs" />
+    <Compile Include="Menu\DropDown.cs" />
     <Compile Include="Menu\ImageButton.cs" />
     <Compile Include="Menu\MouseCursor.cs" />
     <Compile Include="Menu\OptionSelector.cs" />

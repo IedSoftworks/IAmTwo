@@ -1,5 +1,6 @@
 ﻿using IAmTwo.LevelEditor;
 using IAmTwo.Menu;
+using OpenTK;
 using SM2D.Scene;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,12 @@ namespace IAmTwo
 
     public abstract class UserOption
     {
+        private static DropDownUserOption _resolutionOption = new DropDownUserOption
+        {
+            Name = "Resolution",
+            Member = ""
+        };
+
         public static List<UserOption> Options = new List<UserOption>()
         {
             new SelectUserOption()
@@ -30,6 +37,8 @@ namespace IAmTwo
                 },
                 Member = "CurrentWindowMode"
             },
+            _resolutionOption,
+
             new BoolUserOption()
             {
                 Name = "VSync",
@@ -64,6 +73,20 @@ namespace IAmTwo
                 Member = "MaterialQuality"
             },
         };
+
+        static UserOption()
+        {
+            DisplayDevice display = DisplayDevice.Default;
+            float displayRatio = (float)display.Bounds.Width / display.Bounds.Height;
+
+            List<string> resolution = new List<string>();
+            foreach (DisplayResolution res in display.AvailableResolutions.Where(a => a.RefreshRate == display.RefreshRate && Math.Abs((float)a.Width / a.Height - displayRatio) < 0.1))
+            {
+                string resString = $"{res.Width}x{res.Height}";
+                if (!resolution.Contains(resString)) resolution.Add(resString);
+            }
+            _resolutionOption.Values = resolution.ToArray();
+        }
 
         public string Name;
         public bool RequiresPipelineRestart = false;
@@ -164,6 +187,26 @@ namespace IAmTwo
         {
             base.SetBool(b);
             _checkBox.SetChecked(b);
+        }
+    }
+
+    public class DropDownUserOption : UserOption
+    {
+        public string[] Values;
+
+        public DropDownUserOption()
+        {
+            Type = OptionType.String;
+        }
+
+        public override object GetSelectedOption()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override ItemCollection GetVisual()
+        {
+            return new DropDown(300, Values);
         }
     }
 }

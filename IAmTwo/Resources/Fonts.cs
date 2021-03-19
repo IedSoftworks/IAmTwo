@@ -20,7 +20,7 @@ namespace IAmTwo.Resources
         {
             CharSet = new char[]
             {
-                '\uf00c'
+                '\uf00c', '\uf061'
             },
             FontSize = 13
         };

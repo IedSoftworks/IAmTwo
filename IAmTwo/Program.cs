@@ -23,6 +23,7 @@ namespace IAmTwo
             window.SetRenderPipeline(new GameRenderPipeline());
             window.SetScene(MainMenu.Menu);
             //window.SetScene(new GameScene(new LevelConstructor() { Size = 650 }));
+            window.RunFixedUpdate(60);
             window.Run();
         }
     }
