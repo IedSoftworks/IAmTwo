@@ -11,6 +11,7 @@ using SM2D.Scene;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -72,6 +73,7 @@ namespace IAmTwo
             base.Draw(context);
 
             IAmTwo.Menu.MouseCursor.Cursor.Draw(context);
+            IAmTwo.Menu.DebugScreen.Screen.Draw(context);
         }
 
         private ItemCollection CreateOptionMenu()
@@ -91,8 +93,12 @@ namespace IAmTwo
             ItemCollection button = new ItemCollection();
             button.Transform.Position.Set(-(size.X / 2) + 20, (size.Y / 2) - 20);
 
-            int i = 0;
-            foreach(UserOption option in UserSettings.Options)
+            Button apply = new Button("Apply", 100);
+            apply.Click += Apply_Click;
+            button.Add(apply);
+
+            float i = 1.2f;
+            foreach(UserOption option in UserOption.Options)
             {
                 DrawText title = new DrawText(Fonts.Button, option.Name);
                 title.Transform.Position.Set(0, -offset * i);
@@ -104,9 +110,27 @@ namespace IAmTwo
                 i++;
             }
 
+
+
             col.Add(background, button);
 
             return col;
+        }
+
+        private void Apply_Click()
+        {
+            foreach (UserOption option in UserOption.Options)
+            {
+                PropertyInfo property = typeof(UserSettings).GetProperty(option.Member, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                if (property != null)
+                {
+                    object data = option.GetSelectedOption();
+
+                    property.SetValue(null, data);
+                }
+            }
+
+            HideOptionMenu();
         }
 
         private void ShowOptionMenu()
@@ -115,10 +139,32 @@ namespace IAmTwo
             {
                 button.React = false;
             }
+
+            foreach (UserOption option in UserOption.Options)
+            {
+                PropertyInfo property = typeof(UserSettings).GetProperty(option.Member, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                if (property != null)
+                {
+                    switch (option.Type)
+                    {
+                        case OptionType.String:
+                            option.SetString(property.GetValue(null).ToString());
+
+                            break;
+                        case OptionType.Bool:
+                            option.SetBool((bool)property.GetValue(null));
+                            break;
+                    }
+                }
+            }
+
             _options.Active = true;
         }
+
         private void HideOptionMenu()
         {
+            foreach (Button button in _buttons) button.React = true;
+
             _options.Active = false;
         }
     }

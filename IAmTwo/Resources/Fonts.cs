@@ -10,10 +10,19 @@ namespace IAmTwo.Resources
             Spacing = .8f
         };
 
-        public static Font Text = new Font(@".\Resources\Urbanist-Regular.ttf")
+        public static Font Text  = new Font(@".\Resources\Urbanist-Regular.ttf")
         {
             FontSize = 13,
             Spacing = .8f
+        };
+
+        public static Font FontAwesome = new Font(@".\Resources\FontAwesome5.otf")
+        {
+            CharSet = new char[]
+            {
+                '\uf00c'
+            },
+            FontSize = 13
         };
     }
 }

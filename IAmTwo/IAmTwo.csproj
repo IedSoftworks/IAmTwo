@@ -101,6 +101,8 @@
     <Compile Include="LevelObjects\PlaceableObjectRegister.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="Menu\Button.cs" />
+    <Compile Include="Menu\CheckBox.cs" />
+    <Compile Include="Menu\DebugScreen.cs" />
     <Compile Include="Menu\ImageButton.cs" />
     <Compile Include="Menu\MouseCursor.cs" />
     <Compile Include="Menu\OptionSelector.cs" />
@@ -127,6 +129,9 @@
     <EmbeddedResource Include="Shaders\GLSL\gameobject_frag.glsl" />
     <EmbeddedResource Include="Shaders\GLSL\Editor\grid_frag.glsl" />
     <EmbeddedResource Include="Shaders\GLSL\Editor\grid_vert.glsl" />
+    <None Include="Resources\FontAwesome5.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\GapSansBold.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

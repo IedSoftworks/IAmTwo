@@ -19,10 +19,12 @@ namespace IAmTwo.Menu
 {
     class OptionSelector : ItemCollection
     {
+        private Dictionary<string, DrawText> _textLocation = new Dictionary<string, DrawText>();
         private Dictionary<DrawText, DrawObject2D> _buttonBackgrounds = new Dictionary<DrawText, DrawObject2D>();
         private Camera _camera;
         private DrawText _selected;
 
+        public string SelectedText => _selected.Text;
         public OptionSelector(string[] values)
         {
             Transform.Size.Set(.8f);
@@ -45,6 +47,7 @@ namespace IAmTwo.Menu
 
                 Add(obj, txt);
                 _buttonBackgrounds.Add(txt, obj);
+                _textLocation.Add(value, txt);
                 x += txt.Width + 10;
                 h = Math.Max(txt.Height, h);
             }
@@ -54,6 +57,7 @@ namespace IAmTwo.Menu
                 Mesh = Models.CreateBackgroundPolygon(new OpenTK.Vector2(x, h), 10),
                 ForcedMeshType = OpenTK.Graphics.OpenGL4.PrimitiveType.LineLoop
             };
+            border.Color = Color4.Blue;
             border.Transform.Size.Set(1.1f);
             border.Transform.Position.Set(x / 2 - 10, 0);
             
@@ -93,6 +97,16 @@ namespace IAmTwo.Menu
 
             _camera = context.UseCamera as Camera;
 
+        }
+
+        public void Select(string value)
+        {
+            if (_textLocation.ContainsKey(value))
+            {
+
+                _selected = _textLocation[value];
+                _selected.Color = new Color4(0, 1f, 0, 1f);
+            }
         }
     }
 }
