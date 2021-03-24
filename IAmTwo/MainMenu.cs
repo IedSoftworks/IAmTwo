@@ -119,6 +119,8 @@ namespace IAmTwo
 
         private void Apply_Click()
         {
+            bool restartPipeline = false;
+
             foreach (UserOption option in UserOption.Options)
             {
                 PropertyInfo property = typeof(UserSettings).GetProperty(option.Member, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
@@ -126,7 +128,12 @@ namespace IAmTwo
                 {
                     object data = option.GetSelectedOption();
 
-                    property.SetValue(null, data);
+                    if (property.GetValue(null) != data)
+                    {
+                        if (option.RequiresPipelineRestart) restartPipeline = true;
+
+                        property.SetValue(null, data);
+                    }
                 }
             }
 
@@ -143,6 +150,7 @@ namespace IAmTwo
             foreach (UserOption option in UserOption.Options)
             {
                 PropertyInfo property = typeof(UserSettings).GetProperty(option.Member, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                
                 if (property != null)
                 {
                     switch (option.Type)

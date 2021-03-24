@@ -80,7 +80,7 @@ namespace IAmTwo
         private string _windowMode = "Window";
         private bool _vSync = false;
         private string _aa = "4x";
-        private string _bloom = "High";
+        private string _bloom = "Off";
         private bool _highMaterialQuality = false;
     }
 }

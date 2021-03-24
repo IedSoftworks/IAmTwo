@@ -45,6 +45,7 @@ namespace IAmTwo.LevelEditor
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.DefaultExt = ".iatl";
             ofd.Multiselect = false;
+            ofd.InitialDirectory = Path.GetFullPath("Levels");
             ofd.Filter = "I AM TWO Levels (*.iatl) | *.iatl | All Files (*.*) | *.*";
             
             if (ofd.ShowDialog() != DialogResult.OK) return;

@@ -47,8 +47,10 @@ namespace IAmTwo.Shaders
             _postBuffer.Activate(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             PostProcessUtility.ResolveMultisampledBuffers(MainFramebuffer, _postBuffer);
 
-            //BloomAmountTransform.Offset.Add(Deltatime.RenderDelta * .025f, 0);
-            //_bloom.Draw(context);
+            if (UserSettings.Bloom != "Off") { 
+                BloomAmountTransform.Offset.Add(Deltatime.RenderDelta * .025f, 0);
+                _bloom.Draw(context);
+            }
 
             Framebuffer.Screen.Activate(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             PostProcessUtility.FinalizeHDR(_postBuffer.ColorAttachments["color"], .5f);
