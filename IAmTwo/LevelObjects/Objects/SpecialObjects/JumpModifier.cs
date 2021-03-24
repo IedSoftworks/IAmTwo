@@ -9,7 +9,7 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
 {
     public class JumpModifier : SpecialObject
     {
-        private float _multiplier = 40;
+        private float _multiplier = 2;
         
         public float Multiplier
         {
@@ -51,7 +51,7 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
         {
             base.BeganCollision(a, mtv);
 
-            if (a is Player p) p.JumpMultiplier = Multiplier;
+            if (a is Player p) p.JumpMultiplier = Player.DefaultJumpMultiplier * Multiplier;
         }
 
         public override void EndCollision(SpecialActor a, Vector2 mtv)

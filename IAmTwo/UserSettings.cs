@@ -32,7 +32,7 @@ namespace IAmTwo
                             break;
                     }
 
-                    (SMRenderer.CurrentWindow as GLWindow).ChangeWindowFlag(flag);
+                    (SMRenderer.CurrentWindow as GLWindow).WindowFlags = flag;
                 }
             }
         }

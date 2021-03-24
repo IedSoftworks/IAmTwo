@@ -13,7 +13,7 @@ namespace IAmTwo.LevelObjects.Objects
             Mass = 1;
             ChecksGrounded = true;
 
-            SetShader(ShaderCollection.Shaders["GameObject"].GetShader());
+            Material.CustomShader = ShaderCollection.Shaders["GameObject"].GetShader();
 
             Transform.Size.Changed += SizeOnChanged;
         }

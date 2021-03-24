@@ -13,10 +13,7 @@ namespace IAmTwo
         static void Main(string[] args)
         {
             GLWindow window = new GLWindow(1600,900, "I am two - DevBuild", WindowFlags.Window, VSyncMode.Off);
-            window.ApplySetup(new Window2DSetup()
-            {
-                WorldScale = new Vector2(0, 700)
-            });
+            window.ApplySetup(new Window2DSetup());
             window.CursorVisible = false;
 
             window.TargetUpdateFrequency = 60;

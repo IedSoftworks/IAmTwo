@@ -47,7 +47,7 @@ namespace IAmTwo.LevelObjects.Objects
             
             Connection = new DrawObject2D {Color = Color4.Green};
             Connection.Transform.ZIndex.Set(-1);
-            Connection.SetShader(ShaderCollection.Shaders["PortalConnector"].GetShader());
+            Connection.Material.CustomShader = ShaderCollection.Shaders["PortalConnector"].GetShader();
             Connection.ShaderArguments["Actors"] = _currentTravelers;
             Connection.Material.Blending = true;
             UpdateConnection();

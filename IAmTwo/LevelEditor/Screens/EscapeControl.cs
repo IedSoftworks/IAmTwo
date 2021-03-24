@@ -133,7 +133,7 @@ namespace IAmTwo.LevelEditor
             }
 
             if (File.Exists(constructor.LevelPath)) File.Delete(constructor.LevelPath);
-            using (FileStream stream = new FileStream(constructor.LevelPath, FileMode.OpenOrCreate))
+            using (FileStream stream = new FileStream(constructor.LevelPath, FileMode.Create))
                 constructor.Store(stream, LevelEditor.CurrentEditor.Objects);
 
         }

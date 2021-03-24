@@ -22,7 +22,7 @@ namespace IAmTwo.LevelObjects.Objects
             Material.Blending = true;
 
             Color = new Color4(1, 0, 0, 1f);
-            SetShader(ShaderCollection.Shaders["Door"].GetShader());
+            Material.CustomShader = ShaderCollection.Shaders["Door"].GetShader();
 
             Transform.Size.Changed += () => ShaderArguments["Size"] = (Vector2) Transform.Size;
         }
