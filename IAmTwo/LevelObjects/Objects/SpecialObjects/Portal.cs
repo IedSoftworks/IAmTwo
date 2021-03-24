@@ -40,7 +40,7 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
             TextureTransform.Scale.Set(1);
 
             ApplyPolygon(PlayerSpawner.Circle);
-            SetShader(ShaderCollection.Shaders["Portal"].GetShader());
+            Material.CustomShader = ShaderCollection.Shaders["Portal"].GetShader();
 
             Color = new Color4(0,1f,0,1f);
         }

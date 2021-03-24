@@ -102,14 +102,14 @@ namespace IAmTwo.LevelObjects
             MouseCursor.Cursor.Draw(context);
         }
 
-        public override void FixedUpdate(FixedUpdateContext context)
+        public override void Update(UpdateContext context)
         {
             foreach (Hitbox collider in PhysicsObject.Colliders.ToArray())
             {
                 collider.PhysicsObject.UpdateHitbox();
             }
 
-            base.FixedUpdate(context);
+            base.Update(context);
         }
 
         public override void Deactivate()

@@ -149,7 +149,6 @@ namespace IAmTwo
                     {
                         case OptionType.String:
                             option.SetString(property.GetValue(null).ToString());
-
                             break;
                         case OptionType.Bool:
                             option.SetBool((bool)property.GetValue(null));

@@ -49,7 +49,7 @@ namespace IAmTwo.Menu
             {
                 _border.Color = Color4.AliceBlue;
 
-                if (Mouse.Click)
+                if (Mouse.LeftClick)
                 {
                     Checked = !Checked;
 

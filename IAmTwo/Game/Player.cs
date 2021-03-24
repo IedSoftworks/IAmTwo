@@ -18,7 +18,7 @@ namespace IAmTwo.Game
             {"jump", context => context.KeyboardState[Key.Space], context => context.ControllerState?.Buttons.A}
         });
 
-        public static float DefaultJumpMultiplier = 25;
+        public static float DefaultJumpMultiplier = 50;
         public static Vector2 PlayerSize = new Vector2(50);
 
 

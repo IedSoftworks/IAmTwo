@@ -48,7 +48,7 @@ namespace IAmTwo.LevelObjects.Objects
             _rot = 0;
             _ringLoc = 0;
             Color = Mirror ? ColorPallete.Mirror : ColorPallete.Player;
-            SetShader(ShaderCollection.Shaders["Portal"].GetShader());
+            Material.CustomShader = ShaderCollection.Shaders["Portal"].GetShader();
             
             Material.Blending = true;
             CanCollide = false;

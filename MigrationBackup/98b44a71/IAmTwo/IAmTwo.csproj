@@ -36,6 +36,15 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SM.Base, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SMRenderer2D.1.0.4\lib\net452\SM.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="SM.OGL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SMRenderer2D.1.0.4\lib\net452\SM.OGL.dll</HintPath>
+    </Reference>
+    <Reference Include="SMRenderer2D, Version=1.0.1.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SMRenderer2D.1.0.4\lib\net452\SMRenderer2D.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -112,6 +121,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="OpenTK.dll.config" />
+    <None Include="packages.config" />
     <EmbeddedResource Include="Shaders\GLSL\default_frag.glsl" />
     <EmbeddedResource Include="Shaders\GLSL\spawner_frag.glsl" />
     <EmbeddedResource Include="Shaders\GLSL\portal_connector_frag.glsl" />
@@ -161,20 +172,6 @@
     <Content Include="Resources\MovingBox_e.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="OpenTK">
-      <Version>3.3.1</Version>
-    </PackageReference>
-    <PackageReference Include="SMRenderer2D">
-      <Version>1.0.5</Version>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\SMRendererV3\SMOptionals\SM.Game\SM.Game.csproj">
-      <Project>{079bab31-3dc4-40da-90c7-efaa8517c647}</Project>
-      <Name>SM.Game</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
