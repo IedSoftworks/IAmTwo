@@ -3,6 +3,7 @@ using IAmTwo.LevelEditor;
 using IAmTwo.LevelObjects;
 using IAmTwo.Menu;
 using IAmTwo.Resources;
+using IAmTwo.Shaders;
 using OpenTK;
 using SM.Base;
 using SM.Base.Window;
@@ -135,6 +136,17 @@ namespace IAmTwo
                         property.SetValue(null, data);
                     }
                 }
+            }
+
+            if (restartPipeline)
+            {
+                GameRenderPipeline newPipeline = new GameRenderPipeline();
+                newPipeline.Compile();
+
+                RenderPipeline lastPipeline = SMRenderer.CurrentWindow.CurrentRenderPipeline;
+                SMRenderer.CurrentWindow.SetRenderPipeline(newPipeline);
+
+                lastPipeline.Dispose();
             }
 
             HideOptionMenu();

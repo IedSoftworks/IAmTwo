@@ -47,19 +47,12 @@ namespace IAmTwo.Menu
         {
             base.Update(context);
 
-            if (React && _lastCam != null && Mouse2D.MouseOver(Mouse2D.InWorld(_lastCam), out _, _border))
+            if (React && _border.LastDrawingCamera != null && Mouse2D.MouseOver(Mouse2D.InWorld(_border.LastDrawingCamera as Camera), out _, _border))
             {
                 _border.Color = Color4.LightBlue;
                 if (Mouse.IsDown(MouseButton.Left, true)) TriggerClick();
             }
             else _border.Color = Color4.Blue;
-        }
-
-        public override void Draw(DrawContext context)
-        {
-            _lastCam = context.UseCamera as Camera;
-
-            base.Draw(context);
         }
 
         public void TriggerClick()

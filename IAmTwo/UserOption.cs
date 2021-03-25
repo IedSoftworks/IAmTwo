@@ -52,7 +52,8 @@ namespace IAmTwo
                 {
                     "Off", "2x", "4x", "8x", "16x",
                 },
-                Member = "AA"
+                Member = "AA",
+                RequiresPipelineRestart = true
             },
             new SelectUserOption()
             {
@@ -61,7 +62,8 @@ namespace IAmTwo
                 {
                     "Off", "Low", "High"
                 },
-                Member = "Bloom"
+                Member = "Bloom",
+                RequiresPipelineRestart = true
             },
             new SelectUserOption()
             {

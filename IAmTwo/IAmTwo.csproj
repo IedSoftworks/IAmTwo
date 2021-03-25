@@ -36,23 +36,11 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OpenTK, Version=3.3.1.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <HintPath>..\packages\OpenTK.3.3.1\lib\net20\OpenTK.dll</HintPath>
-    </Reference>
     <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpDX.4.2.0\lib\net45\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.XInput, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpDX.XInput.4.2.0\lib\net45\SharpDX.XInput.dll</HintPath>
-    </Reference>
-    <Reference Include="SM.Base, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SMRenderer2D.1.0.5\lib\net452\SM.Base.dll</HintPath>
-    </Reference>
-    <Reference Include="SM.OGL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SMRenderer2D.1.0.5\lib\net452\SM.OGL.dll</HintPath>
-    </Reference>
-    <Reference Include="SMRenderer2D, Version=1.0.1.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SMRenderer2D.1.0.5\lib\net452\SMRenderer2D.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -158,14 +146,6 @@
       <Project>{f604d684-bc1d-4819-88b5-8b5d03a17be0}</Project>
       <Name>SM.OGL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\SMRendererV3\SMCode\SM2D\SM2D.csproj">
-      <Project>{a4565538-625a-42c6-a330-dd4f1abb3986}</Project>
-      <Name>SM2D</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SMRendererV3\SMOptionals\SM.Game\SM.Game.csproj">
-      <Project>{079bab31-3dc4-40da-90c7-efaa8517c647}</Project>
-      <Name>SM.Game</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="LevelEditor\Screens\HelpText.txt" />
@@ -203,7 +183,7 @@
       <Version>3.3.1</Version>
     </PackageReference>
     <PackageReference Include="SMRenderer2D">
-      <Version>1.0.5</Version>
+      <Version>1.0.6.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
