@@ -11,6 +11,7 @@ using SM2D.Drawing;
 using SM2D.Scene;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -22,6 +23,12 @@ namespace IAmTwo
     {
         public static MainMenu Menu = new MainMenu();
         static Vector2 _sceneSize = new OpenTK.Vector2(1000, 1000 * LevelScene.Aspect);
+
+        static Dictionary<string, Action> contactActions = new Dictionary<string, Action>()
+        {
+            { "Discord", DiscordAction },
+            { "GitHub", GithubAction }
+        };
 
         private ItemCollection _options;
         private Button[] _buttons;        
@@ -65,7 +72,23 @@ namespace IAmTwo
             _options = CreateOptionMenu();
             _options.Active = false;
 
-            Objects.Add(buttons, _options);
+            ItemCollection contacts = new ItemCollection();
+            contacts.Transform.Position.Set(_sceneSize.X / 2 - 110, _sceneSize.Y / 2 - 50);
+
+            float distance = 0;
+
+            foreach(KeyValuePair<string, Action> pair in contactActions)
+            {
+                Button b = new Button(pair.Key.ToString(), 90);
+                b.Click += pair.Value;
+                b.Transform.Position.Set(0, -distance);
+
+                contacts.Add(b);
+
+                distance += b.Height + 10;
+            }
+
+            Objects.Add(buttons, _options, contacts);
             
         }
 
@@ -185,6 +208,18 @@ namespace IAmTwo
             foreach (Button button in _buttons) button.React = true;
 
             _options.Active = false;
+        }
+
+
+
+        private static void GithubAction()
+        {
+            Process.Start("https://github.com/IedSoftworks/IAmTwo");
+        }
+
+        private static void DiscordAction()
+        {
+
         }
     }
 }

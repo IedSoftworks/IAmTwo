@@ -4,6 +4,7 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Input;
+using SM.Base.Drawing.Text;
 using SM.Base.Window;
 using SM2D.Controls;
 using SM2D.Drawing;
@@ -21,11 +22,15 @@ namespace IAmTwo.Menu
 
         public event Action Click;
         public bool React = true;
+        public float Width;
+        public float Height;
 
-        public Button(string text, float? width = null)
+        public Button(string text, float? width = null, Font font = null)
         {
-            DrawText drawText = new DrawText(Fonts.Button, text);
+            DrawText drawText = new DrawText(font ?? Fonts.Button, text);
             drawText.GenerateMatrixes();
+            Width = drawText.Width;
+            Height = drawText.Height;
 
             float w = width ?? drawText.Width;
 
