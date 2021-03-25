@@ -1,4 +1,5 @@
-﻿using SM.Base;
+﻿using OpenTK;
+using SM.Base;
 using SM.Base.Window;
 using System;
 using System.Collections.Generic;
@@ -12,30 +13,41 @@ namespace IAmTwo
         public static string CurrentWindowMode {
             get => _settings._windowMode; 
             set {
-                if (_settings._windowMode != value)
+                _settings._windowMode = value;
+
+                WindowFlags flag = WindowFlags.Window;
+                switch (value)
                 {
-                    _settings._windowMode = value;
+                    case "Window":
+                        flag = WindowFlags.Window;
+                        break;
 
-                    WindowFlags flag = WindowFlags.Window;
-                    switch (value)
-                    {
-                        case "Window":
-                            flag = WindowFlags.Window;
-                            break;
+                    case "Borderless Window":
+                        flag = WindowFlags.BorderlessWindow;
+                        break;
 
-                        case "Borderless Window":
-                            flag = WindowFlags.BorderlessWindow;
-                            break;
-
-                        case "Fullscreen":
-                            flag = WindowFlags.ExclusiveFullscreen;
-                            break;
-                    }
-
-                    (SMRenderer.CurrentWindow as GLWindow).WindowFlags = flag;
+                    case "Fullscreen":
+                        flag = WindowFlags.ExclusiveFullscreen;
+                        break;
                 }
+
+                (SMRenderer.CurrentWindow as GLWindow).WindowFlags = flag;
             }
         }
+        public static string CurrentResolution
+        {
+            get => _settings._resolution;
+            set
+            {
+                _settings._resolution = value;
+
+                int width = int.Parse(value.Split('x')[0]);
+                int height = int.Parse(value.Split('x')[1]);
+
+                (SMRenderer.CurrentWindow as GLWindow).ChangeFullscreenResolution(DisplayDevice.Default.SelectResolution(width, height, DisplayDevice.Default.BitsPerPixel, DisplayDevice.Default.RefreshRate));
+            }
+        }
+
         public static bool VSync 
         {
             get => _settings._vSync;
@@ -66,18 +78,18 @@ namespace IAmTwo
                     _settings._bloom = value;
             }
         }
-        public static string MaterialQuality 
+        public static bool HighMaterialQuality 
         {
-            get => _settings._highMaterialQuality ? "High" : "Low";
+            get => _settings._highMaterialQuality;
             set
             {
-                bool high = value == "High";
-                if (_settings._highMaterialQuality != high)
-                    _settings._highMaterialQuality = high;
+                if (_settings._highMaterialQuality != value)
+                    _settings._highMaterialQuality = value;
             }
         }
 
         private string _windowMode = "Window";
+        private string _resolution = $"{DisplayDevice.Default.Width}x{DisplayDevice.Default.Height}";
         private bool _vSync = false;
         private string _aa = "4x";
         private string _bloom = "Off";

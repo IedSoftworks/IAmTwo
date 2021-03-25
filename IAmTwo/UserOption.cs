@@ -23,7 +23,7 @@ namespace IAmTwo
         private static DropDownUserOption _resolutionOption = new DropDownUserOption
         {
             Name = "Resolution",
-            Member = ""
+            Member = "CurrentResolution"
         };
 
         public static List<UserOption> Options = new List<UserOption>()
@@ -65,14 +65,10 @@ namespace IAmTwo
                 Member = "Bloom",
                 RequiresPipelineRestart = true
             },
-            new SelectUserOption()
+            new BoolUserOption()
             {
-                Name = "Material Quality",
-                Values = new string[]
-                {
-                    "Low", "High"
-                },
-                Member = "MaterialQuality"
+                Name = "High Material Quality",
+                Member = "HighMaterialQuality"
             },
         };
 
@@ -195,6 +191,7 @@ namespace IAmTwo
     public class DropDownUserOption : UserOption
     {
         public string[] Values;
+        public DropDown Visual;
 
         public DropDownUserOption()
         {
@@ -203,12 +200,17 @@ namespace IAmTwo
 
         public override object GetSelectedOption()
         {
-            throw new NotImplementedException();
+            return Visual.SelectedText;
         }
 
         public override ItemCollection GetVisual()
         {
-            return new DropDown(300, Values);
+            return Visual = new DropDown(300, Values);
+        }
+
+        public override void SetString(string str)
+        {
+            Visual.SetValue(str);
         }
     }
 }
