@@ -11,7 +11,7 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
         public IButtonTarget ButtonActor;
         public bool Pressed { get; private set; }
 
-        public Type ConnectTo => typeof(Door);
+        public Type ConnectTo => typeof(IButtonTarget);
 
         public IPlaceableObject ConnectedTo => (IPlaceableObject)ButtonActor;
 
