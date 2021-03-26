@@ -138,16 +138,6 @@
     <EmbeddedResource Include="Shaders\GLSL\goal_frag.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SMRendererV3\SMCode\SM.Base\SM.Base.csproj">
-      <Project>{8e733844-4204-43e7-b3dc-3913cddabb0d}</Project>
-      <Name>SM.Base</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SMRendererV3\SMCode\SM.OGL\SM.OGL.csproj">
-      <Project>{f604d684-bc1d-4819-88b5-8b5d03a17be0}</Project>
-      <Name>SM.OGL</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="LevelEditor\Screens\HelpText.txt" />
     <Content Include="Options.txt" />
     <Content Include="Resources\background.png">

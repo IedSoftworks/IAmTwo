@@ -2,14 +2,18 @@
 using IAmTwo.Resources;
 using OpenTK;
 using OpenTK.Graphics;
+using System;
 
 namespace IAmTwo.LevelObjects.Objects.SpecialObjects
 {
-    public class PressableButton : SpecialObject
+    public class PressableButton : SpecialObject, IConnectable
     {
         public IButtonTarget ButtonActor;
         public bool Pressed { get; private set; }
 
+        public Type ConnectTo => typeof(Door);
+
+        public IPlaceableObject ConnectedTo => (IPlaceableObject)ButtonActor;
 
         public PressableButton()
         {
@@ -59,6 +63,16 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
 
             ButtonActor?.Reset(this, a);
             SetPressed(false);
+        }
+
+        public void Connect(IPlaceableObject obj)
+        {
+            ButtonActor = (IButtonTarget)obj;
+        }
+
+        public void Disconnect()
+        {
+            ButtonActor = null;
         }
     }
 }

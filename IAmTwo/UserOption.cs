@@ -47,7 +47,7 @@ namespace IAmTwo
             new SeperatorOption(),
             new SelectUserOption()
             {
-                Name = "Anti Aliasing",
+                Name = "Anti Aliasing (MSAA)",
                 Values = new string[]
                 {
                     "Off", "2x", "4x", "8x", "16x",

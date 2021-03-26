@@ -93,6 +93,17 @@ namespace IAmTwo
         private bool _vSync = false;
         private string _aa = "4x";
         private string _bloom = "Off";
-        private bool _highMaterialQuality = false;
+        private bool _highMaterialQuality = true;
+
+        internal static void ApplySettings(UserSettings settings)
+        {
+            CurrentWindowMode = settings._windowMode;
+            CurrentResolution = settings._resolution;
+            VSync = settings._vSync;
+
+            AA = settings._aa;
+            Bloom = settings._bloom;
+            HighMaterialQuality = settings._highMaterialQuality;
+        }
     }
 }

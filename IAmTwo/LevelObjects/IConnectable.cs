@@ -2,7 +2,7 @@
 
 namespace IAmTwo.LevelObjects
 {
-    public interface IConnectable
+    public interface IConnectable : IPlaceableObject
     {
         Type ConnectTo { get; }
         IPlaceableObject ConnectedTo { get; }
