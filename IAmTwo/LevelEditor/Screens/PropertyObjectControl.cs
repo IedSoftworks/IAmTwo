@@ -72,6 +72,9 @@ namespace IAmTwo.LevelEditor
                         out IPlaceableObject clicked,
                         _connectSelectList))
                     {
+                        if (_connectAsked.ConnectedTo != null) _connectAsked.Disconnect();
+                        if (clicked is IConnectable c && c.ConnectedTo != null) c.Disconnect();
+
                         _connectAsked.Connect(clicked);
                         ExitConnectMode();
                     }
@@ -145,7 +148,8 @@ namespace IAmTwo.LevelEditor
 
                 if (item == connectable) continue;
 
-                if (item.GetType().IsAssignableFrom(connectable.ConnectTo) && item is IPlaceableObject placeable)
+
+                if ((item.GetType().IsAssignableFrom(connectable.ConnectTo) || connectable.ConnectTo.IsInterface && item.GetType().GetInterfaces().Contains(connectable.ConnectTo)) && item is IPlaceableObject placeable)
                 {
                     _connectSelectList.Add(placeable);
                     continue;

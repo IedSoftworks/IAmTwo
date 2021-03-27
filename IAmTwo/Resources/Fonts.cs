@@ -20,7 +20,10 @@ namespace IAmTwo.Resources
         {
             CharSet = new char[]
             {
-                '\uf00c', '\uf061'
+                '\uf00c',
+                '\uf061',
+                '\uf09b', // Github
+                '\uf392', // Discord 
             },
             FontSize = 13
         };

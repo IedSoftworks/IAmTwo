@@ -12,20 +12,29 @@ using OpenTK.Graphics;
 using SM.Base.Controls;
 using SM.Base.Window;
 using SM2D.Controls;
+using IAmTwo.Game;
+using SM2D.Types;
+using SM.Base.Objects.Static;
 
 namespace IAmTwo.Menu
 {
-    class DropDown : ItemCollection
+    public class DropDown : ItemCollection
     {
         private DrawObject2D _border;
         private DrawText _display;
         private DrawText _displayArrow;
         private ItemCollection _valueCol;
 
-        private Camera _camera;
+        private Dictionary<DrawText, Transformation> _texts;
+
+        private DrawText _selected;
+
+        public string SelectedText => _selected.Text;
 
         public DropDown(float width, string[] values)
         {
+            Transform.ZIndex.Set(1);
+
             _border = new DrawObject2D()
             {
                 Mesh = Models.CreateBackgroundPolygon(new OpenTK.Vector2(width, Fonts.Button.Height), 10),
@@ -44,16 +53,35 @@ namespace IAmTwo.Menu
             _valueCol.Transform.Position.Set(width, 0);
             _valueCol.Active = false;
 
+            _texts = new Dictionary<DrawText, Transformation>();
             float y = 0;
+            float x = 0;
             foreach (string value in values)
             {
                 DrawText valText = new DrawText(Fonts.Button, value);
                 valText.GenerateMatrixes();
                 valText.Transform.Position.Set(0, -y);
 
-                _valueCol.Add(valText);
+                Transformation t = new Transformation();
+                t.Size.Set(valText.Width, valText.Height);
+                t.Position.Set(valText.Width / 2, -y);
+                t.GetMatrix();
+
+                _texts.Add(valText, t);
                 y += valText.Height;
+                x = Math.Max(x, valText.Width);
             }
+
+            DrawObject2D valuesBack = new DrawObject2D()
+            {
+                Color = ColorPallete.LightBackground,
+                Mesh = Models.CreateBackgroundPolygon(new Vector2(x + 20, y + 10), 10)
+            };
+            valuesBack.Transform.Position.Set((x / 2) - 1, -(y  / 2) + 10);
+            valuesBack.Transform.Size.Set(1);
+            valuesBack.Transform.ZIndex.Set(-1);
+            _valueCol.Add(valuesBack);
+            _valueCol.AddRange(_texts.Keys);
 
             Add(_border, _display, _displayArrow, _valueCol);
         }
@@ -62,9 +90,9 @@ namespace IAmTwo.Menu
         {
             base.Update(context);
 
-            if (_camera != null)
+            if (_border.LastDrawingCamera != null)
             {
-                Vector2 mousePos = Mouse2D.InWorld(_camera);
+                Vector2 mousePos = Mouse2D.InWorld(_border.LastDrawingCamera as Camera);
                 if (Mouse2D.MouseOver(mousePos, _border))
                 {
                     _border.Color = Color4.LightBlue;
@@ -78,6 +106,24 @@ namespace IAmTwo.Menu
                 {
                     _border.Color = Color4.Blue;
                 }
+
+                if (_valueCol.Active)
+                {
+                    foreach (KeyValuePair<DrawText, Transformation> pair in _texts) {
+                        if (_selected == pair.Key) continue;
+
+                        if (Mouse2D.MouseOver(mousePos, Plate.Object.BoundingBox, pair.Value))
+                        {
+                            pair.Key.Color = Color4.Beige;
+
+                            if (Mouse.LeftClick)
+                            {
+                                SetValue(pair.Key);
+                            }
+                        }
+                        else pair.Key.Color = Color4.Aqua;
+                    }
+                }
             }
         }
 
@@ -85,7 +131,25 @@ namespace IAmTwo.Menu
         {
             base.Draw(context);
 
-            _camera = context.UseCamera as Camera;
+            if (_valueCol.Active) 
+                foreach(Transformation t in _texts.Values)
+                {
+                    t.LastMaster = _valueCol.Transform.InWorldSpace;
+                }
+        }
+
+        public void SetValue(string value)
+        {
+            DrawText drawing = _texts.FirstOrDefault(a => a.Key.Text == value).Key;
+            if (drawing != null) SetValue(drawing);
+        }
+        private void SetValue(DrawText text)
+        {
+            _selected = text;
+            text.Color = new Color4(0, 1f, 0f, 1f);
+
+            _display.Text = text.Text;
+            if (_valueCol.Active) _valueCol.Active = false;
         }
     }
 }

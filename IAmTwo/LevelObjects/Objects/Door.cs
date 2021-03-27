@@ -18,6 +18,7 @@ namespace IAmTwo.LevelObjects.Objects
             AllowedScaling = ScaleArgs.NoScaling;
             TriggerRotation = 90;
             Category = "Special";
+            Name = "Door";
             StartSize = new Vector2(20, 120);
 
             Material.Blending = true;

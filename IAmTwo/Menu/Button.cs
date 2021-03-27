@@ -4,6 +4,7 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Input;
+using SM.Base.Drawing.Text;
 using SM.Base.Window;
 using SM2D.Controls;
 using SM2D.Drawing;
@@ -21,11 +22,15 @@ namespace IAmTwo.Menu
 
         public event Action Click;
         public bool React = true;
+        public float Width;
+        public float Height;
 
-        public Button(string text, float? width = null)
+        public Button(string text, float? width = null, Font font = null)
         {
-            DrawText drawText = new DrawText(Fonts.Button, text);
+            DrawText drawText = new DrawText(font ?? Fonts.Button, text);
             drawText.GenerateMatrixes();
+            Width = drawText.Width;
+            Height = drawText.Height;
 
             float w = width ?? drawText.Width;
 
@@ -47,19 +52,12 @@ namespace IAmTwo.Menu
         {
             base.Update(context);
 
-            if (React && _lastCam != null && Mouse2D.MouseOver(Mouse2D.InWorld(_lastCam), out _, _border))
+            if (React && _border.LastDrawingCamera != null && Mouse2D.MouseOver(Mouse2D.InWorld(_border.LastDrawingCamera as Camera), out _, _border))
             {
                 _border.Color = Color4.LightBlue;
                 if (Mouse.IsDown(MouseButton.Left, true)) TriggerClick();
             }
             else _border.Color = Color4.Blue;
-        }
-
-        public override void Draw(DrawContext context)
-        {
-            _lastCam = context.UseCamera as Camera;
-
-            base.Draw(context);
         }
 
         public void TriggerClick()

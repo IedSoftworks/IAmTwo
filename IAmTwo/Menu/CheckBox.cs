@@ -42,9 +42,9 @@ namespace IAmTwo.Menu
         public override void Update(UpdateContext context)
         {
             base.Update(context);
-            if (_lastCamera == null) return;
+            if (_border.LastDrawingCamera == null) return;
             
-            Vector2 mousePos = Mouse2D.InWorld(_lastCamera);
+            Vector2 mousePos = Mouse2D.InWorld(_border.LastDrawingCamera as Camera);
             if (Mouse2D.MouseOver(mousePos, _border))
             {
                 _border.Color = Color4.AliceBlue;
@@ -57,13 +57,6 @@ namespace IAmTwo.Menu
                 }
             }
             else _border.Color = Color4.Blue;
-        }
-
-        public override void Draw(DrawContext context)
-        {
-            _lastCamera = context.UseCamera as Camera;
-
-            base.Draw(context);
         }
 
         public void SetChecked(bool value)

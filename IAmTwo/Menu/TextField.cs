@@ -61,9 +61,9 @@ namespace IAmTwo.Menu
         {
             base.Update(context);
 
-            if (_lastCam == null || _readOnly) return;
+            if (Border.LastDrawingCamera == null || _readOnly) return;
 
-            if (Mouse2D.MouseOver(Mouse2D.InWorld(_lastCam), Background))
+            if (Mouse2D.MouseOver(Mouse2D.InWorld(Border.LastDrawingCamera as Camera), Background))
             {
                 Border.Color = Color4.LightGreen;
                 if (Keyboard.AreSpecificKeysPressed(83, 119, out Key[] keys, true))
@@ -104,13 +104,6 @@ namespace IAmTwo.Menu
         public void SetText(string text, bool force = false)
         {
             if (!string.IsNullOrEmpty(_text) || force) TextObj.Text = _text = text;
-        }
-
-        public override void Draw(DrawContext context)
-        {
-            _lastCam = context.UseCamera as Camera;
-
-            base.Draw(context);
         }
     }
 }

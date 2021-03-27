@@ -42,7 +42,7 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
             ApplyPolygon(PlayerSpawner.Circle);
             Material.CustomShader = ShaderCollection.Shaders["Portal"].GetShader();
 
-            Color = new Color4(0,1f,0,1f);
+            Color = new Color4(1f, 1f,1f,1f);
         }
 
         protected override void DrawContext(ref DrawContext context)
@@ -113,6 +113,7 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
         {
             ConnectedTo = null;
 
+            if (_connector == null) return;
             if (_counterPart == _connector.Entrance)
             {
                 _counterPart.Disconnect();

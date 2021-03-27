@@ -20,7 +20,7 @@ namespace IAmTwo.Menu
     class OptionSelector : ItemCollection
     {
         private Dictionary<string, DrawText> _textLocation = new Dictionary<string, DrawText>();
-        private Dictionary<DrawText, DrawObject2D> _buttonBackgrounds = new Dictionary<DrawText, DrawObject2D>();
+        private Dictionary<DrawText, Transformation> _buttonBackgrounds = new Dictionary<DrawText, Transformation>();
         private Camera _camera;
         private DrawText _selected;
 
@@ -37,16 +37,13 @@ namespace IAmTwo.Menu
                 txt.GenerateMatrixes();
                 txt.Transform.Position.Set(x, 0);
 
-                DrawObject2D obj = new DrawObject2D()
-                {
-                    Color = new Color4(1, 1, 1, 0)
-                };
-                obj.Material.Blending = true;
-                obj.Transform.Size.Set(txt.Width, txt.Height);
-                obj.Transform.Position.Set((txt.Width/ 2) + (x - 7), 0);
+                Transformation t = new Transformation();
+                t.Size.Set(txt.Width, txt.Height);
+                t.Position.Set((txt.Width/ 2) + (x - 7), 0);
+                t.GetMatrix();
 
-                Add(obj, txt);
-                _buttonBackgrounds.Add(txt, obj);
+                Add(txt);
+                _buttonBackgrounds.Add(txt, t);
                 _textLocation.Add(value, txt);
                 x += txt.Width + 10;
                 h = Math.Max(txt.Height, h);
@@ -71,12 +68,11 @@ namespace IAmTwo.Menu
             if (_camera != null)
             {
                 Vector2 mousePos = Mouse2D.InWorld(_camera);
-                foreach (KeyValuePair<DrawText, DrawObject2D> pair in _buttonBackgrounds)
+                foreach (KeyValuePair<DrawText, Transformation> pair in _buttonBackgrounds)
                 {
                     if (pair.Key == _selected) continue;
 
-                    pair.Value.Color = new Color4(0, 0, 0, 0);
-                    if (Mouse2D.MouseOver(mousePos, pair.Value))
+                    if (Mouse2D.MouseOver(mousePos, Plate.Object.BoundingBox, pair.Value))
                     {
                         pair.Key.Color = Color4.LightBlue;
 
@@ -93,10 +89,15 @@ namespace IAmTwo.Menu
 
         public override void Draw(DrawContext context)
         {
+
             base.Draw(context);
 
             _camera = context.UseCamera as Camera;
 
+            foreach (Transformation t in _buttonBackgrounds.Values)
+            {
+                t.LastMaster = Transform.InWorldSpace;
+            }
         }
 
         public void Select(string value)
