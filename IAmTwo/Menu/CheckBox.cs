@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SM.Base.Drawing.Text;
 
 namespace IAmTwo.Menu
 {
@@ -20,8 +21,6 @@ namespace IAmTwo.Menu
 
         private DrawText _check;
         private DrawObject2D _border;
-
-        private Camera _lastCamera;
 
         public bool Checked { get; private set; }
 
@@ -34,8 +33,14 @@ namespace IAmTwo.Menu
             };
             _border.Transform.Size.Set(1);
             
-            _check = new DrawText(Fonts.FontAwesome, "\uf00c");
-            _check.Transform.Position.Set(0, -2);
+            _check = new DrawText(Fonts.FontAwesome, "\uf00c")
+            {
+                Origin = TextOrigin.Center
+            };
+            _check.GenerateMatrixes();
+
+            _check.Transform.Position.Set(-5, 0);
+
             Add(_border, _check);
         }
 

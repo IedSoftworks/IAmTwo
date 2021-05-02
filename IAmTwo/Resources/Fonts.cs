@@ -6,14 +6,12 @@ namespace IAmTwo.Resources
     {
         public static Font Button = new Font(@".\Resources\GapSansBold.ttf")
         {
-            FontSize = 13,
-            Spacing = .8f
+            FontSize = 13
         };
 
         public static Font Text  = new Font(@".\Resources\Urbanist-Regular.ttf")
         {
-            FontSize = 13,
-            Spacing = .8f
+            FontSize = 13
         };
 
         public static Font FontAwesome = new Font(@".\Resources\FontAwesome5.otf")

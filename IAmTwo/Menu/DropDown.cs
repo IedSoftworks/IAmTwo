@@ -13,6 +13,7 @@ using SM.Base.Controls;
 using SM.Base.Window;
 using SM2D.Controls;
 using IAmTwo.Game;
+using SM.Base.Drawing.Text;
 using SM2D.Types;
 using SM.Base.Objects.Static;
 
@@ -45,9 +46,12 @@ namespace IAmTwo.Menu
 
             _display = new DrawText(Fonts.Button, "- Nothing selected! -");
 
-            _displayArrow = new DrawText(Fonts.FontAwesome, "\uf061");
+            _displayArrow = new DrawText(Fonts.FontAwesome, "\uf061")
+            {
+                Origin = TextOrigin.Center
+            };
             _displayArrow.GenerateMatrixes();
-            _displayArrow.Transform.Position.Set((width - _displayArrow.Width * 1.5f), -1f);
+            _displayArrow.Transform.Position.Set((width - _displayArrow.Width - 20), 0);
 
             _valueCol = new ItemCollection();
             _valueCol.Transform.Position.Set(width, 0);
@@ -100,6 +104,7 @@ namespace IAmTwo.Menu
                     if (Mouse.LeftClick)
                     {
                         _valueCol.Active = !_valueCol.Active;
+                        _displayArrow.Transform.Rotation.Interpolate(TimeSpan.FromSeconds(.1f), _valueCol.Active ? 180 : 0);
                     }
                 }
                 else
@@ -143,6 +148,7 @@ namespace IAmTwo.Menu
             DrawText drawing = _texts.FirstOrDefault(a => a.Key.Text == value).Key;
             if (drawing != null) SetValue(drawing);
         }
+
         private void SetValue(DrawText text)
         {
             _selected = text;
