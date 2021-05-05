@@ -17,7 +17,6 @@ namespace IAmTwo
 
             GLWindow window = new GLWindow(1600,900, "I am two - DevBuild", WindowFlags.Window, VSyncMode.Off);
             window.ApplySetup(new Window2DSetup());
-            window.CursorVisible = false;
 
             window.TargetUpdateFrequency = 60;
             window.SetRenderPipeline(new GameRenderPipeline());

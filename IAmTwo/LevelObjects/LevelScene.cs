@@ -9,7 +9,6 @@ using SM.Base.Utility;
 using SM.Base.Window;
 using SM.Base.Window.Contexts;
 using SM2D.Scene;
-using MouseCursor = IAmTwo.Menu.MouseCursor;
 
 namespace IAmTwo.LevelObjects
 {
@@ -98,8 +97,6 @@ namespace IAmTwo.LevelObjects
         public override void Draw(DrawContext context)
         {
             base.Draw(context);
-
-            MouseCursor.Cursor.Draw(context);
         }
 
         public override void Update(UpdateContext context)

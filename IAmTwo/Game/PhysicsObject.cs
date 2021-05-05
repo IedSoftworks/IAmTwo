@@ -31,6 +31,9 @@ namespace IAmTwo.Game
 
         protected bool ChecksGrounded;
 
+        protected Matrix4 HitboxChange = Matrix4.Identity;
+        protected float? ForceRotation = null;
+
         public Vector2 Force = Vector2.Zero;
 
         public float Mass = 1;
@@ -48,7 +51,7 @@ namespace IAmTwo.Game
 
         public void UpdateHitbox()
         {
-            _hitbox.Update(Transform.GetMatrix(), Transform.Rotation);
+            _hitbox.Update(HitboxChange * Transform.GetMatrix(), ForceRotation.GetValueOrDefault(Transform.Rotation));
         }
 
         public bool UpdateActive { get; set; } = true;

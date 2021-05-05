@@ -6,7 +6,6 @@ using SM.Base;
 using SM.Base.Window;
 using SM2D.Scene;
 using Button = IAmTwo.Menu.Button;
-using MouseCursor = IAmTwo.Menu.MouseCursor;
 
 namespace IAmTwo.LevelEditor
 {
@@ -46,7 +45,7 @@ namespace IAmTwo.LevelEditor
             ofd.DefaultExt = ".iatl";
             ofd.Multiselect = false;
             ofd.InitialDirectory = Path.GetFullPath("Levels");
-            ofd.Filter = "I AM TWO Levels (*.iatl) | *.iatl | All Files (*.*) | *.*";
+            ofd.Filter = "I AM TWO Levels (*.iatl)|*.iatl|All Files (*.*)|*.*";
             
             if (ofd.ShowDialog() != DialogResult.OK) return;
 
@@ -70,8 +69,6 @@ namespace IAmTwo.LevelEditor
         public override void Draw(DrawContext context)
         {
             base.Draw(context);
-
-            MouseCursor.Cursor.Draw(context);
         }
     }
 }

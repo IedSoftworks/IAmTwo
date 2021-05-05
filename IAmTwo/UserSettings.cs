@@ -92,7 +92,7 @@ namespace IAmTwo
         private string _resolution = $"{DisplayDevice.Default.Width}x{DisplayDevice.Default.Height}";
         private bool _vSync = false;
         private string _aa = "4x";
-        private string _bloom = "Off";
+        private string _bloom = "High";
         private bool _highMaterialQuality = true;
 
         internal static void ApplySettings(UserSettings settings)

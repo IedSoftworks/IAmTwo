@@ -1,4 +1,5 @@
-﻿using IAmTwo.Game;
+﻿using System;
+using IAmTwo.Game;
 using IAmTwo.Shaders;
 using OpenTK;
 using OpenTK.Graphics;
@@ -22,7 +23,6 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
             }
         }
 
-        private Color4 _oldColor;
         private float y;
 
         public Goal()
@@ -61,6 +61,9 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
             if (allowed)
             {
                 Color = Color4.White;
+
+                player.React = false;
+                player.Transform.Size.Interpolate(TimeSpan.FromSeconds(1), Vector2.Zero);
             }
         }
     }

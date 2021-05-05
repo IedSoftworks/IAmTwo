@@ -30,6 +30,9 @@ void main() {
 	color *= Scale;
 	
 	if (HasEmission) {
-		color += texture2DGamma(Emission, v_TexCoords) * EmissionTint * EmissionStrength;
+		vec4 emission = texture2DGamma(Emission, v_TexCoords);
+		emission.a = 0;
+
+		color += emission * EmissionTint * EmissionStrength;
 	}
 }

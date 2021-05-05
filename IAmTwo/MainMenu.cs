@@ -96,7 +96,6 @@ namespace IAmTwo
         {
             base.Draw(context);
 
-            IAmTwo.Menu.MouseCursor.Cursor.Draw(context);
             IAmTwo.Menu.DebugScreen.Screen.Draw(context);
         }
 

@@ -23,12 +23,13 @@ namespace IAmTwo.Shaders
 
             if (UserSettings.Bloom != "Off")
             {
-                _bloom = new BloomEffect(_postBuffer, true, UserSettings.Bloom == "High" ? .75f : .25f)
+                _bloom = new BloomEffect(_postBuffer, true, UserSettings.Bloom == "High" ? 1 : .25f)
                 {
                     WeightCurvePickAmount = 5,
                     AmountMap = Resource.RequestTexture(@".\Resources\bloom_amountMap.png"),
                     AmountTransform = BloomAmountTransform,
                     MinAmount = .1f,
+                    Radius = .5f
                 };
                 _bloom.Initilize(this);
             }
