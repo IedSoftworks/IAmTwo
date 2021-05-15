@@ -53,7 +53,7 @@ namespace IAmTwo.Shaders
 
             if (_bloom != null) { 
                 BloomAmountTransform.Offset.Add(Deltatime.RenderDelta * .025f, 0);
-                _bloom.Draw(context);
+                _bloom.Draw(_postBuffer["color"], context);
             }
 
             Framebuffer.Screen.Activate(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);

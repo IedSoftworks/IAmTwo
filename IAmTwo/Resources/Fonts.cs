@@ -22,6 +22,7 @@ namespace IAmTwo.Resources
                 '\uf061',
                 '\uf09b', // Github
                 '\uf392', // Discord 
+                '\uf101' 
             },
             FontSize = 13
         };

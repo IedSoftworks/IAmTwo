@@ -119,18 +119,17 @@ namespace IAmTwo.LevelEditor
         {
             LevelConstructor constructor = LevelEditor.CurrentEditor.Constructor;
 
-            if (string.IsNullOrEmpty(constructor.LevelPath))
-            {
-                SaveFileDialog sfd = new SaveFileDialog();
-                sfd.DefaultExt = ".iatl";
-                sfd.Title = "Select a path where to store the level.";
-                sfd.InitialDirectory = Path.GetFullPath("Levels");
-                sfd.OverwritePrompt = true;
-                
-                if (sfd.ShowDialog() != DialogResult.OK) return;
+            
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.DefaultExt = ".iatl";
+            sfd.Title = "Select a path where to store the level.";
+            sfd.InitialDirectory = Path.GetFullPath("Levels");
+            sfd.Filter = "I am two-Levels|*.iatl|All Files (*.*)|*.*";
+            sfd.OverwritePrompt = true;
+            
+            if (sfd.ShowDialog() != DialogResult.OK) return;
 
-                constructor.LevelPath = sfd.FileName;
-            }
+            constructor.LevelPath = sfd.FileName;
 
             if (File.Exists(constructor.LevelPath)) File.Delete(constructor.LevelPath);
             using (FileStream stream = new FileStream(constructor.LevelPath, FileMode.Create))

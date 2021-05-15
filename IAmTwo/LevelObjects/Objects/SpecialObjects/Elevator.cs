@@ -62,7 +62,7 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
         public override void ColliedWithPlayer(SpecialActor p, Vector2 mtv)
         {
             base.Collided(p, mtv);
-            float sped = Gravity * p.Mass * Speed * (_sideways ? 20 :1) * (_reverse ? -1 : 1);
+            float sped = Gravity * Speed * (_sideways ? 20 :1) * (_reverse ? -1 : 1);
             if (_sideways) p.Force.X += sped;
             else p.Force.Y += sped;
         }

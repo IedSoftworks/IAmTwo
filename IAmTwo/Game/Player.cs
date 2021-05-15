@@ -9,7 +9,7 @@ using SM.Base.Textures;
 using SM.Base.Utility;
 using SM.Base.Window;
 using SM.Base.Window.Contexts;
-using SM.Game.Controls;
+using SM.Utils.Controls;
 using SM2D.Drawing;
 using SM2D.Scene;
 
@@ -23,12 +23,12 @@ namespace IAmTwo.Game
             {"jump", context => context.KeyboardState[Key.Space], context => context.ControllerState?.Buttons.A}
         });
 
-        public static float DefaultJumpMultiplier = 25;
-        public static Vector2 PlayerSize = new Vector2(50);
-        
+        public static float DefaultJumpMultiplier = 40;
+        public static Vector2 PlayerSize = new Vector2(100);
+
         private GameKeybindActor _keybindActor;
 
-        private float _speed = 2000;
+        private float _speed = 30;
 
         private ItemCollection _visual;
 
@@ -43,19 +43,16 @@ namespace IAmTwo.Game
 
         public Player(GameKeybindActor actor, bool mirror)
         {
-            Mass = 10;
             Passive = false;
-
-            Material.Blending = true;
-
+            
             actor.ConnectHost(keybindHost);
             _keybindActor = actor;
 
             Color = mirror ? ColorPallete.Mirror : ColorPallete.Player;
             Mirror = mirror;
-            ForceRotation = 0;
+            HitboxNoRotation = true;
 
-            const float darkening = .1f;
+            const float darkening = .3f;
 
             Material mat = new Material()
             {
@@ -65,14 +62,15 @@ namespace IAmTwo.Game
                 {
                     {"EmissionTex", Resource.RequestTexture(@".\Resources\player_e.png")},
                     {"EmissionTint", Color},
-                    {"EmissionStrength", 3.5f}
+                    {"EmissionStrength", 2.5f}
                 },
                 Tint = new Color4(darkening, darkening, darkening, 1)
             };
 
             _visual = new ItemCollection {Transform = Transform};
+            _visual.Transform.ZIndex.Set(3);
 
-            HitboxChange = Matrix4.CreateScale(.5f, 1, 1);
+            HitboxChangeMatrix = Matrix4.CreateScale(.5f, 1, 1);
 
             _body = new DrawObject2D()
             {
@@ -85,7 +83,7 @@ namespace IAmTwo.Game
             {
                 Material = mat
             };
-            _head.TextureTransform.SetRectangleRelative((Texture)mat.Texture, new Vector2(234,0), new Vector2(220, 201));
+            _head.TextureTransform.SetRectangleRelative((Texture)mat.Texture, new Vector2(234, 0), new Vector2(220, 150));
             _head.Transform.Size.Set(_head.TextureTransform.Scale);
             _head.Transform.Position.Set(.025f, .5f);
 
@@ -97,8 +95,7 @@ namespace IAmTwo.Game
         {
             if (!React) return;
 
-            float speedMul = 1;
-            const float rot = 15;
+            const float rot = 5;
 
             float xDir = _keybindActor.Get<float>("move") * (Mirror ? -1 : 1);
             if (Math.Sign(xDir) != 0)
@@ -113,12 +110,12 @@ namespace IAmTwo.Game
                 _head.Transform.Rotation.Set(0);
             }
 
-            Force.X = xDir * _speed * speedMul;
+            Force.X = xDir * _speed;
 
             bool jump = _keybindActor.Get<bool>("jump");
             if (jump && Grounded)
             {
-                Force.Y += CalculateGravity(context.Deltatime) * JumpMultiplier;
+                Force.Y += Gravity * JumpMultiplier;
             }
 
             _visual.Update(context);
@@ -128,7 +125,6 @@ namespace IAmTwo.Game
         protected override void DrawContext(ref DrawContext context)
         {
             _visual.Draw(context);
-            //base.DrawContext(ref context);
         }
 
         public override void FixedUpdate(FixedUpdateContext context)
@@ -148,7 +144,7 @@ namespace IAmTwo.Game
                 return;
             }
             
-            DefaultCollisionResolvement(mtv);
+            DefaultCollisionResolvement(obj, mtv);
         }
     }
 }

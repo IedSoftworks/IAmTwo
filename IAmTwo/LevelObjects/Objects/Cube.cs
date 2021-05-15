@@ -12,7 +12,6 @@ namespace IAmTwo.LevelObjects.Objects
 
             Name = "Cube";
 
-            Mass = 10;
             Passive = false;
             Transform.Size.Set(50);
             Texture = Resource.RequestTexture(@".\Resources\MovingBox_d.png");
@@ -39,7 +38,7 @@ namespace IAmTwo.LevelObjects.Objects
                     break;
             }
 
-            DefaultCollisionResolvement(mtv);
+            DefaultCollisionResolvement(obj, mtv);
 
             Force.X *= .9f;
         }

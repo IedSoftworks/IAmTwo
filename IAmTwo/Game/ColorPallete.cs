@@ -4,7 +4,7 @@ namespace IAmTwo.Game
 {
     public class ColorPallete
     {
-        public static Color4 Player = Color4.Blue;
+        public static Color4 Player = Color4.BlueViolet;
         public static Color4 Mirror = Color4.Red;
 
         public static Color4 Up = Color4.Yellow;

@@ -1,24 +1,24 @@
 ﻿using IAmTwo.LevelObjects.Objects.SpecialObjects;
 using OpenTK;
+using SM.Base.Scene;
 using SM.Base.Window;
 
 namespace IAmTwo.Game
 {
-    public class SpecialActor : PhysicsObject
+    public class SpecialActor : PhysicsObject, IScriptable
     {
         private SpecialObject _lastSpecialObject;
 
-        public override void Update(UpdateContext context)
+        public bool UpdateActive { get; set; } = true;
+        public virtual void Update(UpdateContext context)
         {
-            base.Update(context);
-
             if (!CollidedWith.Contains(_lastSpecialObject))
             {
                 _lastSpecialObject?.EndCollision(this, Vector2.Zero);
                 _lastSpecialObject = null;
             }
         }
-
+        
         public void HandleCollision(SpecialObject special, Vector2 mtv)
         {
             if (special != _lastSpecialObject)

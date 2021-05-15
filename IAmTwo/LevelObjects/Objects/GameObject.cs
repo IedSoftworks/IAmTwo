@@ -9,8 +9,7 @@ namespace IAmTwo.LevelObjects.Objects
         public GameObject()
         {
             Name = "Wall";
-
-            Mass = 1;
+            
             ChecksGrounded = true;
 
             Material.CustomShader = ShaderCollection.Shaders["GameObject"].GetShader();

@@ -4,7 +4,7 @@ using OpenTK;
 using SM.Base.Time;
 using SM.Base.Utility;
 using SM.Base.Window;
-using SM.Game.Controls;
+using SM.Utils.Controls;
 using SM2D.Object;
 using SM2D.Scene;
 

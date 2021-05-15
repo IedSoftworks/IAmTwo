@@ -72,8 +72,14 @@ namespace KWEngine.Hitbox
         /// <param name="width">width (scale on x axis)</param>
         /// <param name="height">height (scale on y axis)</param>
         /// <param name="orientationDegrees">current orientation (will be converted to radians)</param>
-        public void Update(Matrix4 matrix, double orientationDegrees)
+        public void Update(Matrix4 matrix, double orientationDegrees, bool noMatrixRotation = false)
         {
+            if (noMatrixRotation)
+            {
+                matrix = matrix.ClearRotation();
+                orientationDegrees = 0;
+            }
+
             // Rotate the Hitbox's normal vectors according to the current orientation:
             // TODO: Check if normals are normalized (i.e. their length must be 1 after rotation)...
             normalsCurrent[0] = RotateVector(normalsSource[0], orientationDegrees * Math.PI / 180);

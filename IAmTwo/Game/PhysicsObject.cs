@@ -1,76 +1,76 @@
-﻿using KWEngine.Hitbox;
-using OpenTK;
-using SM.Base.Scene;
-using SM.Base.Time;
-using SM2D.Drawing;
+﻿using System;
 using System.Collections.Generic;
+using KWEngine.Hitbox;
+using OpenTK;
+using SM.Base;
+using SM.Base.Animation;
+using SM.Base.Scene;
 using SM.Base.Utility;
-using SM.Base.Window;
 using SM.Base.Window.Contexts;
+using SM2D.Drawing;
 
 namespace IAmTwo.Game
 {
-    public class PhysicsObject : DrawObject2D, IScriptable, IFixedScriptable
+    public class PhysicsObject : BaseGameObject, IFixedScriptable
     {
-        public const float Gravity = 9.8f;
+        public const float Gravity = 10f;
+        public static bool Disabled = false;
         public static List<Hitbox> Colliders = new List<Hitbox>();
 
-        public static bool Disabled = false;
-
-        private Hitbox _hitbox;
-
-        public Hitbox Hitbox => _hitbox;
-        public int ID { get; set; } = -1;
-
-        protected Stopwatch AirTime;
-        protected List<PhysicsObject> CollidedWith = new List<PhysicsObject>();
         protected bool Grounded = false;
 
-        protected Vector2 Acceleration { get; private set; } = Vector2.Zero;
-        protected Vector2 Velocity { get; private set; } = Vector2.Zero;
+        protected bool CanCollide = true;
+        protected List<PhysicsObject> CollidedWith = new List<PhysicsObject>();
+        protected bool ChecksGrounded = false;
 
-        protected bool ChecksGrounded;
+        protected Matrix4 HitboxChangeMatrix = Matrix4.Identity;
+        protected bool HitboxNoRotation = false;
 
-        protected Matrix4 HitboxChange = Matrix4.Identity;
-        protected float? ForceRotation = null;
-
-        public Vector2 Force = Vector2.Zero;
-
-        public float Mass = 1;
-        public float Drag = .75f;
+        private Hitbox _hitbox;
+        public Hitbox Hitbox => _hitbox;
 
         public bool Passive = true;
-        public bool CanCollide { get; set; } = true;
+
+        public Vector2 Force;
+        public Vector2 Velocity;
+
+        public float Mass = 1;
+
+        public float MaxXSpeed = 1000;
+
+        public float Drag = 15f;
 
         public PhysicsObject()
         {
             _hitbox = new Hitbox(this);
-
-            AirTime = new Stopwatch();
         }
 
         public void UpdateHitbox()
         {
-            _hitbox.Update(HitboxChange * Transform.GetMatrix(), ForceRotation.GetValueOrDefault(Transform.Rotation));
+            _hitbox.Update(HitboxChangeMatrix * Transform.GetMatrix(true), 
+                Transform.Rotation, HitboxNoRotation);
         }
 
-        public bool UpdateActive { get; set; } = true;
-
-        public virtual void Update(UpdateContext context)
+        public virtual void FixedUpdate(FixedUpdateContext context)
         {
-
             if (Disabled || Passive) return;
 
-            if (Grounded) AirTime.Reset();
-            else AirTime.Start();
+            Vector2 acceleration = Force / Mass;
 
-            if (!Grounded) Force.Y -= CalculateGravity(context.Deltatime);
+            Velocity += acceleration;
+
+            int direction = Math.Sign(Velocity.X);
+            Velocity.X = Math.Min(Math.Abs(Velocity.X), MaxXSpeed) * direction;
+
+            Transform.Position.Add(Velocity * Deltatime.FixedUpdateDelta);
+
+            Force = new Vector2(0, -Gravity);
 
             CollidedWith.Clear();
             Grounded = false;
             foreach (Hitbox hitbox in Colliders)
             {
-                if (hitbox == _hitbox || !hitbox.PhysicsObject.CanCollide || !hitbox.PhysicsObject.Active) continue;
+                if (hitbox == _hitbox || !hitbox.PhysicsObject.Active) continue;
 
                 Vector2 mtv;
                 if (Hitbox.TestIntersection(_hitbox, hitbox, out mtv))
@@ -84,54 +84,37 @@ namespace IAmTwo.Game
                     }
                 }
             }
-
-            CalculateForce(context.Deltatime);
         }
 
-        public virtual void FixedUpdate(FixedUpdateContext context)
-        {
-            
-        }
+
 
         public override void OnAdded(object sender)
         {
             base.OnAdded(sender);
 
             UpdateHitbox();
+            if (!CanCollide) return;
             Colliders.Add(Hitbox);
         }
 
         public override void OnRemoved(object sender)
         {
             base.OnRemoved(sender);
-
+            
+            if (!CanCollide) return;
             Colliders.Remove(Hitbox);
         }
 
-        private void CalculateForce(float deltatime)
+        public virtual void Collided(PhysicsObject obj, Vector2 mtv) { }
+
+        public void DefaultCollisionResolvement(PhysicsObject obj, Vector2 mtv)
         {
-            Acceleration = Vector2.Divide(Force, Mass) * deltatime;
-            Velocity = Vector2.Divide(Acceleration, deltatime);
+            Velocity += mtv * 70;
 
-            Transform.Position.Add(Acceleration);
-        }
-
-        public float CalculateGravity(float deltatime)
-        {
-            return Gravity * Mass * deltatime * 30;
-        }
-
-        public virtual void Collided(PhysicsObject obj, Vector2 mtv) {}
-
-        public void DefaultCollisionResolvement(Vector2 mtv)
-        {
-            Force += mtv * 75;
+            int direction = Math.Sign(Velocity.X);
+            Velocity.X = Math.Max(Math.Abs(Velocity.X) - obj.Drag, 0) * direction;
+            
             Transform.Position.Add(mtv);
-        }
-
-        public override string ToString()
-        {
-            return $"{Name} ({ID})";
         }
     }
 }

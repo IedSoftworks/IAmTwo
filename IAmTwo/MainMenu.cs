@@ -16,6 +16,10 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms.VisualStyles;
+using IAmTwo.Menu.MainMenuParts;
+using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL4;
 
 namespace IAmTwo
 {
@@ -31,6 +35,7 @@ namespace IAmTwo
         };
 
         private ItemCollection _options;
+        private ItemCollection _playMenu;
         private Button[] _buttons;        
 
         public override void Initialization()
@@ -50,6 +55,7 @@ namespace IAmTwo
 
             Button playButton = new Button("Play", width);
             playButton.Transform.Position.Set(0, offset * 0);
+            playButton.Click += ShowPlayMenu;
 
             Button editorButton = new Button("Level Editor", width);
             editorButton.Transform.Position.Set(0, offset * 1);
@@ -58,9 +64,10 @@ namespace IAmTwo
                 HideOptionMenu();
                 SMRenderer.CurrentWindow.SetScene(LevelEditorMainMenu.Scene);
             };
+
             Button optionButton = new Button("Options", width);
             optionButton.Transform.Position.Set(0, offset * 2);
-            optionButton.Click += () => ShowOptionMenu();
+            optionButton.Click += ShowOptionMenu;
 
             Button exitButton = new Button("Exit", width);
             exitButton.Transform.Position.Set(0, offset * 3);
@@ -72,6 +79,9 @@ namespace IAmTwo
             _options = CreateOptionMenu();
             _options.Active = false;
 
+            _playMenu = new PlayMenu(_sceneSize);
+            _playMenu.Active = false;
+            
             ItemCollection contacts = new ItemCollection();
             contacts.Transform.Position.Set(_sceneSize.X / 2 - 110, _sceneSize.Y / 2 - 50);
 
@@ -88,7 +98,7 @@ namespace IAmTwo
                 distance += b.Height + 10;
             }
 
-            Objects.Add(buttons, _options, contacts);
+            Objects.Add(buttons, _options, _playMenu, contacts);
             
         }
 
@@ -112,11 +122,25 @@ namespace IAmTwo
                 Color = ColorPallete.DarkBackground
             };
             background.Transform.Size.Set(1);
+            DrawObject2D border = new DrawObject2D()
+            {
+                Mesh = background.Mesh,
+                ForcedMeshType = PrimitiveType.LineLoop,
+
+                Transform = background.Transform,
+                Color = Color4.Blue,
+
+                ShaderArguments =
+                {
+                    {"LineWidth", 1f},
+                    {"Scale", .5f}
+                }
+            };
 
             ItemCollection button = new ItemCollection();
             button.Transform.Position.Set(-(size.X / 2) + 20, (size.Y / 2) - 20);
 
-            Button apply = new Button("Apply", 100);
+            Button apply = new Button("Apply", 100, allowBorder:false);
             apply.Click += Apply_Click;
             button.Add(apply);
 
@@ -135,7 +159,7 @@ namespace IAmTwo
 
 
 
-            col.Add(background, button);
+            col.Add(background, border, button);
 
             return col;
         }
@@ -201,7 +225,7 @@ namespace IAmTwo
 
             _options.Active = true;
         }
-
+        
         private void HideOptionMenu()
         {
             foreach (Button button in _buttons) button.React = true;
@@ -209,7 +233,26 @@ namespace IAmTwo
             _options.Active = false;
         }
 
+        private void ShowPlayMenu()
+        {
+            foreach (Button button in _buttons)
+            {
+                button.React = false;
+            }
 
+            LevelSet.Load();
+            _playMenu.Active = true;
+        }
+
+        public void HidePlayMenu()
+        {
+            _playMenu.Active = false;
+
+            foreach (Button button in _buttons)
+            {
+                button.React = true;
+            }
+        }
 
         private static void GithubAction()
         {
