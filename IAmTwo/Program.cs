@@ -27,16 +27,14 @@ namespace IAmTwo
             LevelSet.Load();
 
             GLWindow window = new GLWindow(1600,900, "I am two - DevBuild", WindowFlags.Window, VSyncMode.Off)
-            {
-                TargetRenderFrequency = 10
-            };
+            { };
             window.ApplySetup(new Window2DSetup());
 
             window.TargetUpdateFrequency = 60;
             window.SetRenderPipeline(new GameRenderPipeline());
             window.SetScene(MainMenu.Menu);
             //window.SetScene(new GameScene(new LevelConstructor() { Size = 650 }));
-            window.RunFixedUpdate(200);
+            window.RunFixedUpdate(60);
             window.Run();
         }
     }

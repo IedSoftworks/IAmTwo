@@ -38,7 +38,7 @@ namespace IAmTwo.Game
 
         public float MaxXSpeed = 1000;
 
-        public float Drag = 15f;
+        public float Drag = 20f;
 
         public PhysicsObject()
         {
@@ -109,8 +109,8 @@ namespace IAmTwo.Game
 
         public void DefaultCollisionResolvement(PhysicsObject obj, Vector2 mtv)
         {
-            Velocity += mtv * 70;
-
+            Velocity += mtv * 5;
+            
             int direction = Math.Sign(Velocity.X);
             Velocity.X = Math.Max(Math.Abs(Velocity.X) - obj.Drag, 0) * direction;
             
