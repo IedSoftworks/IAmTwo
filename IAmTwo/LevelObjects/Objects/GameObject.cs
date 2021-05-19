@@ -1,11 +1,28 @@
-﻿using IAmTwo.Game;
+﻿using System;
+using IAmTwo.Game;
 using IAmTwo.Shaders;
 using OpenTK;
+using SM.Base.Animation;
+using SM.Base.Types;
 
 namespace IAmTwo.LevelObjects.Objects
 {
     public class GameObject : PhysicsObject, IPlaceableObject
     {
+        public static CVector1 Glow = new CVector1(1f);
+
+        static GameObject()
+        {
+            TimeSpan span = TimeSpan.FromSeconds(2.5f);
+
+            InterpolationProcess intProcess = Glow.Interpolate(span, 1.5f, AnimationCurves.Smooth);
+            intProcess.End += (timer, context) =>
+            {
+                InterpolationProcess intProcess2 = Glow.Interpolate(span, 1f, AnimationCurves.Smooth);
+                intProcess2.End += (timer1, updateContext) => intProcess.Start();
+            };
+        }
+
         public GameObject()
         {
             Name = "Wall";

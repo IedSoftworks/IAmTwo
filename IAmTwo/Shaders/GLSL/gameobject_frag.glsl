@@ -3,11 +3,14 @@
 in vec2 v_TexCoords;
 
 uniform float xTexScale;
+uniform float Glow;
+
+uniform sampler2D noise;
 
 layout(location = 0) out vec4 Color;
 
-//# import SM_base_fragment_noise
-float SimplexNoise(vec2 v);
+//# import SM_base_fragment_textureGamma
+vec4 texture2DGamma(sampler2D s, vec2 P);
 
 // bezier curve with 2 control points
 // A is the starting point, B, C are the control points, D is the destination
@@ -34,10 +37,13 @@ void main() {
 	float hit = abs(b.y - v_TexCoords.y);
 	
 	float bezierHit = hit < size  ? 1 : 0;
-	float bezierBorder = (hit < size + .1 ? 1 : 0);
+	float bezierBorder = (hit < size + .05 ? 1 : 0);
 	float border = v_TexCoords.y < borderThickness || v_TexCoords.y > 1 - borderThickness || abs(v_TexCoords.x) < borderThickness || abs(v_TexCoords.x) > xTexScale - borderThickness ? 1 : 0;
 	float mergedBorders = (bezierBorder - bezierHit) + border;
 
-	vec3 result = mergedBorders * vec3(.01) + bezierHit * vec3(1,.5,0) * 1.3 + (1 - bezierHit) * vec3(.005);
+	float noise = texture2DGamma(noise, fract(v_TexCoords)).r * (1 - border) * (1 - bezierHit ) * (1 - bezierBorder);
+	
+	const vec3 GlowColor = vec3(1, .5, 0);
+	vec3 result = (mergedBorders) * vec3(.01) + bezierHit * GlowColor * Glow + (1 - bezierHit) * vec3(.005) + noise * GlowColor * .01f * Glow;
 	Color = vec4(result, 1);
 }

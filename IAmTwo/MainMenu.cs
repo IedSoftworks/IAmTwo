@@ -20,6 +20,9 @@ using System.Windows.Forms.VisualStyles;
 using IAmTwo.Menu.MainMenuParts;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
+using SM.Base.Animation;
+using SM.Base.Drawing;
+using SM2D.Types;
 
 namespace IAmTwo
 {
@@ -51,13 +54,13 @@ namespace IAmTwo
             const float width = 130;
 
             ItemCollection buttons = new ItemCollection();
-            buttons.Transform.Position.Set(-425, -(Camera.RequestedWorldScale.Value.Y / 2) + 200);
+            //buttons.Transform.Position.Set(-425, -(Camera.RequestedWorldScale.Value.Y / 2) + 200);
 
-            Button playButton = new Button("Play", width);
+            Button playButton = new Button("Play", width, allowBorder: false, center: true);
             playButton.Transform.Position.Set(0, offset * 0);
             playButton.Click += ShowPlayMenu;
 
-            Button editorButton = new Button("Level Editor", width);
+            Button editorButton = new Button("Level Editor", width, allowBorder: false, center: true);
             editorButton.Transform.Position.Set(0, offset * 1);
             editorButton.Click += () =>
             {
@@ -65,14 +68,29 @@ namespace IAmTwo
                 SMRenderer.CurrentWindow.SetScene(LevelEditorMainMenu.Scene);
             };
 
-            Button optionButton = new Button("Options", width);
+            Button optionButton = new Button("Options", width, allowBorder: false, center: true);
             optionButton.Transform.Position.Set(0, offset * 2);
             optionButton.Click += ShowOptionMenu;
 
-            Button exitButton = new Button("Exit", width);
+            Button exitButton = new Button("Exit", width, allowBorder: false, center: true);
             exitButton.Transform.Position.Set(0, offset * 3);
             exitButton.Click += () => SMRenderer.CurrentWindow.Close();
             _buttons = new Button[] { playButton, editorButton, optionButton, exitButton };
+            foreach (Button b in _buttons)
+            {
+                b.Color = Color4.LightBlue;
+
+                b.HoverAction = basis =>
+                {
+                    b.Transform.Size.Set(1.2f);
+                    basis.Material.Tint = Color4.LightGreen;
+                };
+                b.RecoverAction = basis =>
+                {
+                    b.Transform.Size.Set(1f);
+                    basis.Material.Tint = Color4.LightBlue;
+                };
+            }
 
             buttons.Add(_buttons);
 
@@ -97,6 +115,10 @@ namespace IAmTwo
 
                 distance += b.Height + 10;
             }
+
+            DrawObject2D obj = new DrawObject2D();
+            obj.Material.ShaderArguments.Add("MenuRect", Vector4.Zero);
+            obj.Transform.Size.Set(Camera.CalculatedWorldScale);
 
             Objects.Add(buttons, _options, _playMenu, contacts);
             

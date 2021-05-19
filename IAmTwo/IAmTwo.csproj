@@ -148,8 +148,12 @@
     </None>
     <EmbeddedResource Include="Shaders\GLSL\portal_connector_vert.glsl" />
     <EmbeddedResource Include="Shaders\GLSL\goal_frag.glsl" />
+    <None Include="Shaders\GLSL\default_vert.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\gameobject_noise.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\player_d.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

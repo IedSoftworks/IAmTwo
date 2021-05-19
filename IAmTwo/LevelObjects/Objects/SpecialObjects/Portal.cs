@@ -51,8 +51,8 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
             _ringLoc -= Deltatime.RenderDelta / 2;
             if (_ringLoc < 0) _ringLoc = 1;
 
-            ShaderArguments["move"] = _rot;
-            ShaderArguments["ringLoc"] = _ringLoc;
+            ShaderArguments["Rot"] = _rot;
+            ShaderArguments["RingLoc"] = _ringLoc;
             base.DrawContext(ref context);
         }
 

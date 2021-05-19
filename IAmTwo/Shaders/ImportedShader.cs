@@ -24,7 +24,9 @@ namespace IAmTwo.Shaders
         {
             if (_highShader != null) return _highShader;
 
-            return _highShader = string.IsNullOrEmpty(VertexExtension) ? new SimpleShader(VertexPreset, AssemblyUtility.ReadAssemblyFile("IAmTwo.Shaders.GLSL."+ (LowComplexity ? LowFragment : HighFragment) ), Uniform) : new SimpleShader(VertexPreset, AssemblyUtility.ReadAssemblyFile("IAmTwo.Shaders.GLSL." + VertexExtension), AssemblyUtility.ReadAssemblyFile("IAmTwo.Shaders.GLSL." + (LowComplexity ? LowFragment : HighFragment)), Uniform);
+            _highShader = string.IsNullOrEmpty(VertexExtension) ? new SimpleShader(VertexPreset, AssemblyUtility.ReadAssemblyFile("IAmTwo.Shaders.GLSL."+ (LowComplexity ? LowFragment : HighFragment) ), Uniform) : new SimpleShader(VertexPreset, AssemblyUtility.ReadAssemblyFile("IAmTwo.Shaders.GLSL." + VertexExtension), AssemblyUtility.ReadAssemblyFile("IAmTwo.Shaders.GLSL." + (LowComplexity ? LowFragment : HighFragment)), Uniform);
+
+            return _highShader;
         }
     }
 }

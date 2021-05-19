@@ -23,12 +23,12 @@ namespace IAmTwo.Game
             {"jump", context => context.KeyboardState[Key.Space], context => context.ControllerState?.Buttons.A}
         });
 
-        public static float DefaultJumpMultiplier = 30;
+        public static float DefaultJumpMultiplier = 35;
         public static Vector2 PlayerSize = new Vector2(100);
 
         private GameKeybindActor _keybindActor;
 
-        private float _speed = 30;
+        private float _speed = 40;
 
         private ItemCollection _visual;
 
@@ -83,7 +83,7 @@ namespace IAmTwo.Game
             {
                 Material = mat
             };
-            _head.TextureTransform.SetRectangleRelative((Texture)mat.Texture, new Vector2(234, 0), new Vector2(220, 150));
+            _head.TextureTransform.SetRectangleRelative((Texture)mat.Texture, new Vector2(234, 0), new Vector2(221, 150));
             _head.Transform.Size.Set(_head.TextureTransform.Scale);
             _head.Transform.Position.Set(.025f, .5f);
 

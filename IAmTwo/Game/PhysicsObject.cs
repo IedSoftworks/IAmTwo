@@ -13,6 +13,7 @@ namespace IAmTwo.Game
 {
     public class PhysicsObject : BaseGameObject, IFixedScriptable
     {
+        public const float Drag = 20f;
         public const float Gravity = 10f;
         public static bool Disabled = false;
         public static List<Hitbox> Colliders = new List<Hitbox>();
@@ -38,8 +39,6 @@ namespace IAmTwo.Game
 
         public float MaxXSpeed = 1000;
 
-        public float Drag = 20f;
-
         public PhysicsObject()
         {
             _hitbox = new Hitbox(this);
@@ -60,7 +59,7 @@ namespace IAmTwo.Game
             Velocity += acceleration;
 
             int direction = Math.Sign(Velocity.X);
-            Velocity.X = Math.Min(Math.Abs(Velocity.X), MaxXSpeed) * direction;
+            Velocity.X = Math.Min(Math.Max(Math.Abs(Velocity.X) - Drag, 0), MaxXSpeed) * direction;
 
             Transform.Position.Add(Velocity * Deltatime.FixedUpdateDelta);
 
@@ -109,11 +108,8 @@ namespace IAmTwo.Game
 
         public void DefaultCollisionResolvement(PhysicsObject obj, Vector2 mtv)
         {
-            Velocity += mtv * 5;
-            
-            int direction = Math.Sign(Velocity.X);
-            Velocity.X = Math.Max(Math.Abs(Velocity.X) - obj.Drag, 0) * direction;
-            
+            Velocity += mtv * 10;
+
             Transform.Position.Add(mtv);
         }
     }

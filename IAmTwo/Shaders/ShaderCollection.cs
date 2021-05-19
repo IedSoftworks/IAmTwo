@@ -19,6 +19,11 @@ namespace IAmTwo.Shaders
                 HighFragment = "default_frag.glsl",
                 Uniform = (u, c) =>
                 {
+                    u["Model"].SetMatrix4(c.ModelMatrix);
+
+                    u["HasMenuRect"].SetUniform1(c.Material.ShaderArguments.ContainsKey("MenuRect"));
+                    u["MenuRectangle"].SetUniform4(c.Material.ShaderArguments.Get("MenuRect", Vector4.Zero));
+
                     u["Texture"].SetTexture(c.Material.Texture, u["HasTexture"]);
 
                     u["Gamma"].SetUniform1(PostProcessUtility.Gamma);
@@ -38,8 +43,8 @@ namespace IAmTwo.Shaders
                 Uniform = (u, c) =>
                 {
                     u["ObjColor"].SetUniform4(c.Material.Tint);
-                    u["Rot"].SetUniform1(c.Material.ShaderArguments.Get("move", 0f));
-                    u["RingLoc"].SetUniform1(c.Material.ShaderArguments.Get("ringLoc",   0f));
+                    u["Rot"].SetUniform1(c.Material.ShaderArguments.Get("Rot", 0f));
+                    u["RingLoc"].SetUniform1(c.Material.ShaderArguments.Get("RingLoc",   0f));
                 }
             }},
             {"PortalConnector", new ImportedShader()
@@ -89,6 +94,9 @@ namespace IAmTwo.Shaders
                 Uniform = (collection, context) =>
                 {
                     collection["xTexScale"].SetUniform1(context.Material.ShaderArguments.Get("xTex", 1f));
+                    collection["Glow"].SetUniform1(GameObject.Glow.X);
+                    collection["noise"].SetTexture(Resources.Resource.RequestTexture(@".\Resources\gameobject_noise.png"));
+                    collection["Gamma"].SetUniform1(PostProcessUtility.Gamma);
                 }
             }
             },

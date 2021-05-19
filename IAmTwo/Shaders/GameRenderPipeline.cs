@@ -29,7 +29,7 @@ namespace IAmTwo.Shaders
                     AmountMap = Resource.RequestTexture(@".\Resources\bloom_amountMap.png"),
                     AmountTransform = BloomAmountTransform,
                     MinAmount = .1f,
-                    Radius = .5f
+                    Radius = 1
                 };
                 _bloom.Initilize(this);
             }
