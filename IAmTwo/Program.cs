@@ -19,7 +19,12 @@ namespace IAmTwo
         {
             if (args.Any(a => a == "--controller"))
             {
-                PlayerSpawner.KeybindActor = GameKeybindActor.CreateControllerActor(0);
+                Controller.Actor = GameKeybindActor.CreateControllerActor(0);
+                Controller.IsPS = args.Any(a => a == "--playstation");
+            }
+            else
+            {
+                Controller.Actor = GameKeybindActor.CreateKeyboardActor();
             }
 
             Transformation.ZIndexPercision = 50;

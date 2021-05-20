@@ -22,6 +22,8 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using SM.Base.Animation;
 using SM.Base.Drawing;
+using SM.Base.Drawing.Text;
+using SM.Utils.Controls;
 using SM2D.Types;
 
 namespace IAmTwo
@@ -45,13 +47,52 @@ namespace IAmTwo
         {
             base.Initialization();
 
-            Camera = new Camera() {
+            Camera = new Camera()
+            {
+                RequestedWorldScale = new Vector2(700, 700 * LevelScene.Aspect)
+            };
+            BackgroundCamera = Camera;
+            Background = new GameBackground(Camera);
+            
+            Player[] players = new []{ new Player(false), new Player(true) };
+            int i = -1;
+            foreach (Player player in players)
+            {
+                player.UpdateActive = false;
+                player.Transform.Position.Set(200 * i, -50);
+
+                if (i == 1) player.Transform.Size.X *= -1;
+                player._head.Transform.Rotation.Set(-5);
+
+                TimeSpan span = TimeSpan.FromSeconds(2);
+                InterpolationProcess intPros = player.Transform.Position.Interpolate(span, new Vector2(player.Transform.Position.X, -55), AnimationCurves.Smooth);
+                intPros.End += (timer, context) =>
+                {
+                    InterpolationProcess intPros2 =
+                        player.Transform.Position.Interpolate(span, new Vector2(player.Transform.Position.X, -50), AnimationCurves.Smooth);
+                    intPros2.End += (timer1, updateContext) => intPros.Start();
+                };
+
+                i = 1;
+            }
+
+            Objects.Add(players);
+
+            HUDCamera = new Camera() {
                 RequestedWorldScale = _sceneSize
             };
-            Background.Color = ColorPallete.Background;
 
             const float offset = -40;
             const float width = 130;
+
+            DrawText header = new DrawText(Fonts.HeaderFont, "I AM\n\tTWO")
+            {
+                Origin = TextOrigin.Center
+            };
+            header.Transform.Position.Set(0, 200);
+            header.Transform.Size.Set(1);
+
+            HUD.Add(header);
 
             ItemCollection buttons = new ItemCollection();
             //buttons.Transform.Position.Set(-425, -(Camera.RequestedWorldScale.Value.Y / 2) + 200);
@@ -118,9 +159,9 @@ namespace IAmTwo
 
             DrawObject2D obj = new DrawObject2D();
             obj.Material.ShaderArguments.Add("MenuRect", Vector4.Zero);
-            obj.Transform.Size.Set(Camera.CalculatedWorldScale);
+            obj.Transform.Size.Set(HUDCamera.CalculatedWorldScale);
 
-            Objects.Add(buttons, _options, _playMenu, contacts);
+            HUD.Add(buttons, _options, _playMenu, contacts);
             
         }
 

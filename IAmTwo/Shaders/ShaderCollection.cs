@@ -108,6 +108,8 @@ namespace IAmTwo.Shaders
                 {
                     u["yPos"].SetUniform1(c.Material.ShaderArguments.Get("yPos", 0f));
                     u["Color"].SetUniform4(c.Material.Tint);
+
+                    u["Brightness"].SetUniform1(c.Material.ShaderArguments.Get("brightness", 1f));
                 }
             }}
         };

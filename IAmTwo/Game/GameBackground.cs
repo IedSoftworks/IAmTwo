@@ -13,11 +13,11 @@ namespace IAmTwo.Game
         {
             Texture = Resource.RequestTexture(@".\Resources\background.png", TextureMinFilter.Nearest, TextureWrapMode.Repeat);
 
-            float aspect = cam.WorldScale.Y / cam.WorldScale.X;
-            float size = 50;
+            float aspect = cam.CalculatedWorldScale.Y / cam.CalculatedWorldScale.X;
+            const float size = 50;
             TextureTransform.Scale.Set(size, aspect * size);
 
-            float brightness = .5f;
+            const float brightness = .5f;
             Color = new Color4(brightness, brightness, brightness, 1);
         }
 

@@ -9,6 +9,7 @@ namespace IAmTwo.LevelObjects
     public interface IPlaceableObject : IShowItem, ITransformItem<Transformation>, IModelItem
     {
         int ID { get; set; }
+        LevelScene Scene { get; set; }
 
         Hitbox Hitbox { get; }
 

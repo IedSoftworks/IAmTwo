@@ -19,7 +19,6 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
             set
             {
                 _mirror = value;
-                Color = _mirror ? ColorPallete.Mirror : ColorPallete.Player;
             }
         }
 
@@ -38,8 +37,10 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
 
             Material.Blending = true;
             Material.CustomShader = ShaderCollection.Shaders["Goal"].GetShader();
+            Material.ShaderArguments.Add("brightness", 1f);
 
-            Color = ColorPallete.Player;
+            const float bright = .1f;
+            Color = new Color4(bright, bright, bright, 1);
         }
 
         protected override void DrawContext(ref DrawContext context)
@@ -60,10 +61,15 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
 
             if (allowed)
             {
-                Color = Color4.White;
+                Color = Mirror ? ColorPallete.Mirror : ColorPallete.Player;
 
                 player.React = false;
                 player.Transform.Size.Interpolate(TimeSpan.FromSeconds(1), Vector2.Zero);
+
+                if (Scene is PlayScene playScene)
+                {
+                    playScene.AddTarget();
+                }
             }
         }
     }

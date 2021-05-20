@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collision\Hitbox.cs" />
+    <Compile Include="Controller.cs" />
     <Compile Include="Game\BaseGameObject.cs" />
     <Compile Include="Game\ColorPallete.cs" />
     <Compile Include="Game\GameBackground.cs" />
@@ -143,11 +144,17 @@
     <None Include="Resources\GapSansBold.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Resources\PS4.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\Urbanist-Regular.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <EmbeddedResource Include="Shaders\GLSL\portal_connector_vert.glsl" />
     <EmbeddedResource Include="Shaders\GLSL\goal_frag.glsl" />
+    <None Include="Resources\XBOX.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Shaders\GLSL\default_vert.glsl" />
   </ItemGroup>
   <ItemGroup>

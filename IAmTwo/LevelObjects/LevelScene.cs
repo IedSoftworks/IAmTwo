@@ -54,12 +54,9 @@ namespace IAmTwo.LevelObjects
             {
                 RequestedWorldScale = worldScale,
             };
-            Camera.CalculateWorldScale(SMRenderer.CurrentWindow);
-
             BackgroundCamera = Camera;
 
             Background = new GameBackground(Camera);
-
 
             if (ConstructWorld)
             {
@@ -67,6 +64,7 @@ namespace IAmTwo.LevelObjects
                 {
                     IPlaceableObject o = (IPlaceableObject) Activator.CreateInstance(obj.ObjectType);
                     o.ID = obj.ID;
+                    o.Scene = this;
 
                     o.Transform.Position.Set(obj.Position);
                     o.Transform.Size.Set(obj.Size);

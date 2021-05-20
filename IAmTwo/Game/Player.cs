@@ -17,22 +17,14 @@ namespace IAmTwo.Game
 {
     public class Player : SpecialActor
     {
-        static GameKeybindHost keybindHost = new GameKeybindHost(new GameKeybindList()
-        {
-            {"move", context => (float)(context.KeyboardState[Key.A] ? -1 : 0) + (context.KeyboardState[Key.D] ? 1 : 0), context => context.ControllerState?.Thumbs.Left.X },
-            {"jump", context => context.KeyboardState[Key.Space], context => context.ControllerState?.Buttons.A}
-        });
-
         public static float DefaultJumpMultiplier = 35;
-        public static Vector2 PlayerSize = new Vector2(100);
-
-        private GameKeybindActor _keybindActor;
-
+        public static float PlayerSize = 100f;
+        
         private float _speed = 40;
 
         private ItemCollection _visual;
 
-        private DrawObject2D _head;
+        public DrawObject2D _head;
         private DrawObject2D _body;
         private DrawObject2D _arm;
 
@@ -41,13 +33,10 @@ namespace IAmTwo.Game
         public bool React;
 
 
-        public Player(GameKeybindActor actor, bool mirror)
+        public Player(bool mirror)
         {
             Passive = false;
             
-            actor.ConnectHost(keybindHost);
-            _keybindActor = actor;
-
             Color = mirror ? ColorPallete.Mirror : ColorPallete.Player;
             Mirror = mirror;
             HitboxNoRotation = true;
@@ -76,7 +65,7 @@ namespace IAmTwo.Game
             {
                 Material = mat
             };
-            _body.TextureTransform.SetRectangleRelative((Texture)mat.Texture, new Vector2(0), new Vector2(237, 512));
+            _body.TextureTransform.SetRectangleRelative((Texture)mat.Texture, new Vector2(0), new Vector2(234, 512));
             _body.Transform.Size.Set(_body.TextureTransform.Scale);
 
             _head = new DrawObject2D()
@@ -97,7 +86,7 @@ namespace IAmTwo.Game
 
             const float rot = 5;
 
-            float xDir = _keybindActor.Get<float>("move") * (Mirror ? -1 : 1);
+            float xDir = Controller.Actor.Get<float>("p_move") * (Mirror ? -1 : 1);
             if (Math.Sign(xDir) != 0)
             {
                 Transform.VerticalFlip = Math.Sign(xDir) < 0;
@@ -112,7 +101,7 @@ namespace IAmTwo.Game
 
             Force.X = xDir * _speed;
 
-            bool jump = _keybindActor.Get<bool>("jump");
+            bool jump = Controller.Actor.Get<bool>("p_jump");
             if (jump && Grounded)
             {
                 Force.Y += Gravity * JumpMultiplier;

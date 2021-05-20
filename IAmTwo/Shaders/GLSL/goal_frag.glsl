@@ -3,6 +3,8 @@
 in vec3 v_VertexPosition;
 
 uniform float yPos;
+uniform float Brightness;
+
 uniform vec4 Color;
 
 layout(location = 0) out vec4 color;
@@ -184,10 +186,10 @@ void main() {
     vec3 map = mapping_point(vertex, vec3(0, -yPos, 0), vec3(0), vec3(1));
     float noise = node_noise_texture_2d(map,0, 1, 3, .5, 3.49);
 
-    float v = .34;
+    const float v = .34;
     float s = (noise < v + .10 ? 1 : 0) - (noise < v ? 1 : 0);
 
-    float fResult = s;
+    float fResult = s * Brightness;
 
-    color = vec4(fResult, fResult, fResult, (.86 - vertex.y) * (fResult + .5)) * Color * 1.2;
+    color = vec4(fResult, fResult, fResult, (.86 - vertex.y) * (fResult)) * Color;
 }

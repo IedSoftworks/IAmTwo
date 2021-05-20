@@ -8,6 +8,10 @@ namespace IAmTwo.Resources
         {
             FontSize = 13
         };
+        public static Font HeaderFont = new Font(@".\Resources\GapSansBold.ttf")
+        {
+            FontSize = 52,
+        };
 
         public static Font Text  = new Font(@".\Resources\Urbanist-Regular.ttf")
         {
@@ -25,6 +29,23 @@ namespace IAmTwo.Resources
                 '\uf101' 
             },
             FontSize = 13
+        };
+        
+        public static Font PS = new Font(@".\Resources\PS4.otf")
+        {
+            FontSize = 20,
+            CharSet = new char[]
+            {
+                'x'
+            }
+        };
+        public static Font XBOX = new Font(@".\Resources\XBOX.otf")
+        {
+            FontSize = 20,
+            CharSet = new char[]
+            {
+                'a'
+            }
         };
     }
 }

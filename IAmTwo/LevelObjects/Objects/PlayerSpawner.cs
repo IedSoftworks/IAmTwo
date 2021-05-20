@@ -12,8 +12,6 @@ namespace IAmTwo.LevelObjects.Objects
 {
     public class PlayerSpawner : GameObject, IPlayerDependent
     {
-        public static GameKeybindActor KeybindActor = GameKeybindActor.CreateKeyboardActor();
-
         public static Polygon Circle = Polygon.GenerateCircle();
 
 
@@ -41,7 +39,7 @@ namespace IAmTwo.LevelObjects.Objects
 
             AllowedRotationSteps = 0;
             AllowedScaling = ScaleArgs.NoScaling;
-            StartSize = new Vector2(50);
+            StartSize = new Vector2(Player.PlayerSize * .75f);
 
             ApplyPolygon(Circle);
 
@@ -78,7 +76,7 @@ namespace IAmTwo.LevelObjects.Objects
 
         public void Spawn()
         {
-            _player = new Player(KeybindActor, Mirror);
+            _player = new Player(Mirror);
             _player.Transform.Size.Set(0);
             _player.Transform.Position.Set(Transform.Position);
             (Parent as ItemCollection).Add(_player);
