@@ -21,9 +21,12 @@ using IAmTwo.Menu.MainMenuParts;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using SM.Base.Animation;
+using SM.Base.Controls;
 using SM.Base.Drawing;
 using SM.Base.Drawing.Text;
+using SM.Base.Time;
 using SM.Utils.Controls;
+using SM2D.Object;
 using SM2D.Types;
 
 namespace IAmTwo
@@ -39,13 +42,25 @@ namespace IAmTwo
             { "GitHub", GithubAction }
         };
 
+        private GameController _listenController;
+
         private ItemCollection _options;
         private ItemCollection _playMenu;
-        private Button[] _buttons;        
+
+        private ItemCollection _indicator;
+        private DrawText _indicatorTxt;
+
+        private InterpolationProcess _inputDeviceAnimation;
+        private Timer _inputDeviceHoldTimer;
+
+        private Button[] _buttons;
 
         public override void Initialization()
         {
             base.Initialization();
+
+            _listenController = new GameController(0);
+
 
             Camera = new Camera()
             {
@@ -161,15 +176,92 @@ namespace IAmTwo
             obj.Material.ShaderArguments.Add("MenuRect", Vector4.Zero);
             obj.Transform.Size.Set(HUDCamera.CalculatedWorldScale);
 
-            HUD.Add(buttons, _options, _playMenu, contacts);
+            _indicator = new ItemCollection();
+
+            Polygon background = Models.CreateBackgroundPolygon(new Vector2(50, 150), 10);
+
+            DrawObject2D back = new DrawObject2D()
+            {
+                Color = ColorPallete.DarkBackground,
+                Mesh = background,
+                Material =
+                {
+                    Blending = true,
+                    Tint = new Color4(.005f, .005f, .005f, .5f)
+                }
+            };
+            back.Transform.Size.Set(1);
+            DrawObject2D border = new DrawObject2D()
+            {
+                Mesh = background,
+                ForcedMeshType = PrimitiveType.LineLoop,
+
+                Transform = back.Transform,
+                Color = Color4.Blue,
+
+                ShaderArguments =
+                {
+                    {"LineWidth", 1f},
+                    {"Scale", 2f}
+                }
+            };
+            _indicatorTxt = new DrawText(Fonts.FontAwesome, "\uf11c")
+            {
+                Origin = TextOrigin.Center
+            };
+            _indicatorTxt.Transform.Position.Set(-5, -55f);
+
+            _indicator.Add(back, border, _indicatorTxt);
+            _indicator.Transform.Position.Set(350, HUDCamera.CalculatedWorldScale.Y / 2 + 100);
+
+            _inputDeviceAnimation = _indicator.Transform.Position.Interpolate(TimeSpan.FromSeconds(.5f),
+                new Vector2(350, HUDCamera.CalculatedWorldScale.Y / 2 + 30), AnimationCurves.Smooth, false);
+            InterpolationProcess _inDev2 = _indicator.Transform.Position.Interpolate(TimeSpan.FromSeconds(.5f), new Vector2(350, HUDCamera.CalculatedWorldScale.Y / 2 + 30),
+                new Vector2(350, HUDCamera.CalculatedWorldScale.Y / 2 + 100), AnimationCurves.Smooth, false);
             
+
+            _inputDeviceHoldTimer = new Timer(5);
+            _inputDeviceHoldTimer.End += (timer1, updateContext) => _inDev2.Start();
+            _inputDeviceHoldTimer.Start();
+
+            _inputDeviceAnimation.End += (timer, context) =>
+            {
+                _inputDeviceHoldTimer.Start();
+            };
+
+            HUD.Add(buttons, _options, _playMenu, contacts, _indicator);
+            
+        }
+
+        public override void Update(UpdateContext context)
+        {
+            base.Update(context);
+            
+            GameControllerState state = _listenController.GetState();
+            if (!Controller.IsController && state.AnyInteraction) ChangeInput(true);
+            if (Controller.IsController && (Keyboard.IsAnyKeyPressed || Mouse.LeftClick || Mouse.RightClick)) ChangeInput(false);
+        }
+
+        private void ChangeInput(bool controller)
+        {
+            Controller.Actor = controller ? GameKeybindActor.CreateControllerActor(0) : GameKeybindActor.CreateKeyboardActor();
+
+            (SMRenderer.CurrentWindow as GLWindow).CursorVisible = !controller;
+
+            _indicatorTxt.Text = controller ? "\uf11b" : "\uf11c";
+            Mouse.StopTracking = controller;
+
+            Button editor = _buttons[1];
+            editor.React = !controller;
+            editor.Color = controller ? ColorPallete.Background : Color4.LightBlue;
+
+
+            if (!(_inputDeviceAnimation.Running && _inputDeviceHoldTimer.Running)) _inputDeviceAnimation.Start();
         }
 
         public override void Draw(DrawContext context)
         {
             base.Draw(context);
-
-            IAmTwo.Menu.DebugScreen.Screen.Draw(context);
         }
 
         private ItemCollection CreateOptionMenu()

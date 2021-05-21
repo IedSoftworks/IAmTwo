@@ -12,10 +12,9 @@ namespace IAmTwo.Game
         public static Dictionary<string, List<LevelSet>> LevelSets;
 
         public int Position;
-
         public string Name;
-
         public List<LevelConstructor> Levels = new List<LevelConstructor>();
+        public string Credits;
 
         public static void Load()
         {
@@ -24,6 +23,7 @@ namespace IAmTwo.Game
             foreach (string directory in Directory.EnumerateDirectories("Levels"))
             {
                 string packPath = Path.Combine(directory, "pack.ini");
+                string creditPath = Path.Combine(directory, "credits.txt");
 
                 if (!File.Exists(packPath)) continue;
                 INIFile data = INIFile.Load(packPath);
@@ -36,7 +36,8 @@ namespace IAmTwo.Game
                 LevelSet levelSet = new LevelSet()
                 {
                     Name = general["Name"],
-                    Position = 0
+                    Position = 0,
+                    Credits = File.Exists(creditPath) ? File.ReadAllText(creditPath) : null
                 };
 
                 if (general.ContainsKey("Category"))
@@ -49,7 +50,8 @@ namespace IAmTwo.Game
                         levelSet.Position = result;
                     }
                 }
-                
+
+                int index = 0;
                 foreach (INIValue value in levels["L"])
                 {
                     string levelPath = Path.Combine(directory, value.Data + ".iatl");
@@ -58,8 +60,10 @@ namespace IAmTwo.Game
 
                     using (FileStream stream = new FileStream(levelPath, FileMode.Open, FileAccess.Read))
                     {
-                        levelSet.Levels.Add(LevelConstructor.Load(stream));
+                        levelSet.Levels.Add(LevelConstructor.Load(stream, levelSet, index));
                     }
+
+                    index++;
                 }
 
                 if (!LevelSets.ContainsKey(category)) LevelSets.Add(category, new List<LevelSet>());

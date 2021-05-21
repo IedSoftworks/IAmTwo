@@ -1,5 +1,8 @@
-﻿using IAmTwo.Resources;
+﻿using IAmTwo.Menu;
+using IAmTwo.Resources;
+using OpenTK;
 using OpenTK.Graphics.OpenGL4;
+using SM.Base;
 using SM.Base.Drawing;
 using SM.Base.PostEffects;
 using SM.Base.Utility;
@@ -47,7 +50,9 @@ namespace IAmTwo.Shaders
             MainFramebuffer.Activate(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             context.Scene.Draw(context);
-            
+            if (Controller.AllowedCursor) MouseCursorVisual.visual.Draw(context);
+
+
             _postBuffer.Activate(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             PostProcessUtility.ResolveMultisampledBuffers(MainFramebuffer, _postBuffer);
 

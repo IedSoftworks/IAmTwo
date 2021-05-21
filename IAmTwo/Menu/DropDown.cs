@@ -101,7 +101,7 @@ namespace IAmTwo.Menu
                 {
                     _border.Color = Color4.LightBlue;
 
-                    if (Mouse.LeftClick)
+                    if (Controller.Actor.Get<bool>("g_click"))
                     {
                         _valueCol.Active = !_valueCol.Active;
                         _displayArrow.Transform.Rotation.Interpolate(TimeSpan.FromSeconds(.1f), _valueCol.Active ? 180 : 0);
@@ -121,7 +121,7 @@ namespace IAmTwo.Menu
                         {
                             pair.Key.Color = Color4.Beige;
 
-                            if (Mouse.LeftClick)
+                            if (Controller.Actor.Get<bool>("g_click"))
                             {
                                 SetValue(pair.Key);
                             }

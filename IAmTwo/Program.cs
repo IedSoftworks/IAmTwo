@@ -30,14 +30,17 @@ namespace IAmTwo
             Transformation.ZIndexPercision = 50;
 
             LevelSet.Load();
+            GameController.GlobalDeadband = .5f;
 
             GLWindow window = new GLWindow(1600,900, "I am two - DevBuild", WindowFlags.Window, VSyncMode.Off)
             { };
             window.ApplySetup(new Window2DSetup());
+            window.UpdateFrame += Controller.MouseCursor;
 
             window.TargetUpdateFrequency = 60;
             window.SetRenderPipeline(new GameRenderPipeline());
-            window.SetScene(MainMenu.Menu);
+            //window.SetScene(MainMenu.Menu);
+            window.SetScene(new CreditsScene(LevelSet.LevelSets.First().Value[0]));
             //window.SetScene(new GameScene(new LevelConstructor() { Size = 650 }));
             window.RunFixedUpdate(100);
             window.Run();

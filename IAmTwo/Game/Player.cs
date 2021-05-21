@@ -57,7 +57,7 @@ namespace IAmTwo.Game
             };
 
             _visual = new ItemCollection {Transform = Transform};
-            _visual.Transform.ZIndex.Set(3);
+            _visual.Transform.ZIndex.Set(50);
 
             HitboxChangeMatrix = Matrix4.CreateScale(.5f, 1, 1);
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using IAmTwo.Game;
 using IAmTwo.LevelObjects.Objects;
 using SM.Base;
 using SM.Base.Scene;
@@ -16,6 +17,9 @@ namespace IAmTwo.LevelObjects
         public static float DefaultSize = 650;
 
         public int NextID = 0;
+
+        [NonSerialized] public LevelSet Set;
+        [NonSerialized] public int SetIndex;
 
         public string LevelName = "";
         [NonSerialized] public string LevelPath = "";
@@ -89,13 +93,21 @@ namespace IAmTwo.LevelObjects
             }
         }
 
-        public static LevelConstructor Load(Stream stream)
+        public static LevelConstructor Load(Stream stream, LevelSet set = null, int? index = null)
         {
             BinaryFormatter bf = new BinaryFormatter();
 
             try
             {
-                return (LevelConstructor) bf.Deserialize(stream);
+                LevelConstructor cons = (LevelConstructor) bf.Deserialize(stream);
+
+                if (set != null)
+                {
+                    cons.Set = set;
+                    cons.SetIndex = index.GetValueOrDefault(0);
+                }
+
+                return cons;
             }
             catch (SerializationException e)
             {

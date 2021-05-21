@@ -1,8 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using IAmTwo.LevelObjects;
+using OpenTK;
 using OpenTK.Input;
+using SharpDX.XInput;
+using SM.Base;
+using SM.Base.Types;
 using SM.Utils.Controls;
+using SM2D.Controls;
 using Keyboard = SM.Base.Controls.Keyboard;
+using Mouse = SM.Base.Controls.Mouse;
+using IAmTwo.Game;
 
 namespace IAmTwo
 {
@@ -11,6 +20,8 @@ namespace IAmTwo
         private static Dictionary<string, Tuple<string, string>> _controllerCorrectNames = new Dictionary<string, Tuple<string, string>>()
         {
             {"A", new Tuple<string, string>("a", "x")},
+            {"Y", new Tuple<string, string>("y", "t")},
+            {"B", new Tuple<string, string>("b", "c")}
         };
 
         private static GameKeybindActor _actor;
@@ -19,7 +30,13 @@ namespace IAmTwo
         {
             {"p_move", context => (float)(context.KeyboardState[Key.A] ? -1 : 0) + (context.KeyboardState[Key.D] ? 1 : 0), context => context.ControllerState?.Thumbs.Left.X },
             {"p_jump", context => context.KeyboardState[Key.Space], context => context.ControllerState?.Buttons.A},
-            {"l_start", context => Keyboard.IsDown(Key.Space, true), context => context.ControllerState?.Buttons.A }
+
+            {"l_start", context => Keyboard.IsDown(Key.Space, true), context => context.ControllerState?.Buttons.A },
+            {"l_continue", context => Keyboard.IsDown(Key.Space, true), context => context.ControllerState?.Buttons.A},
+            {"l_retry", context => Keyboard.IsDown(Key.R, true), context => context.ControllerState?.Buttons.Y},
+            {"l_exit", context => Keyboard.IsDown(Key.Escape, true), context => context.ControllerState?.Buttons.B},
+
+            {"g_click", context => Mouse.LeftClick, context => context.ControllerState?.Buttons.A }
         });
 
         public static GameKeybindActor Actor
@@ -36,9 +53,19 @@ namespace IAmTwo
 
         public static bool IsPS = false;
 
+        public static bool AllowedCursor => Mouse.StopTracking && !(SMRenderer.CurrentWindow.CurrentScene is PlayScene || SMRenderer.CurrentWindow.CurrentScene is CreditsScene);
+
         public static string GetCorrectName(string button)
         {
             return IsPS ? _controllerCorrectNames[button].Item2 : _controllerCorrectNames[button].Item1;
+        }
+        
+        public static void MouseCursor(object sender, FrameEventArgs args)
+        {
+            if (AllowedCursor)
+            {
+                Mouse.InScreen += Actor.Controller.Value.GetState().Thumbs.Left * new Vector2(1, -1) * 5;
+            }
         }
     }
 }

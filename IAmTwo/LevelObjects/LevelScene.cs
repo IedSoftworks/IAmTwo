@@ -60,6 +60,8 @@ namespace IAmTwo.LevelObjects
 
             if (ConstructWorld)
             {
+                PhysicsObject.Colliders.Clear();
+
                 foreach (ObjectConstructor obj in Constructor.Objects)
                 {
                     IPlaceableObject o = (IPlaceableObject) Activator.CreateInstance(obj.ObjectType);

@@ -115,7 +115,7 @@ namespace IAmTwo.Menu
             if (React && camera != null && Mouse2D.MouseOver(Mouse2D.InWorld(camera), out _, _border))
             {
                 if (!_wasOver) HoverAction(obj);
-                if (Mouse.IsDown(MouseButton.Left, true)) TriggerClick();
+                if (Controller.Actor.Get<bool>("g_click")) TriggerClick();
                 _wasOver = true;
                 return;
             }

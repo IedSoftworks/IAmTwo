@@ -1,8 +1,15 @@
-﻿using IAmTwo.Resources;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
+using IAmTwo.Game;
+using IAmTwo.Resources;
 using OpenTK;
 using OpenTK.Input;
 using SM.Base;
 using SM.Base.Drawing.Text;
+using SM.Base.Scene;
 using SM.Base.Window;
 using SM2D.Drawing;
 using SM2D.Scene;
@@ -12,10 +19,21 @@ namespace IAmTwo.LevelObjects
 {
     public class PlayScene : LevelScene
     {
-        private bool _prep = true;
-        private ItemCollection _start;
+        static Dictionary<string, Tuple<string, string>> _endKeybinds = new Dictionary<string, Tuple<string, string>>()
+        {
+            {"Continue", new Tuple<string, string>("Space", "A")}, 
+            {"Retry", new Tuple<string, string>("R", "Y")},
+            {"Main-Menu", new Tuple<string, string>("ESC", "B")}
+        };
 
-        private int _target = 0;
+        private bool _prep = true;
+        private bool _completed = false;
+
+        private ItemCollection _start;
+        private ItemCollection _end;
+
+        private int _inGoal = 0;
+        private int _targetInGoal;
 
         public PlayScene(LevelConstructor constructor) : base(constructor)
         {
@@ -25,6 +43,8 @@ namespace IAmTwo.LevelObjects
         public override void Initialization()
         {
             base.Initialization();
+
+            _targetInGoal = Constructor.Spawner.Count;
 
             HUDCamera = new Camera()
             {
@@ -48,6 +68,43 @@ namespace IAmTwo.LevelObjects
 
             _start.Add(lvl, prompt);
 
+            _end = new ItemCollection();
+
+            DrawText complete = new DrawText(Fonts.HeaderFont, "Level Completed!")
+            {
+                Origin = TextOrigin.Center,
+
+            };
+            complete.Transform.Position.Y = 200;
+            complete.Transform.Size.Set(.5f);
+
+            int i = - (_endKeybinds.Count - 1) / 2;
+
+            float dif = 1000f / _endKeybinds.Count;
+
+            foreach (KeyValuePair<string, Tuple<string, string>> pair in _endKeybinds)
+            {
+                ItemCollection col = new ItemCollection();
+
+                DrawText p = Controller.IsController
+                    ? new DrawText(Controller.IsPS ? Fonts.PS : Fonts.XBOX, Controller.GetCorrectName(pair.Value.Item2))
+                    : new DrawText(Fonts.Button, $"[{pair.Value.Item1}]");
+                p.GenerateMatrixes();
+
+                DrawText header = new DrawText(Fonts.Button, pair.Key);
+                header.GenerateMatrixes();
+                header.Transform.Position.Set(p.Width, 0);
+
+                col.Add(p, header);
+
+                col.Transform.Position.Set(i * dif - (p.Width + header.Width) / 2, -200);
+                _end.Add(col);
+
+                i++;
+            }
+
+            _end.Add(complete);
+
             HUD.Add(_start);
         }
 
@@ -60,28 +117,33 @@ namespace IAmTwo.LevelObjects
                 HUD.Remove(_start);
                 Spawn();
                 _prep = false;
-            } 
+            }
 
-            if (Keyboard.IsDown(Key.Escape, true))
-                SMRenderer.CurrentWindow.SetScene(MainMenu.Menu);
+
+            if (_completed)
+            {
+                if (Controller.Actor.Get<bool>("l_continue"))
+                {
+                    LevelSet set = Constructor.Set;
+                    SMRenderer.CurrentWindow.SetScene(Constructor.SetIndex == set.Levels.Count - 1 ? (GenericScene)new CreditsScene(set) : new PlayScene(Constructor.Set.Levels[Constructor.SetIndex + 1]));
+                }
+
+
+            }
+
+            if (Controller.Actor.Get<bool>("l_retry")) SMRenderer.CurrentWindow.SetScene(new PlayScene(Constructor));
+
+            if (Controller.Actor.Get<bool>("l_exit")) SMRenderer.CurrentWindow.SetScene(MainMenu.Menu);
         }
 
         public void AddTarget()
         {
-            _target++;
+            _inGoal++;
 
-            if (_target >= 2)
+            if (_inGoal >= _targetInGoal)
             {
-                ItemCollection _col = new ItemCollection();
-
-                DrawText text = new DrawText(Fonts.HeaderFont, "Level Completed!")
-                {
-                    Origin = TextOrigin.Center
-                };
-
-                _col.Add(text);
-
-                HUD.Add(_col);
+                HUD.Add(_end);
+                _completed = true;
             }
         }
     }

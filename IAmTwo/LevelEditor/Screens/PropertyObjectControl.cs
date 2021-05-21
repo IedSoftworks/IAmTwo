@@ -66,7 +66,7 @@ namespace IAmTwo.LevelEditor
         {
             if (_connectMode)
             {
-                if (Mouse.IsDown(MouseButton.Left, true))
+                if (Controller.Actor.Get<bool>("g_click"))
                 {
                     if (Mouse2D.MouseOver(Mouse2D.InWorld(LevelEditor.CurrentEditor.Camera),
                         out IPlaceableObject clicked,

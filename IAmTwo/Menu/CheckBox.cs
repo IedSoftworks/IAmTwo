@@ -54,7 +54,7 @@ namespace IAmTwo.Menu
             {
                 _border.Color = Color4.AliceBlue;
 
-                if (Mouse.LeftClick)
+                if (Controller.Actor.Get<bool>("g_click"))
                 {
                     Checked = !Checked;
 

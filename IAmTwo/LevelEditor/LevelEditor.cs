@@ -277,7 +277,7 @@ namespace IAmTwo.LevelEditor
             {
                 Vector2 mousePos = Mouse2D.InWorld(Camera);
                 
-                if (Mouse.IsDown(MouseButton.Left, true) && !overmenu)
+                if (Controller.Actor.Get<bool>("g_click") && !overmenu)
                 {
                     Mouse2D.MouseOver(mousePos, out IPlaceableObject obj,
                         _placedObjects);
