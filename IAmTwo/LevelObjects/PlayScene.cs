@@ -125,7 +125,7 @@ namespace IAmTwo.LevelObjects
                 if (Controller.Actor.Get<bool>("l_continue"))
                 {
                     LevelSet set = Constructor.Set;
-                    SMRenderer.CurrentWindow.SetScene(Constructor.SetIndex == set.Levels.Count - 1 ? (GenericScene)new CreditsScene(set) : new PlayScene(Constructor.Set.Levels[Constructor.SetIndex + 1]));
+                    ChangeScene(Constructor.SetIndex == set.Levels.Count - 1 ? (GenericScene)new CreditsScene(set) : new PlayScene(Constructor.Set.Levels[Constructor.SetIndex + 1]));
                 }
 
 
@@ -133,7 +133,7 @@ namespace IAmTwo.LevelObjects
 
             if (Controller.Actor.Get<bool>("l_retry")) SMRenderer.CurrentWindow.SetScene(new PlayScene(Constructor));
 
-            if (Controller.Actor.Get<bool>("l_exit")) SMRenderer.CurrentWindow.SetScene(MainMenu.Menu);
+            if (Controller.Actor.Get<bool>("l_exit")) ChangeScene(MainMenu.Menu);
         }
 
         public void AddTarget()

@@ -3,11 +3,16 @@ using IAmTwo.Resources;
 using OpenTK;
 using OpenTK.Graphics;
 using System;
+using IAmTwo.Menu;
+using IAmTwo.Shaders;
+using SM2D.Scene;
 
 namespace IAmTwo.LevelObjects.Objects.SpecialObjects
 {
     public class PressableButton : SpecialObject, IConnectable
     {
+        private Connector _connector;
+
         public IButtonTarget ButtonActor;
         public bool Pressed { get; private set; }
 
@@ -37,6 +42,9 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
 
         private void SetPressed(bool activate)
         {
+            if (_connector != null)
+                _connector.Material.Tint = activate ? Color4.Green : Color4.Gray;
+
             Pressed = activate;
 
             TextureTransform.Offset.Set(0, activate ? .5f : 0);
@@ -67,12 +75,30 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
 
         public void Connect(IPlaceableObject obj)
         {
-            ButtonActor = (IButtonTarget)obj;
+            if (obj is IButtonTarget target)
+            {
+
+                ButtonActor = target;
+
+                _connector = new Connector(this, target)
+                {
+                    Material =
+                    {
+                        CustomShader = ShaderCollection.Shaders["ButtonConnector"].GetShader(),
+                        Tint = Color4.Gray
+                    },
+                };
+                _connector.ConnectionWidth.Set(25);
+
+                (Parent as ItemCollection).Add(_connector);
+            }
         }
 
         public void Disconnect()
         {
             ButtonActor = null;
+
+            _connector?.Disconnect();
         }
     }
 }

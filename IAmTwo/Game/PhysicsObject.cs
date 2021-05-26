@@ -69,7 +69,7 @@ namespace IAmTwo.Game
             Grounded = false;
             foreach (Hitbox hitbox in Colliders)
             {
-                if (hitbox == _hitbox || !hitbox.PhysicsObject.Active) continue;
+                if (hitbox == _hitbox || !hitbox.PhysicsObject.Active || !hitbox.PhysicsObject.CanCollide) continue;
 
                 Vector2 mtv;
                 if (Hitbox.TestIntersection(_hitbox, hitbox, out mtv))

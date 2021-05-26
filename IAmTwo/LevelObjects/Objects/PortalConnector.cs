@@ -19,20 +19,15 @@ namespace IAmTwo.LevelObjects.Objects
         public Color4 Color;
     }
 
-    public class PortalConnector : ItemCollection
+    public class PortalConnector : Connector
     {
-
-        public const float ConnectionWidth = 20;
-
-        private float _distance;
         private float _shaderMotion;
         private List<PortalTraveler> _currentTravelers = new List<PortalTraveler>();
 
         public Portal Entrance;
         public Portal Exit;
-        public DrawObject2D Connection;
 
-        public PortalConnector(Portal entrance, Portal exit)
+        public PortalConnector(Portal entrance, Portal exit) : base(entrance, exit)
         {
             _shaderMotion = 0;
 
@@ -41,49 +36,30 @@ namespace IAmTwo.LevelObjects.Objects
 
             Entrance._counterPart = Exit;
             Exit._counterPart = Entrance;
-
-            Entrance.Transform.Position.Changed += UpdateConnection;
-            Exit.Transform.Position.Changed += UpdateConnection;
             
-            Connection = new DrawObject2D {Color = Color4.Green};
-            Connection.Transform.ZIndex.Set(-1);
-            Connection.Material.CustomShader = ShaderCollection.Shaders["PortalConnector"].GetShader();
-            Connection.ShaderArguments["Actors"] = _currentTravelers;
-            Connection.Material.Blending = true;
-            UpdateConnection();
+            ShaderArguments["Actors"] = _currentTravelers;
 
-            Add(Connection);
-
+            Color = Color4.Green;
+            Material.CustomShader = ShaderCollection.Shaders["PortalConnector"].GetShader();
         }
 
-        private void UpdateConnection()
-        {
-            Vector2 diff = Exit.Transform.Position - (Vector2)Entrance.Transform.Position;
-            _distance = diff.Length;
-            Vector2 norm = diff.Normalized();
+        
 
-            Connection.Transform.Size.Set(ConnectionWidth, _distance);
-            Connection.Transform.Position.Set(Entrance.Transform.Position + diff * .5f);
-            Connection.Transform.Rotation.Set(RotationUtility.TurnTowards(Vector2.Zero, norm));
-
-            Connection.ShaderArguments["ConnectorLength"] = (Vector2)Connection.Transform.Size;
-        }
-
-        public override void Draw(DrawContext context)
+        protected override void DrawContext(ref DrawContext context)
         {
             _shaderMotion += Deltatime.RenderDelta / 10;
-            Connection.ShaderArguments["shaderMotion"] = _shaderMotion;
-
-            base.Draw(context);
+            ShaderArguments["shaderMotion"] = _shaderMotion;
+            base.DrawContext(ref context);
         }
 
         public void ReadyTransport(Portal emittingPortal, Portal counterPortal, SpecialActor a)
         {
             a.Transform.Position.Set(counterPortal.Transform.Position);
             counterPortal.GotTransported.Add(a);
-            //a.Force += a.Force * 0.5f;
+            a.Force += a.Force * 0.5f;
             a.Active = false;
-            
+            a.Passive = true;
+
             PortalTraveler traveler = new PortalTraveler()
             {
                 CurrentY = 0,
@@ -95,25 +71,23 @@ namespace IAmTwo.LevelObjects.Objects
             Timer timer = new Timer(2);
             timer.Tick += (s, c) =>
             {
-                traveler.CurrentY = timer.ElapsedNormalized * _distance * 2;
+                traveler.CurrentY = timer.ElapsedNormalized * Distance * 2;
             };
             timer.End += (timer1, context) =>
             {
                 a.Active = true;
+                a.Passive = false;
                 _currentTravelers.Remove(traveler);
             };
             timer.Start();
         }
 
-        public void Disconnect()
+        public override void Disconnect()
         {
+            base.Disconnect();
+
             Entrance._connector = Exit._connector = null;
             Entrance._counterPart = Exit._counterPart = null;
-
-            Entrance.Transform.Position.Changed -= UpdateConnection;
-            Exit.Transform.Position.Changed -= UpdateConnection;
-
-            (Parent as ItemCollection).Remove(this);
         }
     }
 }

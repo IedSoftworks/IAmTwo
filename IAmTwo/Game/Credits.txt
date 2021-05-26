@@ -1,3 +1,17 @@
-﻿Soon here are credits.
+﻿%%%LEVEL%%%
 
-%%%LEVEL%%%
+
+Game "I Am Two":
+
+Programming, Art, Graphics:
+iedSoftworks aka. Michel Fedde
+
+Special Thanks to:
+Jonathan Riedel - for causing me to start with programming in the first place.
+My computer science teacher: Lutz Karau - who helped me getting started with OpenGL and graphics-programming.
+The awesome community of OpenTK, who always helped, when I had a issue.
+
+And most importantly: 
+You. 
+For playing it.
+Thank you very much.

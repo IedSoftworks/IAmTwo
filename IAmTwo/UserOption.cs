@@ -5,6 +5,7 @@ using SM2D.Scene;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -50,7 +51,7 @@ namespace IAmTwo
                 Name = "Anti Aliasing (MSAA)",
                 Values = new string[]
                 {
-                    "Off", "2x", "4x", "8x", "16x",
+                    "Off", "2x", "4x", "8x"
                 },
                 Member = "AA",
                 RequiresPipelineRestart = true
@@ -64,11 +65,6 @@ namespace IAmTwo
                 },
                 Member = "Bloom",
                 RequiresPipelineRestart = true
-            },
-            new BoolUserOption()
-            {
-                Name = "High Material Quality",
-                Member = "HighMaterialQuality"
             },
         };
 
@@ -89,7 +85,17 @@ namespace IAmTwo
         public string Name;
         public bool RequiresPipelineRestart = false;
         public OptionType Type;
-        public string Member;
+        
+
+        public string Member
+        {
+            set => Property = typeof(UserSettings).GetProperty(value,
+                BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+        }
+
+        public PropertyInfo Property;
+
+        public virtual bool Visible { get; } = true;
 
         public abstract ItemCollection GetVisual();
         public abstract object GetSelectedOption();

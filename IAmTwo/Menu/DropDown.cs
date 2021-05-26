@@ -104,7 +104,7 @@ namespace IAmTwo.Menu
                     if (Controller.Actor.Get<bool>("g_click"))
                     {
                         _valueCol.Active = !_valueCol.Active;
-                        _displayArrow.Transform.Rotation.Interpolate(TimeSpan.FromSeconds(.1f), _valueCol.Active ? 180 : 0);
+                        _displayArrow.Transform.Rotation.Interpolate(TimeSpan.FromSeconds(.1f), _valueCol.Active ? 180f : 0f);
                     }
                 }
                 else
@@ -155,7 +155,11 @@ namespace IAmTwo.Menu
             text.Color = new Color4(0, 1f, 0f, 1f);
 
             _display.Text = text.Text;
-            if (_valueCol.Active) _valueCol.Active = false;
+            if (_valueCol.Active)
+            {
+                _valueCol.Active = false;
+                _displayArrow.Transform.Rotation.Interpolate(TimeSpan.FromSeconds(.1f), 0f);
+            }
         }
     }
 }

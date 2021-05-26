@@ -19,6 +19,7 @@ namespace IAmTwo.Menu.MainMenuParts
 
         public PlayMenu(Vector2 _sceneSize)
         {
+            Transform.ZIndex.Set(10);
             Vector2 size = _sceneSize * .6f;
             
             DrawObject2D background = new DrawObject2D()
@@ -104,7 +105,7 @@ namespace IAmTwo.Menu.MainMenuParts
                 btn.Click += () =>
                 {
 
-                    SMRenderer.CurrentWindow.SetScene(new PlayScene(constructor));
+                    MainMenu.Menu.ChangeScene(new PlayScene(constructor));
                 };
 
                 DrawText arrow = new DrawText(Fonts.FontAwesome, "\uf101");

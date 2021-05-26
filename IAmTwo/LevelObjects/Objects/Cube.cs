@@ -14,12 +14,13 @@ namespace IAmTwo.LevelObjects.Objects
 
             Passive = false;
             Transform.Size.Set(50);
+            Transform.ZIndex.Set(20);
             Texture = Resource.RequestTexture(@".\Resources\MovingBox_d.png");
 
             ShaderArguments["EmissionTex"] = Resource.RequestTexture(@".\Resources\MovingBox_e.png");
             ShaderArguments["EmissionStrength"] = 2f;
 
-            //ChecksGrounded = true;
+            ChecksGrounded = true;
 
             Material.Blending = true;
         }

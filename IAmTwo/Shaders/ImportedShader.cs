@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using SM.Base.Shaders;
 using SM.Base.Utility;
 using SM.Base.Window;
@@ -10,21 +11,31 @@ namespace IAmTwo.Shaders
     {
         public static bool LowComplexity = false;
 
-        private SimpleShader _highShader;
+        private MaterialShader _highShader;
 
         public string VertexPreset;
-        public string VertexExtension = null;
+
+        public string VertexFile = null;
 
         public string HighFragment;
         public string LowFragment;
         
         public Action<UniformCollection, DrawContext> Uniform;
 
-        public SimpleShader GetShader()
+        public MaterialShader GetShader()
         {
             if (_highShader != null) return _highShader;
 
-            _highShader = string.IsNullOrEmpty(VertexExtension) ? new SimpleShader(VertexPreset, AssemblyUtility.ReadAssemblyFile("IAmTwo.Shaders.GLSL."+ (LowComplexity ? LowFragment : HighFragment) ), Uniform) : new SimpleShader(VertexPreset, AssemblyUtility.ReadAssemblyFile("IAmTwo.Shaders.GLSL." + VertexExtension), AssemblyUtility.ReadAssemblyFile("IAmTwo.Shaders.GLSL." + (LowComplexity ? LowFragment : HighFragment)), Uniform);
+            string fragment = AssemblyUtility.ReadAssemblyFile("IAmTwo.Shaders.GLSL." + HighFragment);
+
+            if (string.IsNullOrEmpty(VertexFile)) _highShader = new SimpleShader(VertexPreset, fragment, Uniform);
+            else
+            {
+                string vertex = AssemblyUtility.ReadAssemblyFile("IAmTwo.Shaders.GLSL." + VertexFile);
+                MatShader shader = (MatShader)(_highShader = new MatShader(vertex, fragment));
+                shader.Vertex = SimpleShader.VertexFiles[VertexPreset].Item2;
+                shader.Uniform = Uniform;
+            }
 
             return _highShader;
         }

@@ -20,6 +20,7 @@ using System.Windows.Forms.VisualStyles;
 using IAmTwo.Menu.MainMenuParts;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
+using SharpDX.XInput;
 using SM.Base.Animation;
 using SM.Base.Controls;
 using SM.Base.Drawing;
@@ -31,7 +32,7 @@ using SM2D.Types;
 
 namespace IAmTwo
 {
-    class MainMenu : Scene
+    class MainMenu : BaseScene
     {
         public static MainMenu Menu = new MainMenu();
         static Vector2 _sceneSize = new OpenTK.Vector2(1000, 1000 * LevelScene.Aspect);
@@ -42,10 +43,10 @@ namespace IAmTwo
             { "GitHub", GithubAction }
         };
 
-        private GameController _listenController;
-
         private ItemCollection _options;
         private ItemCollection _playMenu;
+
+        private ItemCollection _controllerLayout;
 
         private ItemCollection _indicator;
         private DrawText _indicatorTxt;
@@ -58,9 +59,6 @@ namespace IAmTwo
         public override void Initialization()
         {
             base.Initialization();
-
-            _listenController = new GameController(0);
-
 
             Camera = new Camera()
             {
@@ -176,10 +174,38 @@ namespace IAmTwo
             obj.Material.ShaderArguments.Add("MenuRect", Vector4.Zero);
             obj.Transform.Size.Set(HUDCamera.CalculatedWorldScale);
 
+
+            _controllerLayout = new ItemCollection();
+            _controllerLayout.Transform.Position.Set(-Camera.CalculatedWorldScale.X * .65f,
+                Camera.CalculatedWorldScale.Y / 2);
+            _controllerLayout.RenderActive = false;
+
+            DrawText control = new DrawText(Fonts.XBOX, "W");
+            control.Transform.Size.Set(.75f);
+            control.GenerateMatrixes();
+
+            const float size = 1f;
+
+            DrawText xbox = new DrawText(Fonts.FontAwesomeBrands, "\uf412")
+            {
+                Name = "xbox"
+            };
+            xbox.GenerateMatrixes();
+            xbox.Transform.Size.Set(size);
+            xbox.Transform.Position.X = control.Width * 1;
+
+            DrawText playstation = new DrawText(Fonts.FontAwesomeBrands, "\uf3df")
+            {
+                Name = "ps"
+            };
+            playstation.Transform.Size.Set(size);
+            playstation.Transform.Position.X = xbox.Transform.Position.X + xbox.Height;
+
+            _controllerLayout.Add(control, xbox, playstation);
+
+
             _indicator = new ItemCollection();
-
             Polygon background = Models.CreateBackgroundPolygon(new Vector2(50, 150), 10);
-
             DrawObject2D back = new DrawObject2D()
             {
                 Color = ColorPallete.DarkBackground,
@@ -229,27 +255,43 @@ namespace IAmTwo
                 _inputDeviceHoldTimer.Start();
             };
 
-            HUD.Add(buttons, _options, _playMenu, contacts, _indicator);
+            HUD.Add(buttons, _options, _playMenu, contacts, _indicator, _controllerLayout);
             
+            SetControllerLayout(UserSettings.PlaystationLayout);
         }
 
         public override void Update(UpdateContext context)
         {
             base.Update(context);
-            
-            GameControllerState state = _listenController.GetState();
+
+            GameControllerState state = Controller.ControllerHandle.GetState();
             if (!Controller.IsController && state.AnyInteraction) ChangeInput(true);
-            if (Controller.IsController && (Keyboard.IsAnyKeyPressed || Mouse.LeftClick || Mouse.RightClick)) ChangeInput(false);
+
+            if (Controller.IsController)
+            {
+                if (Keyboard.IsAnyKeyPressed || Mouse.LeftClick || Mouse.RightClick)
+                {
+                    ChangeInput(false);
+                    return;
+                }
+
+                if (state.Buttons[GamepadButtonFlags.DPadUp, true])
+                {
+                    SetControllerLayout(UserSettings.PlaystationLayout = !UserSettings.PlaystationLayout);
+                    UserSettings.Save();
+                }
+            }
         }
 
         private void ChangeInput(bool controller)
         {
-            Controller.Actor = controller ? GameKeybindActor.CreateControllerActor(0) : GameKeybindActor.CreateKeyboardActor();
+            Controller.Actor = controller ? GameKeybindActor.CreateControllerActor(Controller.ControllerHandle) : GameKeybindActor.CreateKeyboardActor();
 
             (SMRenderer.CurrentWindow as GLWindow).CursorVisible = !controller;
 
             _indicatorTxt.Text = controller ? "\uf11b" : "\uf11c";
             Mouse.StopTracking = controller;
+            _controllerLayout.RenderActive = controller;
 
             Button editor = _buttons[1];
             editor.React = !controller;
@@ -270,6 +312,7 @@ namespace IAmTwo
             const float offset = 30;
 
             ItemCollection col = new ItemCollection();
+            col.Transform.ZIndex.Set(10);
 
             DrawObject2D background = new DrawObject2D()
             {
@@ -325,7 +368,7 @@ namespace IAmTwo
 
             foreach (UserOption option in UserOption.Options)
             {
-                PropertyInfo property = typeof(UserSettings).GetProperty(option.Member, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                PropertyInfo property = option.Property;
                 if (property != null)
                 {
                     object data = option.GetSelectedOption();
@@ -350,6 +393,8 @@ namespace IAmTwo
                 lastPipeline.Dispose();
             }
 
+            UserSettings.Save();
+
             HideOptionMenu();
         }
 
@@ -357,12 +402,13 @@ namespace IAmTwo
         {
             foreach(Button button in _buttons)
             {
+                if (Controller.IsController && button == _buttons[1]) continue;
                 button.React = false;
             }
 
             foreach (UserOption option in UserOption.Options)
             {
-                PropertyInfo property = typeof(UserSettings).GetProperty(option.Member, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                PropertyInfo property = option.Property;
                 
                 if (property != null)
                 {
@@ -383,7 +429,12 @@ namespace IAmTwo
         
         private void HideOptionMenu()
         {
-            foreach (Button button in _buttons) button.React = true;
+            foreach (Button button in _buttons)
+            {
+
+                if (Controller.IsController && button == _buttons[1]) continue;
+                button.React = true;
+            }
 
             _options.Active = false;
         }
@@ -392,6 +443,8 @@ namespace IAmTwo
         {
             foreach (Button button in _buttons)
             {
+
+                if (Controller.IsController && button == _buttons[1]) continue;
                 button.React = false;
             }
 
@@ -405,8 +458,38 @@ namespace IAmTwo
 
             foreach (Button button in _buttons)
             {
+                if (Controller.IsController && button == _buttons[1]) continue;
                 button.React = true;
             }
+        }
+
+        private void SetControllerLayout(bool playstation)
+        {
+            DrawText xbox = _controllerLayout.GetItemByName<DrawText>("xbox");
+            DrawText ps = _controllerLayout.GetItemByName<DrawText>("ps");
+
+            DrawText target;
+            DrawText source;
+
+            if (playstation)
+            {
+                source = xbox;
+                target = ps;
+            }
+            else
+            {
+                source = ps;
+                target = xbox;
+            }
+
+            source.Transform.ZIndex.Set(-5);
+            source.Transform.Size.Set(.9f);
+
+            target.Transform.ZIndex.Set(0);
+            target.Transform.Size.Set(1f);
+
+            source.Material.Tint = new Color4(1,1,1, .1f);
+            target.Material.Tint = Color4.White;
         }
 
         private static void GithubAction()

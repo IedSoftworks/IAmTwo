@@ -12,7 +12,7 @@ using SM2D.Scene;
 
 namespace IAmTwo.Game
 {
-    public class CreditsScene : Scene
+    public class CreditsScene : BaseScene
     {
         private static string _credits;
 
@@ -59,7 +59,7 @@ namespace IAmTwo.Game
             const float scrollSpeed = 50;
 
             if (_text.Transform.Position.Y > 500 + _text.Height)
-                SMRenderer.CurrentWindow.SetScene(MainMenu.Menu);
+                ChangeScene(MainMenu.Menu);
 
             _text.Transform.Position.Y += context.Deltatime * scrollSpeed;
         }

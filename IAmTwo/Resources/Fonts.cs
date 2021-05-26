@@ -24,13 +24,23 @@ namespace IAmTwo.Resources
             {
                 '\uf00c',   // Check
                 '\uf061',   // Arrow-Right
-                '\uf09b',   // Github
-                '\uf392',   // Discord 
                 '\uf101',   // angle-double-right
                 '\uf11b',   // Gamepad
                 '\uf11c'    // Keyboard
             },
             FontSize = 13
+        };
+
+        public static Font FontAwesomeBrands = new Font(@".\Resources\FontAwesome5Brands.otf")
+        {
+            FontSize = 16,
+            CharSet = new char[]
+            {
+                '\uf09b',   // Github
+                '\uf392',   // Discord
+                '\uf3df',   // PlayStation
+                '\uf412'    // XBox
+            }
         };
         
         public static Font PS = new Font(@".\Resources\PS4.otf")
@@ -48,7 +58,7 @@ namespace IAmTwo.Resources
             BaselineAdjust = 1.5f,
             CharSet = new char[]
             {
-                'a', 'y', 'b'
+                'a', 'y', 'b', 'W'
             }
         };
     }

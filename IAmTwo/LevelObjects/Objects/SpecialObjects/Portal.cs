@@ -68,10 +68,11 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
             base.ColliedWithPlayer(a, mtv);
 
             if (_connector == null) return;
+            
 
             float distance = Vector2.Distance(Transform.Position, a.Transform.Position);
-            a.Color = new Color4(a.Color.R, a.Color.G, a.Color.B, Math.Abs(distance) / Transform.Size.X);
-
+            a.Color = new Color4(a.Color.R, a.Color.G, a.Color.B, Math.Abs(distance));
+            
             if (GotTransported.Contains(a)) return;
             if (Math.Sign(distance) != _entries[a])
             {

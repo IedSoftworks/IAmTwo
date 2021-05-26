@@ -2,7 +2,7 @@
 
 namespace IAmTwo.LevelObjects.Objects.SpecialObjects
 {
-    public interface IButtonTarget
+    public interface IButtonTarget : IPlaceableObject
     {
         void Activation(PressableButton button, SpecialActor trigger);
         void Collision(PressableButton button, SpecialActor trigger);

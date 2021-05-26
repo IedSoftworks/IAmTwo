@@ -17,5 +17,5 @@ void main() {
 	float allowedArea = clamp(abs(v_VertexPosition.y) * 2 - 0.5, 0, 1) * 2;
 
 	float result = smoothstep(0, 1, 1 - allowedArea) * noise;
-	Color = vec4(result, result, result, result) * ObjColor;
+	Color = vec4(result, result, result, 1) * ObjColor;
 }

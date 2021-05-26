@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{2CD5EC57-E65E-4B28-80A7-8CF492C48D05}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>IAmTwo</RootNamespace>
     <AssemblyName>IAmTwo</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -68,6 +68,7 @@
     <Compile Include="Collision\Hitbox.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="Game\BaseGameObject.cs" />
+    <Compile Include="Game\BaseScene.cs" />
     <Compile Include="Game\ColorPallete.cs" />
     <Compile Include="Game\CreditsScene.cs" />
     <Compile Include="Game\GameBackground.cs" />
@@ -96,6 +97,8 @@
     <Compile Include="LevelObjects\LevelConstructor.cs" />
     <Compile Include="LevelObjects\LevelScene.cs" />
     <Compile Include="LevelObjects\ObjectConstructor.cs" />
+    <Compile Include="LevelObjects\Objects\ButtonConnector.cs" />
+    <Compile Include="LevelObjects\Objects\Connector.cs" />
     <Compile Include="LevelObjects\Objects\Door.cs" />
     <Compile Include="LevelObjects\Objects\GameObject.cs" />
     <Compile Include="LevelObjects\Objects\Cube.cs" />
@@ -127,6 +130,7 @@
     <Compile Include="Resources\Resource.cs" />
     <Compile Include="Shaders\GameRenderPipeline.cs" />
     <Compile Include="Shaders\ImportedShader.cs" />
+    <Compile Include="Shaders\MatShader.cs" />
     <Compile Include="Shaders\ShaderCollection.cs" />
     <Compile Include="UserOption.cs" />
     <Compile Include="UserSettings.cs" />
@@ -143,6 +147,9 @@
     <None Include="Resources\FontAwesome5.otf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Resources\FontAwesome5Brands.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\GapSansBold.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -157,14 +164,14 @@
     <None Include="Resources\XBOX.otf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <EmbeddedResource Include="Shaders\GLSL\background_frag.glsl" />
+    <EmbeddedResource Include="Shaders\GLSL\background_vert.glsl" />
+    <EmbeddedResource Include="Shaders\GLSL\button_connector_frag.glsl" />
     <None Include="Shaders\GLSL\default_vert.glsl" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Game\Credits.txt" />
     <Content Include="Resources\cursor.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\gameobject_noise.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\player_d.png">
@@ -175,9 +182,6 @@
     </Content>
     <EmbeddedResource Include="LevelEditor\Screens\HelpText.txt" />
     <Content Include="Options.txt" />
-    <Content Include="Resources\background.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Resources\bloom_amountMap.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -199,7 +203,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="INIPass">
-      <Version>1.0.2</Version>
+      <Version>1.0.3</Version>
     </PackageReference>
     <PackageReference Include="OpenTK">
       <Version>3.3.1</Version>
@@ -211,12 +215,11 @@
       <Version>2.6.0</Version>
     </PackageReference>
     <PackageReference Include="SMRenderer.Utils">
-      <Version>1.0.0-pre3</Version>
+      <Version>1.0.0-pre7</Version>
     </PackageReference>
     <PackageReference Include="SMRenderer2D">
-      <Version>1.0.15-pre6</Version>
+      <Version>1.0.15-pre9</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

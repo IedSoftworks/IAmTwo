@@ -12,7 +12,7 @@ using SM2D.Scene;
 
 namespace IAmTwo.LevelObjects
 {
-    public class LevelScene : Scene
+    public class LevelScene : BaseScene
     {
         public const float Aspect = 0.5625f;
         public List<IPlaceableObject> _placedObjects = new List<IPlaceableObject>();

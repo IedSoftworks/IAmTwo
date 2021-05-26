@@ -23,10 +23,12 @@ namespace IAmTwo.Game
         private float _speed = 40;
 
         private ItemCollection _visual;
+        private ItemCollection _body;
 
         public DrawObject2D _head;
-        private DrawObject2D _body;
+        private DrawObject2D _torso;
         private DrawObject2D _arm;
+        private DrawObject2D _roll;
 
         public float JumpMultiplier = DefaultJumpMultiplier;
         public bool Mirror;
@@ -51,7 +53,7 @@ namespace IAmTwo.Game
                 {
                     {"EmissionTex", Resource.RequestTexture(@".\Resources\player_e.png")},
                     {"EmissionTint", Color},
-                    {"EmissionStrength", 2.5f}
+                    {"EmissionStrength", 10f}
                 },
                 Tint = new Color4(darkening, darkening, darkening, 1)
             };
@@ -59,14 +61,17 @@ namespace IAmTwo.Game
             _visual = new ItemCollection {Transform = Transform};
             _visual.Transform.ZIndex.Set(50);
 
+            _body = new ItemCollection();
+
             HitboxChangeMatrix = Matrix4.CreateScale(.5f, 1, 1);
 
-            _body = new DrawObject2D()
+            _torso = new DrawObject2D()
             {
                 Material = mat
             };
-            _body.TextureTransform.SetRectangleRelative((Texture)mat.Texture, new Vector2(0), new Vector2(234, 512));
-            _body.Transform.Size.Set(_body.TextureTransform.Scale);
+            _torso.TextureTransform.SetRectangleRelative((Texture)mat.Texture, new Vector2(0), new Vector2(234, 512));
+            _torso.Transform.Size.Set(_torso.TextureTransform.Scale);
+            _torso.Transform.Position.Set(0, .05f);
 
             _head = new DrawObject2D()
             {
@@ -74,9 +79,21 @@ namespace IAmTwo.Game
             };
             _head.TextureTransform.SetRectangleRelative((Texture)mat.Texture, new Vector2(234, 0), new Vector2(221, 150));
             _head.Transform.Size.Set(_head.TextureTransform.Scale);
-            _head.Transform.Position.Set(.025f, .5f);
+            _head.Transform.Position.Set(.025f, .55f);
+            _head.Transform.ZIndex.Set(5);
+            
+            _body.Add(_head, _torso);
 
-            _visual.Add(_body, _head);
+            _roll = new DrawObject2D()
+            {
+                Material = mat
+            };
+            _roll.TextureTransform.SetRectangleRelative((Texture)mat.Texture, new Vector2(337, 325), new Vector2(173));
+            _roll.Transform.Size.Set(_roll.TextureTransform.Scale);
+            _roll.Transform.Position.Set(0, -.5f + _roll.TextureTransform.Scale.X / 2);
+            _roll.Transform.ZIndex.Set(-5f);
+
+            _visual.Add(_body, _roll);
             _visual.Transform.Size.Set(200);
         }
 
@@ -107,12 +124,16 @@ namespace IAmTwo.Game
                 Force.Y += Gravity * JumpMultiplier;
             }
 
+            _body.Transform.Position.Set(0, Grounded ? 0 : .05f);
+
             _visual.Update(context);
             base.Update(context);
         }
 
         protected override void DrawContext(ref DrawContext context)
         {
+            _roll.Transform.Rotation.Add(Math.Abs(Velocity.X) * Deltatime.RenderDelta * -1);
+
             _visual.Draw(context);
         }
 

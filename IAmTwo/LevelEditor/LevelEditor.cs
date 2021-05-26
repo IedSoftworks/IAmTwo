@@ -34,7 +34,9 @@ namespace IAmTwo.LevelEditor
         public LevelEditorSelection EditorSelection;
 
         public LevelEditor(LevelConstructor constructor) : base(constructor)
-        { }
+        {
+            PlayActivationAnimation = false;
+        }
 
         public override void Initialization()
         {

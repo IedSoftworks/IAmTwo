@@ -39,7 +39,7 @@ namespace IAmTwo.Menu
 
                 Transformation t = new Transformation();
                 t.Size.Set(txt.Width, txt.Height);
-                t.Position.Set((txt.Width/ 2) + (x - 7), 0);
+                t.Position.Set((txt.Width/ 2) + (x), 0);
                 t.GetMatrix();
 
                 Add(txt);
@@ -76,7 +76,7 @@ namespace IAmTwo.Menu
                     {
                         pair.Key.Color = Color4.LightBlue;
 
-                        if (Mouse.IsDown(OpenTK.Input.MouseButton.Left, true))
+                        if (Controller.Actor.Get<bool>("g_click"))
                         {
                             _selected = pair.Key;
                             pair.Key.Color = new Color4(0,1f, 0f, 1f);
