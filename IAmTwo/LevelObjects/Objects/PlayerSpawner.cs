@@ -13,9 +13,8 @@ namespace IAmTwo.LevelObjects.Objects
     public class PlayerSpawner : GameObject, IPlayerDependent
     {
         public static Polygon Circle = Polygon.GenerateCircle();
-
-
-
+        public static Vector2 Size = new Vector2(Player.PlayerSize * .9f);
+        
         public bool Mirror
         {
             get => _mirror;
@@ -39,7 +38,7 @@ namespace IAmTwo.LevelObjects.Objects
 
             AllowedRotationSteps = 0;
             AllowedScaling = ScaleArgs.NoScaling;
-            StartSize = new Vector2(Player.PlayerSize * .75f);
+            StartSize = Size;
 
             ApplyPolygon(Circle);
 
@@ -77,6 +76,7 @@ namespace IAmTwo.LevelObjects.Objects
         public void Spawn()
         {
             _player = new Player(Mirror);
+            _player.Scene = this.Scene;
             _player.Transform.Size.Set(0);
             _player.Transform.Position.Set(Transform.Position);
             (Parent as ItemCollection).Add(_player);

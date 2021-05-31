@@ -136,6 +136,11 @@ namespace IAmTwo.LevelObjects
             if (Controller.Actor.Get<bool>("l_exit")) ChangeScene(MainMenu.Menu);
         }
 
+        public override void Deactivate()
+        {
+            base.Deactivate();
+        }
+
         public void AddTarget()
         {
             _inGoal++;

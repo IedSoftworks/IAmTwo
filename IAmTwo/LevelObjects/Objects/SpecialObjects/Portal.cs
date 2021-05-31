@@ -34,7 +34,7 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
 
             AllowedScaling = ScaleArgs.NoScaling;
             AllowedRotationSteps = 0;
-            StartSize = new Vector2(50);
+            StartSize = PlayerSpawner.Size;
 
             Transform.Size.Set(50);
             TextureTransform.Scale.Set(1);

@@ -8,6 +8,7 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Input;
 using SM.Base;
+using SM.Base.Scene;
 using SM.Base.Time;
 using SM.Base.Types;
 using SM.Base.Window;
@@ -101,7 +102,7 @@ namespace IAmTwo.LevelEditor
         public override void Activate()
         {
             base.Activate();
-
+            
             CurrentEditor = this;
             PhysicsObject.Disabled = true;
         }
@@ -132,7 +133,14 @@ namespace IAmTwo.LevelEditor
                 }
             }
 
+            obj.Scene = this;
             obj.ID = Constructor.NextID++;
+
+            // Check if object has editor functions
+            if (obj is ICustomEditorFuncs e)
+            {
+                e.InitEditor();
+            }
 
             Objects.Add(obj);
             _placedObjects.Add(obj);

@@ -53,7 +53,6 @@ namespace IAmTwo.LevelObjects.Objects
             }
         }
 
-        public LevelScene Scene { get; set; }
         public ScaleArgs AllowedScaling { protected set; get; } = ScaleArgs.Default;
         public float AllowedRotationSteps { protected set; get; } = 0;
         public float? TriggerRotation { get; protected set; } = null;

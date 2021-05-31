@@ -44,7 +44,6 @@ namespace IAmTwo.LevelObjects.Objects
             Force.X *= .9f;
         }
 
-        public LevelScene Scene { get; set; }
         public ScaleArgs AllowedScaling { get; } = ScaleArgs.NoScaling;
         public float AllowedRotationSteps { get; } = 0;
         public float? TriggerRotation { get; } = null;

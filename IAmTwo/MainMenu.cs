@@ -85,7 +85,7 @@ namespace IAmTwo
                         player.Transform.Position.Interpolate(span, new Vector2(player.Transform.Position.X, -50), AnimationCurves.Smooth);
                     intPros2.End += (timer1, updateContext) => intPros.Start();
                 };
-
+                
                 i = 1;
             }
 
@@ -298,7 +298,7 @@ namespace IAmTwo
             editor.Color = controller ? ColorPallete.Background : Color4.LightBlue;
 
 
-            if (!(_inputDeviceAnimation.Running && _inputDeviceHoldTimer.Running)) _inputDeviceAnimation.Start();
+            if (!_inputDeviceAnimation.Running && !_inputDeviceHoldTimer.Running) _inputDeviceAnimation.Start();
         }
 
         public override void Draw(DrawContext context)

@@ -11,7 +11,7 @@ namespace IAmTwo.LevelEditor
 
         public TestLevel(LevelConstructor constructor) : base(constructor)
         {
-            
+            PlayActivationAnimation = false;
         }
 
         public override void Initialization()

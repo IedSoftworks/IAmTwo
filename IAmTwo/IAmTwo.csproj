@@ -76,6 +76,7 @@
     <Compile Include="Game\PhysicsObject.cs" />
     <Compile Include="Game\Player.cs" />
     <Compile Include="Game\SpecialActor.cs" />
+    <Compile Include="LevelEditor\ICustomEditorFuncs.cs" />
     <Compile Include="LevelEditor\Screens\EscapeControl.cs" />
     <Compile Include="LevelEditor\Screens\HelpScreen.cs" />
     <Compile Include="LevelEditor\LevelEditor.cs" />

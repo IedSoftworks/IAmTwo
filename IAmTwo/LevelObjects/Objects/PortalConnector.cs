@@ -68,7 +68,7 @@ namespace IAmTwo.LevelObjects.Objects
             };
             _currentTravelers.Add(traveler);
 
-            Timer timer = new Timer(2);
+            Timer timer = new Timer(5);
             timer.Tick += (s, c) =>
             {
                 traveler.CurrentY = timer.ElapsedNormalized * Distance * 2;

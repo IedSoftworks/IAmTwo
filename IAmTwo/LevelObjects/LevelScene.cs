@@ -17,6 +17,8 @@ namespace IAmTwo.LevelObjects
         public const float Aspect = 0.5625f;
         public List<IPlaceableObject> _placedObjects = new List<IPlaceableObject>();
 
+        public List<Hitbox> Hitboxes = new List<Hitbox>();
+
         public LevelConstructor Constructor;
         public GameObject[] Walls;
         protected bool ConstructWorld = true;
@@ -60,8 +62,6 @@ namespace IAmTwo.LevelObjects
 
             if (ConstructWorld)
             {
-                PhysicsObject.Colliders.Clear();
-
                 foreach (ObjectConstructor obj in Constructor.Objects)
                 {
                     IPlaceableObject o = (IPlaceableObject) Activator.CreateInstance(obj.ObjectType);
@@ -101,7 +101,7 @@ namespace IAmTwo.LevelObjects
 
         public override void FixedUpdate(FixedUpdateContext context)
         {
-            foreach (Hitbox collider in PhysicsObject.Colliders.ToArray())
+            foreach (Hitbox collider in Hitboxes.ToArray())
             {
                 collider.PhysicsObject.UpdateHitbox();
             }
@@ -113,8 +113,7 @@ namespace IAmTwo.LevelObjects
         public override void Deactivate()
         {
             base.Deactivate();
-
-            PhysicsObject.Colliders.Clear();
+            
             Util.CallGarbageCollector();
         }
 
@@ -134,6 +133,7 @@ namespace IAmTwo.LevelObjects
 
                 GameObject wall = new GameObject();
                 wall.Transform.ZIndex.Set(10);
+                wall.Scene = this;
                 if (vert)
                 {
                     wall.Transform.Size.Set(levelSize.X - thickness * 2, thickness);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using IAmTwo.LevelObjects;
 using KWEngine.Hitbox;
 using OpenTK;
 using SM.Base;
@@ -16,7 +17,7 @@ namespace IAmTwo.Game
         public const float Drag = 1200f;
         public const float Gravity = 10f;
         public static bool Disabled = false;
-        public static List<Hitbox> Colliders = new List<Hitbox>();
+
 
         protected bool Grounded = false;
 
@@ -26,6 +27,8 @@ namespace IAmTwo.Game
 
         protected Matrix4 HitboxChangeMatrix = Matrix4.Identity;
         protected bool HitboxNoRotation = false;
+
+        public LevelScene Scene { get; set; }
 
         private Hitbox _hitbox;
         public Hitbox Hitbox => _hitbox;
@@ -67,7 +70,7 @@ namespace IAmTwo.Game
 
             CollidedWith.Clear();
             Grounded = false;
-            foreach (Hitbox hitbox in Colliders)
+            foreach (Hitbox hitbox in Scene.Hitboxes)
             {
                 if (hitbox == _hitbox || !hitbox.PhysicsObject.Active || !hitbox.PhysicsObject.CanCollide) continue;
 
@@ -92,16 +95,16 @@ namespace IAmTwo.Game
             base.OnAdded(sender);
 
             UpdateHitbox();
-            if (!CanCollide) return;
-            Colliders.Add(Hitbox);
+            if (Scene == null || !CanCollide) return;
+            Scene.Hitboxes.Add(Hitbox);
         }
 
         public override void OnRemoved(object sender)
         {
             base.OnRemoved(sender);
             
-            if (!CanCollide) return;
-            Colliders.Remove(Hitbox);
+            if (Scene == null || !CanCollide) return;
+            Scene.Hitboxes.Remove(Hitbox);
         }
 
         public virtual void Collided(PhysicsObject obj, Vector2 mtv) { }

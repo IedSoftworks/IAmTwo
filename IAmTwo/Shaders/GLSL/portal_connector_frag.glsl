@@ -205,7 +205,11 @@ void main() {
         float targetY = Actor.YPos;
         if (Actor.Reverse) targetY = Size.y * 2 - targetY;
 
-        yColor += Actor.Color * (1 - clamp(distance(vec2(0, targetY), noisedPos.xy) - 20, 0, 1));
+        float dis = distance(vec2(0, targetY), vE_ScaledPos);
+        float compare = step(20, dis);
+        float result = 1 - clamp(compare, 0, 1);
+
+        yColor += Actor.Color * result;
     }
 
     float alpha = length(yColor) > .1 ? 0 : 1;

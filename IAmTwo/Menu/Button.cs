@@ -39,8 +39,8 @@ namespace IAmTwo.Menu
         public float Width;
         public float Height;
 
-        public Action<DrawingBasis> HoverAction = ChangeColor(Color4.LightBlue);
-        public Action<DrawingBasis> RecoverAction = ChangeColor(Color4.Blue);
+        public Action<DrawingBasis> HoverAction = ChangeColor(new Color4(0, 1.35f, 1.35f, 1));
+        public Action<DrawingBasis> RecoverAction = ChangeColor(new Color4(0, 1f, 1f, 1));
 
         public bool EnableBorder = true;
 

@@ -1,8 +1,8 @@
-﻿using System;
-using KWEngine.Hitbox;
+﻿using KWEngine.Hitbox;
 using OpenTK;
 using SM.Base.Scene;
 using SM2D.Types;
+using System;
 
 namespace IAmTwo.LevelObjects
 {

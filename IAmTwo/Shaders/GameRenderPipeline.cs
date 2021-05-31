@@ -1,4 +1,5 @@
 ﻿using System;
+using IAmTwo.Game;
 using IAmTwo.Menu;
 using IAmTwo.Resources;
 using OpenTK;
@@ -74,8 +75,11 @@ namespace IAmTwo.Shaders
             _postBuffer.Activate(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             PostProcessUtility.ResolveMultisampledBuffers(MainFramebuffer, _postBuffer);
 
-            BloomAmountTransform.Offset.Add(Deltatime.RenderDelta * Randomize.GetFloat(.075f, .1f), 0);
-            _bloom?.Draw(_postBuffer["color"], context);
+            if (!(context.Scene is CreditsScene))
+            {
+                BloomAmountTransform.Offset.Add(Deltatime.RenderDelta * Randomize.GetFloat(.075f, .1f), 0);
+                _bloom?.Draw(_postBuffer["color"], context);
+            }
 
             Framebuffer.Screen.Activate(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             PostProcessUtility.FinalizeHDR(_postBuffer.ColorAttachments["color"], Exposure.X);

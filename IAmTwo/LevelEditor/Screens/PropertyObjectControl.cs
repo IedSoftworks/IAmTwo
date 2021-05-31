@@ -97,7 +97,7 @@ namespace IAmTwo.LevelEditor
         private void ResolveCollisions(IPlaceableObject o)
         {
             o.Hitbox.Update(o.Transform.GetMatrix(), o.Transform.Rotation);
-            foreach (Hitbox _hitbox in PhysicsObject.Colliders)
+            foreach (Hitbox _hitbox in LevelEditor.CurrentEditor.Hitboxes.ToArray())
             {
                 if (_hitbox == o.Hitbox) continue;
 

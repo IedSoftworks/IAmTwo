@@ -34,13 +34,12 @@ namespace IAmTwo
             window.SetRenderPipeline(new GameRenderPipeline());
 
             if (args.Any(a => a == "--testLevel"))
-            {
                 using (FileStream stream = new FileStream(@".\Levels\_test.iatl", FileMode.Open))
                 {
                     window.SetScene(new PlayScene(LevelConstructor.Load(stream)));
                 }
-            } else window.SetScene(MainMenu.Menu);
-            //window.SetScene(new CreditsScene(LevelSet.LevelSets.First().Value[0]));
+            else window.SetScene(MainMenu.Menu);
+            window.SetScene(new CreditsScene(LevelSet.LevelSets.First().Value[0]));
             //window.SetScene(new GameScene(new LevelConstructor() { Size = 650 }));
             window.RunFixedUpdate(100);
             window.Run();

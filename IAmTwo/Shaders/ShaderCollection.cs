@@ -149,11 +149,6 @@ namespace IAmTwo.Shaders
                 HighFragment = "Editor.grid_frag.glsl",
                 Uniform = (u, c) =>
                 {
-                    u["Gamma"].SetUniform1(PostProcessUtility.Gamma);
-
-                    u["Texture"].SetTexture(c.Material.Texture);
-                    u["Tint"].SetUniform4(c.Material.Tint);
-
                     u["Size"].SetUniform2((c.UseCamera as Camera).WorldScale.X, (c.UseCamera as Camera).WorldScale.Y);
                     u["GridSize"].SetUniform1(LevelEditorGrid.VisualGridSize);
                 } 

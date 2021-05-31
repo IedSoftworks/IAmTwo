@@ -3,12 +3,14 @@ using System.ComponentModel;
 using System.IO;
 using IAmTwo.Resources;
 using OpenTK;
+using OpenTK.Input;
 using SM.Base;
 using SM.Base.Drawing.Text;
 using SM.Base.Utility;
 using SM.Base.Window;
 using SM2D.Drawing;
 using SM2D.Scene;
+using Keyboard = SM.Base.Controls.Keyboard;
 
 namespace IAmTwo.Game
 {
@@ -27,7 +29,7 @@ namespace IAmTwo.Game
 
         public CreditsScene(LevelSet set)
         {
-            credits = set.Credits != null ? _credits.Replace("%%%LEVEL%%%", "Level Pack Credits:\n" + set.Credits) : null;
+            credits = _credits.Replace("%%%LEVEL%%%",  set.Credits != null ? "Level Pack Credits:\n" + set.Credits : "");
         }
 
         public override void Initialization()
@@ -44,10 +46,11 @@ namespace IAmTwo.Game
 
             Camera = new Camera()
             {
-                RequestedWorldScale = new Vector2(_text.Width, 1000)
+                RequestedWorldScale = new Vector2(_text.Width, 0)
             };
+            
 
-            _text.Transform.Position.Y = -500 - _text.Font.Height / 2;
+            _text.Transform.Position.Y = -Camera.CalculatedWorldScale.Y / 2;
             _text.Transform.Size.Set(.75f);
 
             Objects.Add(_text);
@@ -58,7 +61,7 @@ namespace IAmTwo.Game
             base.Update(context);
             const float scrollSpeed = 50;
 
-            if (_text.Transform.Position.Y > 500 + _text.Height)
+            if (_text.Transform.Position.Y > Camera.CalculatedWorldScale.Y / 2 + _text.Height || Controller.Actor.Get<bool>("c_skipCredits"))
                 ChangeScene(MainMenu.Menu);
 
             _text.Transform.Position.Y += context.Deltatime * scrollSpeed;

@@ -39,7 +39,9 @@ namespace IAmTwo
             {"l_exit", context => Keyboard.IsDown(Key.Escape, true), context => context.ControllerState.Buttons[GamepadButtonFlags.B, true]},
 
             {"g_click", context => Mouse.LeftClick, context => 
-                context.ControllerState.Buttons[GamepadButtonFlags.A, true] }
+                context.ControllerState.Buttons[GamepadButtonFlags.A, true] },
+
+            {"c_skipCredits", context => Keyboard.IsDown(Key.Escape), context => context.ControllerState.Buttons[GamepadButtonFlags.Start, true] || context.ControllerState.Buttons[GamepadButtonFlags.A, true] }
         });
 
         public static GameKeybindActor Actor

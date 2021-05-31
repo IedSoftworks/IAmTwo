@@ -14,11 +14,9 @@ layout(location = 0) out vec4 color;
 vec4 texture2DGamma(sampler2D s, vec2 P);
 
 void main() {
-	vec4 tex = texture2DGamma(Texture, v_TexCoords) * Tint;
-
 	vec2 grid = mod(vE_ScaledPos, GridSize);
 	float s = grid.x > GridSize - 2 || grid.y > GridSize - 2 ? 1 : 0;
 
-	vec4 result = tex * (1 - s) + s * .025;
+	vec4 result = vec4((1 - s) + s) * .025;
 	color = result;
 }

@@ -18,7 +18,8 @@ namespace IAmTwo.LevelEditor
 
         private IPlaceableObject _placeObject;
         private bool _allowedClick;
-        private DrawObject2D _borderObject;
+
+        private LevelEditor _editor = LevelEditor.CurrentEditor;
 
         public ObjectButton(IPlaceableObject obj) : base("")
         {
@@ -47,7 +48,7 @@ namespace IAmTwo.LevelEditor
             title.Transform.Size.Set(.0075f);
             
             Add(obj, _border, title);
-            PhysicsObject.Colliders.Remove(obj.Hitbox);
+            _editor.Hitboxes.Remove(obj.Hitbox);
         }
 
         public static float CalculateAspect(Vector2 size, out bool xGTRy)
@@ -71,7 +72,7 @@ namespace IAmTwo.LevelEditor
 
             if (!LevelEditor.CurrentEditor.Add(obj))
             {
-                _borderObject.Color = Color4.Red;
+                _border.Color = Color4.Red;
             }
         }
     }

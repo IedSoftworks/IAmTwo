@@ -1,5 +1,6 @@
 ﻿using System;
 using IAmTwo.Game;
+using IAmTwo.LevelEditor;
 using IAmTwo.Shaders;
 using OpenTK;
 using OpenTK.Graphics;
@@ -8,7 +9,7 @@ using SM.Base.Window;
 
 namespace IAmTwo.LevelObjects.Objects.SpecialObjects
 {
-    public class Goal : SpecialObject, IPlayerDependent
+    public class Goal : SpecialObject, IPlayerDependent, ICustomEditorFuncs
     {
         private bool _mirror = false;
         private static int _triggered = 0;
@@ -71,6 +72,11 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
                     playScene.AddTarget();
                 }
             }
+        }
+
+        public void InitEditor()
+        {
+            Color = Mirror ? ColorPallete.Mirror : ColorPallete.Player;
         }
     }
 }
