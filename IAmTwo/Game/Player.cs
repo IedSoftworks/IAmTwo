@@ -6,6 +6,7 @@ using OpenTK.Graphics;
 using OpenTK.Input;
 using SM.Base.Drawing;
 using SM.Base.Textures;
+using SM.Base.Types;
 using SM.Base.Utility;
 using SM.Base.Window;
 using SM.Base.Window.Contexts;
@@ -17,10 +18,10 @@ namespace IAmTwo.Game
 {
     public class Player : SpecialActor
     {
-        public static float DefaultJumpMultiplier = 35;
+        public static float DefaultJumpHeight = 100;
         public static float PlayerSize = 100f;
         
-        private float _speed = 40;
+        private float _speed = 500;
 
         private ItemCollection _visual;
         private ItemCollection _body;
@@ -30,7 +31,7 @@ namespace IAmTwo.Game
         private DrawObject2D _arm;
         private DrawObject2D _roll;
 
-        public float JumpMultiplier = DefaultJumpMultiplier;
+        public float JumpHeight = DefaultJumpHeight;
         public bool Mirror;
         public bool React;
 
@@ -116,15 +117,23 @@ namespace IAmTwo.Game
                 _head.Transform.Rotation.Set(0);
             }
 
-            Force.X = xDir * _speed;
+            float spd = xDir * _speed;
+            if (Grounded)
+            {
+                Velocity.X = spd;
+            }
+            else if (Math.Abs(Velocity.X) < _speed)
+            {
+                Velocity.X += spd * 2 * Deltatime.UpdateDelta;
+            }
 
             bool jump = Controller.Actor.Get<bool>("p_jump");
             if (jump && Grounded)
             {
-                Force.Y += Gravity * JumpMultiplier;
+                Velocity.Y = (float)Math.Sqrt(JumpHeight * -2f * Gravity);
             }
 
-            _body.Transform.Position.Set(0, Grounded ? 0 : .05f);
+            _body.Transform.Position.Y = MathUtils.Lerp(_body.Transform.Position.Y, Grounded ? 0 : .05f, .1f);
 
             _visual.Update(context);
             base.Update(context);

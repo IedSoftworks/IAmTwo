@@ -35,7 +35,7 @@ namespace IAmTwo
     class MainMenu : BaseScene
     {
         public static MainMenu Menu = new MainMenu();
-        static Vector2 _sceneSize = new OpenTK.Vector2(1000, 1000 * LevelScene.Aspect);
+        public static Vector2 _sceneSize = new OpenTK.Vector2(1000, 1000 * LevelScene.Aspect);
 
         static Dictionary<string, Action> contactActions = new Dictionary<string, Action>()
         {
@@ -119,7 +119,7 @@ namespace IAmTwo
             editorButton.Click += () =>
             {
                 HideOptionMenu();
-                SMRenderer.CurrentWindow.SetScene(LevelEditorMainMenu.Scene);
+                ChangeScene(LevelEditorMainMenu.Scene);
             };
 
             Button optionButton = new Button("Options", width, allowBorder: false, center: true);

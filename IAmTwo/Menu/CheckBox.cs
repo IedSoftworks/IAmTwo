@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SM.Base.Drawing.Text;
+using SM.Base;
 
 namespace IAmTwo.Menu
 {
@@ -19,9 +20,11 @@ namespace IAmTwo.Menu
     {
         public static readonly Vector2 Size = new Vector2(25);
 
+        private ulong lastUpdate;
         private DrawText _check;
         private DrawObject2D _border;
 
+        public event Action Checking;
         public bool Checked { get; private set; }
 
         public CheckBox()
@@ -47,6 +50,10 @@ namespace IAmTwo.Menu
         public override void Update(UpdateContext context)
         {
             base.Update(context);
+
+            if (lastUpdate == SMRenderer.CurrentFrame) return;
+            lastUpdate = SMRenderer.CurrentFrame;
+
             if (_border.LastDrawingCamera == null) return;
             
             Vector2 mousePos = Mouse2D.InWorld(_border.LastDrawingCamera as Camera);
@@ -57,8 +64,9 @@ namespace IAmTwo.Menu
                 if (Controller.Actor.Get<bool>("g_click"))
                 {
                     Checked = !Checked;
+                    _check.RenderActive = Checked;
 
-                    _check.Active = Checked;
+                    Checking?.Invoke();
                 }
             }
             else _border.Color = Color4.Blue;
@@ -67,7 +75,7 @@ namespace IAmTwo.Menu
         public void SetChecked(bool value)
         {
             Checked = value;
-            _check.Active = value;
+            _check.RenderActive = value;
         }
     }
 }

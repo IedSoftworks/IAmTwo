@@ -185,9 +185,9 @@ namespace KWEngine.Hitbox
                 error = true;
                 return;
             }
+            error = false;
             float intersectionDepthSquared = (intersectionDepthScaled * intersectionDepthScaled) / axisLengthSquared;
 
-            error = false;
 
             if (intersectionDepthSquared < mtvDistance || mtvDistance < 0)
             {

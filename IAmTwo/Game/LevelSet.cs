@@ -11,6 +11,7 @@ namespace IAmTwo.Game
     {
         public static Dictionary<string, List<LevelSet>> LevelSets;
 
+        public string Folder;
         public int Position;
         public string Name;
         public List<LevelConstructor> Levels = new List<LevelConstructor>();
@@ -37,7 +38,8 @@ namespace IAmTwo.Game
                 {
                     Name = general["Name"],
                     Position = 0,
-                    Credits = File.Exists(creditPath) ? File.ReadAllText(creditPath) : null
+                    Credits = File.Exists(creditPath) ? File.ReadAllText(creditPath) : null,
+                    Folder = directory
                 };
 
                 if (general.ContainsKey("Category"))

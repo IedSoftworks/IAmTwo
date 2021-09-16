@@ -12,7 +12,7 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
         private bool _reverse;
         private bool _sideways;
 
-        public float Speed = 1.5f;
+        public float Speed = 1;
         
         public Elevator()
         {
@@ -62,9 +62,11 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
         public override void ColliedWithPlayer(SpecialActor p, Vector2 mtv)
         {
             base.Collided(p, mtv);
-            float sped = Gravity * Speed * (_sideways ? 20 :1) * (_reverse ? -1 : 1);
-            if (_sideways) p.Force.X += sped;
-            else p.Force.Y += sped;
+            if (p.CollidedWith.Count > 1) return;
+
+            float sped = -Gravity * Speed * (_sideways ? 1 : 10) * (_reverse ? -1 : 1) * Deltatime.FixedUpdateDelta;
+            if (_sideways) p.Velocity.X += sped;
+            else p.Velocity.Y += sped;
         }
 
         protected override void DrawContext(ref DrawContext context)

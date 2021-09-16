@@ -14,28 +14,27 @@ namespace IAmTwo.Game
 {
     public class PhysicsObject : BaseGameObject, IFixedScriptable
     {
-        public const float Drag = 1200f;
-        public const float Gravity = 10f;
+        public const float Drag = 100f;
+        public const float Gravity = -500f;
         public static bool Disabled = false;
-
 
         protected bool Grounded = false;
 
         protected bool CanCollide = true;
-        protected List<PhysicsObject> CollidedWith = new List<PhysicsObject>();
+        public List<PhysicsObject> CollidedWith = new List<PhysicsObject>();
         protected bool ChecksGrounded = false;
 
         protected Matrix4 HitboxChangeMatrix = Matrix4.Identity;
         protected bool HitboxNoRotation = false;
 
+        private Hitbox _hitbox;
+
         public LevelScene Scene { get; set; }
 
-        private Hitbox _hitbox;
         public Hitbox Hitbox => _hitbox;
 
         public bool Passive = true;
 
-        public Vector2 Force;
         public Vector2 Velocity;
 
         public float Mass = 1;
@@ -57,16 +56,9 @@ namespace IAmTwo.Game
         {
             if (Disabled || Passive) return;
 
-            Vector2 acceleration = Force / Mass;
-
-            Velocity += acceleration;
-
-            int direction = Math.Sign(Velocity.X);
-            Velocity.X = Math.Min(Math.Max(Math.Abs(Velocity.X) - (Drag * Deltatime.FixedUpdateDelta), 0), MaxXSpeed) * direction;
+            Velocity.Y += Gravity * Deltatime.FixedUpdateDelta;
 
             Transform.Position.Add(Velocity * Deltatime.FixedUpdateDelta);
-
-            Force = new Vector2(0, -Gravity);
 
             CollidedWith.Clear();
             Grounded = false;
@@ -79,11 +71,7 @@ namespace IAmTwo.Game
                 {
                     CollidedWith.Add(hitbox.PhysicsObject);
                     Collided(hitbox.PhysicsObject, mtv);
-
-                    if (mtv.Y > 0 && hitbox.PhysicsObject.ChecksGrounded)
-                    {
-                        Grounded = true;
-                    }
+                    Grounded = mtv.Y > 0 && hitbox.PhysicsObject.ChecksGrounded;
                 }
             }
         }
@@ -111,8 +99,8 @@ namespace IAmTwo.Game
 
         public void DefaultCollisionResolvement(PhysicsObject obj, Vector2 mtv)
         {
-            Velocity += mtv * 10;
-
+            Velocity += mtv;
+            //if (mtv.Y > 0) Velocity.Y += Gravity * -Deltatime.FixedUpdateDelta;
             Transform.Position.Add(mtv);
         }
     }

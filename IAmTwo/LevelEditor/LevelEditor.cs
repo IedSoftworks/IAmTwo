@@ -114,25 +114,8 @@ namespace IAmTwo.LevelEditor
             PhysicsObject.Disabled = false;
         }
 
-        public bool Add(IPlaceableObject obj)
+        public bool Add(ObjectButton btn, IPlaceableObject obj)
         {
-            // Check if object is player dependent
-            if (obj is IPlayerDependent p)
-            {
-                if (_playerDependentObjects.ContainsKey(p.GetType()))
-                {
-                    if (_playerDependentObjects[p.GetType()]) return false;
-
-                    p.Mirror = true;
-                    _playerDependentObjects[p.GetType()] = true;
-                }
-                else
-                {
-                    p.Mirror = false;
-                    _playerDependentObjects.Add(p.GetType(), false);
-                }
-            }
-
             obj.Scene = this;
             obj.ID = Constructor.NextID++;
 
@@ -204,7 +187,7 @@ namespace IAmTwo.LevelEditor
                 // Object Transformations
                 if (Keyboard.IsDown(Key.W, true))
                 {
-                    MouseAction = TransformationActions.MovingAction();
+                    MouseAction = TransformationActions.MovingAction(Keyboard.IsDown(Key.ShiftLeft));
                 }
 
                 if (Keyboard.IsDown(Key.S, true))

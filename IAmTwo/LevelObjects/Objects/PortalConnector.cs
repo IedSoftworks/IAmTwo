@@ -56,7 +56,7 @@ namespace IAmTwo.LevelObjects.Objects
         {
             a.Transform.Position.Set(counterPortal.Transform.Position);
             counterPortal.GotTransported.Add(a);
-            a.Force += a.Force * 0.5f;
+            a.Velocity += a.Velocity * 0.5f;
             a.Active = false;
             a.Passive = true;
 

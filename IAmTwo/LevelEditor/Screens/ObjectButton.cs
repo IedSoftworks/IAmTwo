@@ -16,7 +16,7 @@ namespace IAmTwo.LevelEditor
 
         private Camera _lastCam;
 
-        private IPlaceableObject _placeObject;
+        public IPlaceableObject _placeObject;
         private bool _allowedClick;
 
         private LevelEditor _editor = LevelEditor.CurrentEditor;
@@ -70,7 +70,7 @@ namespace IAmTwo.LevelEditor
             IPlaceableObject obj = (IPlaceableObject)Activator.CreateInstance(_placeObject.GetType());
             obj.Transform.Size.Set(_placeObject.StartSize);
 
-            if (!LevelEditor.CurrentEditor.Add(obj))
+            if (!LevelEditor.CurrentEditor.Add(this, obj))
             {
                 _border.Color = Color4.Red;
             }

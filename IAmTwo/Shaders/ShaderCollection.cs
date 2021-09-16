@@ -21,11 +21,6 @@ namespace IAmTwo.Shaders
                 HighFragment = "default_frag.glsl",
                 Uniform = (u, c) =>
                 {
-                    u["Model"].SetMatrix4(c.ModelMatrix);
-
-                    u["HasMenuRect"].SetUniform1(c.Material.ShaderArguments.ContainsKey("MenuRect"));
-                    u["MenuRectangle"].SetUniform4(c.Material.ShaderArguments.Get("MenuRect", Vector4.Zero));
-
                     u["Texture"].SetTexture(c.Material.Texture, u["HasTexture"]);
 
                     u["Gamma"].SetUniform1(PostProcessUtility.Gamma);

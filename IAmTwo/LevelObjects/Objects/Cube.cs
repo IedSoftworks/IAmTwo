@@ -41,7 +41,7 @@ namespace IAmTwo.LevelObjects.Objects
 
             DefaultCollisionResolvement(obj, mtv);
 
-            Force.X *= .9f;
+            Velocity.X *= .9f;
         }
 
         public ScaleArgs AllowedScaling { get; } = ScaleArgs.NoScaling;

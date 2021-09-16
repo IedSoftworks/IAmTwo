@@ -9,11 +9,17 @@ namespace IAmTwo.LevelEditor
 {
     public class TransformationActions
     {
-        public static Action<IPlaceableObject> MovingAction()
+        public static Action<IPlaceableObject> MovingAction(bool offset = true)
         {
+            Vector2 setoff = Vector2.Zero;
+
+            if (offset)
+                setoff = LevelEditor.CurrentEditor.EditorSelection.SelectedObject.Transform.Position -
+                         Mouse2D.InWorld(LevelEditor.CurrentEditor.Camera);
+
             return a =>
             {
-                Vector2 mousePos = Mouse2D.InWorld(LevelEditor.CurrentEditor.Camera);
+                Vector2 mousePos = Mouse2D.InWorld(LevelEditor.CurrentEditor.Camera) + setoff;
 
                 Vector2 restriction = Vector2.One;
                 if (Keyboard.IsDown(Key.X)) restriction = Vector2.UnitX;
@@ -36,7 +42,8 @@ namespace IAmTwo.LevelEditor
             {
                 Vector2 mousePos = Mouse2D.InWorld(LevelEditor.CurrentEditor.Camera);
                 Vector2 distance = a.Transform.Position - mousePos;
- 
+                distance = Vector2.Transform(distance, a.Transform.GetMatrix(true).ExtractRotation());
+
                 Vector2 newSize = Vector2.Zero;
                 if ((a.AllowedScaling & ScaleArgs.Uniform) != 0)
                 {

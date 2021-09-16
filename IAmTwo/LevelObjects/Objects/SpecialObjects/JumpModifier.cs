@@ -8,8 +8,8 @@ using SM.Base.Window;
 namespace IAmTwo.LevelObjects.Objects.SpecialObjects
 {
     public class JumpModifier : SpecialObject
-    {
-        private float _multiplier = 2;
+    { 
+        private float _multiplier = 7.5f;
         
         public float Multiplier
         {
@@ -47,18 +47,20 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
             Color = up ? ColorPallete.Up : ColorPallete.Down;
         }
 
-        public override void BeganCollision(SpecialActor a, Vector2 mtv)
+        public override void ColliedWithPlayer(SpecialActor a, Vector2 mtv)
         {
-            base.BeganCollision(a, mtv);
+            base.ColliedWithPlayer(a, mtv);
 
-            if (a is Player p) p.JumpMultiplier = Player.DefaultJumpMultiplier * Multiplier;
+            if (a is Player p) 
+                p.JumpHeight = Player.DefaultJumpHeight * Multiplier;
         }
 
         public override void EndCollision(SpecialActor a, Vector2 mtv)
         {
             base.EndCollision(a, mtv);
 
-            if (a is Player p) p.JumpMultiplier = Player.DefaultJumpMultiplier;
+            if (a is Player p) 
+                p.JumpHeight = Player.DefaultJumpHeight;
         }
 
         protected override void DrawContext(ref DrawContext context)

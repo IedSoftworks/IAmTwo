@@ -10,6 +10,7 @@ using KWEngine.Hitbox;
 using OpenTK;
 using OpenTK.Input;
 using SM.Base.Scene;
+using SM.Base.Window;
 using SM2D.Controls;
 using SM2D.Drawing;
 using SM2D.Scene;
@@ -32,6 +33,11 @@ namespace IAmTwo.LevelEditor
 
         public PropertyObjectControl()
         {
+        }
+
+        public override void Update(UpdateContext context)
+        {
+            base.Update(context);
         }
 
         public void Reload(IPlaceableObject obj)
@@ -59,8 +65,21 @@ namespace IAmTwo.LevelEditor
 
                 yPos += d.Item2 + 10f;
             }
-        }
 
+            if (_object is IPlayerDependent playerDependent)
+            {
+                DrawText t = new DrawText(Fonts.Button, "Mirror: ");
+                t.Transform.Position.Set(0, -yPos);
+
+                CheckBox box = new CheckBox();
+                box.SetChecked(playerDependent.Mirror);
+                box.Checking += () => playerDependent.Mirror = box.Checked;
+                box.Transform.Position.Set(100, -yPos);
+                Add(t, box);
+
+                yPos += 25 + 10;
+            }
+        }
 
         public void ExecuteKeybinds()
         {

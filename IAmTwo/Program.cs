@@ -13,7 +13,7 @@ using SM.Utils.Controls;
 
 namespace IAmTwo
 {
-    class Program
+    class Program   
     {
         [STAThread]
         static void Main(string[] args)
@@ -39,7 +39,7 @@ namespace IAmTwo
                     window.SetScene(new PlayScene(LevelConstructor.Load(stream)));
                 }
             else window.SetScene(MainMenu.Menu);
-            window.SetScene(new CreditsScene(LevelSet.LevelSets.First().Value[0]));
+            //window.SetScene(new CreditsScene(LevelSet.LevelSets.First().Value[0]));
             //window.SetScene(new GameScene(new LevelConstructor() { Size = 650 }));
             window.RunFixedUpdate(100);
             window.Run();

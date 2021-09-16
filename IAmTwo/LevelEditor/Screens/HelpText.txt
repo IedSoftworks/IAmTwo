@@ -11,7 +11,7 @@ When a button has brackets then its most likely a keybind.
 
 Controls:
 Left Click - (Un-)Selects a object and accepts modes.
-W - Move Mode
+W - Move Mode (Press Shift to move the center)
 	Arrow Keys can be used to place the object more specificly
 S - Scaling Mode
 R - Rotate Object

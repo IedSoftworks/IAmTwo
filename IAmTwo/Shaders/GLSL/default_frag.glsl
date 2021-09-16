@@ -16,9 +16,6 @@ uniform vec4 EmissionTint;
 
 uniform float Scale;
 
-uniform bool HasMenuRect;
-uniform vec4 MenuRectangle;
-
 layout(location = 0) out vec4 color;
 
 //# import SM_base_fragment_textureGamma
@@ -26,14 +23,6 @@ layout(location = 0) out vec4 color;
 vec4 texture2DGamma(sampler2D s, vec2 P);
 
 void main() {
-	if (HasMenuRect)
-	{
-		color = vec4(v_RealPos, 0, 1);
-	
-		return;
-	}
-
-
 	color = v_Color * Tint;
 	if (HasTexture) {
 		color *= texture2DGamma(Texture, v_TexCoords);

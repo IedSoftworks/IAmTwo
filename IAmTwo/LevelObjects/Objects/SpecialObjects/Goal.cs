@@ -9,10 +9,9 @@ using SM.Base.Window;
 
 namespace IAmTwo.LevelObjects.Objects.SpecialObjects
 {
-    public class Goal : SpecialObject, IPlayerDependent, ICustomEditorFuncs
+    public class Goal : SpecialObject, IPlayerDependent
     {
         private bool _mirror = false;
-        private static int _triggered = 0;
 
         public bool Mirror
         {
@@ -20,6 +19,7 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
             set
             {
                 _mirror = value;
+                SetColor();
             }
         }
 
@@ -40,8 +40,14 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
             Material.CustomShader = ShaderCollection.Shaders["Goal"].GetShader();
             Material.ShaderArguments.Add("brightness", 1f);
 
+            SetColor();
+        }
+
+        private void SetColor()
+        {
+            Color4 col = Mirror ? ColorPallete.Mirror : ColorPallete.Player;
             const float bright = .1f;
-            Color = new Color4(bright, bright, bright, 1);
+            Color = new Color4(col.R * bright, col.G * bright, col.B * bright, 1);
         }
 
         protected override void DrawContext(ref DrawContext context)
@@ -69,14 +75,10 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
 
                 if (Scene is PlayScene playScene)
                 {
+                    CanCollide = false;
                     playScene.AddTarget();
                 }
             }
-        }
-
-        public void InitEditor()
-        {
-            Color = Mirror ? ColorPallete.Mirror : ColorPallete.Player;
         }
     }
 }

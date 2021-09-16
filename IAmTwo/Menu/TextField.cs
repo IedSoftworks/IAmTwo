@@ -33,7 +33,10 @@ namespace IAmTwo.Menu
         public string Text => _text;
 
         public event Action Changed;
-        
+        public int KeyRangeMin = 83;
+        public int KeyRangeMax = 119;
+
+
         public TextField(Font font, bool readOnly = false, float width = 250, string startText = "Hover to type")
         {
             float height = font.FontSize * 1.6f;
@@ -66,7 +69,7 @@ namespace IAmTwo.Menu
             if (Mouse2D.MouseOver(Mouse2D.InWorld(Border.LastDrawingCamera as Camera), Background))
             {
                 Border.Color = Color4.LightGreen;
-                if (Keyboard.AreSpecificKeysPressed(83, 119, out Key[] keys, true))
+                if (Keyboard.AreSpecificKeysPressed(KeyRangeMin, KeyRangeMax, out Key[] keys, true))
                 {
                     foreach (Key pressedKey in keys)
                     {
@@ -87,7 +90,7 @@ namespace IAmTwo.Menu
                     Changed?.Invoke();
                 }
 
-                if (Keyboard.IsDown(Key.BackSpace, true) && _text.Length > 0)
+                if (Keyboard.IsDown(Key.BackSpace, true) && _text.Length != 0)
                 {
                     _text = _text.Remove(_text.Length - 1);
 
@@ -103,7 +106,8 @@ namespace IAmTwo.Menu
 
         public void SetText(string text, bool force = false)
         {
-            if (!string.IsNullOrEmpty(_text) || force) TextObj.Text = _text = text;
+            if (!string.IsNullOrEmpty(_text) || force) 
+                TextObj.Text = _text = text;
         }
     }
 }

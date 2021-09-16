@@ -13,9 +13,12 @@ namespace IAmTwo.Menu.MainMenuParts
 {
     public class PlayMenu : ItemCollection
     {
-        private const float Offset = 20f;
+        protected const float Offset = 20f;
 
-        private ItemCollection _levelSelect;
+        protected ItemCollection _levelSelect;
+
+        protected int NextPackPos = 1;
+        protected ItemCollection Packs = new ItemCollection();
 
         public PlayMenu(Vector2 _sceneSize)
         {
@@ -43,29 +46,27 @@ namespace IAmTwo.Menu.MainMenuParts
                 }
             };
 
-            ItemCollection button = new ItemCollection();
-            button.Transform.Position.Set(-(size.X / 2) + 20, (size.Y / 2) - 20);
+            Packs.Transform.Position.Set(-(size.X / 2) + 20, (size.Y / 2) - 20);
 
-            Button close = new Button("[X]", width:150, allowBorder: false);
-            close.Click += MainMenu.Menu.HidePlayMenu;
-            button.Add(close);
+            Button close = new Button("[X]", width:150, allowBorder: false, menuRect: new Vector4(1,1,100,100));
+            close.Click += Close;
+            Packs.Add(close);
 
-            int i = 1;
             foreach (KeyValuePair<string, List<LevelSet>> pair in LevelSet.LevelSets)
             {
                 DrawText header = new DrawText(Fonts.Button, pair.Key);
-                header.Transform.Position.Set(0, -i * Offset);
-                button.Add(header);
-                i++;
+                header.Transform.Position.Set(0, -NextPackPos * Offset);
+                Packs.Add(header);
+                NextPackPos++;
 
                 foreach (LevelSet set in pair.Value)
                 {
                     Button btn = new Button(set.Name, 150, allowBorder: false);
-                    btn.Transform.Position.Set(0, -i * Offset);
+                    btn.Transform.Position.Set(0, -NextPackPos * Offset);
                     btn.Click += () => SetLevelSelect(set);
 
-                    button.Add(btn);
-                    i++;
+                    Packs.Add(btn);
+                    NextPackPos++;
                 }
             }
 
@@ -88,12 +89,17 @@ namespace IAmTwo.Menu.MainMenuParts
             _levelSelect = new ItemCollection();
             _levelSelect.Transform.Position.Set( 180, 0);
 
-            button.Add(seperator, _levelSelect);
+            Packs.Add(seperator, _levelSelect);
 
-            Add(background, border, button);
+            Add(background, border, Packs);
         }
 
-        private void SetLevelSelect(LevelSet set)
+        protected virtual void Close()
+        {
+            MainMenu.Menu.HidePlayMenu();
+        }
+
+        protected virtual void SetLevelSelect(LevelSet set)
         {
             _levelSelect.Clear();
 
@@ -104,7 +110,6 @@ namespace IAmTwo.Menu.MainMenuParts
                 btn.Transform.Position.Set(0, -i * Offset);
                 btn.Click += () =>
                 {
-
                     MainMenu.Menu.ChangeScene(new PlayScene(constructor));
                 };
 

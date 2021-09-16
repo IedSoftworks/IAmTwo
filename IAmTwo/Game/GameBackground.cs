@@ -22,7 +22,15 @@ namespace IAmTwo.Game
         {
             Material.CustomShader = ShaderCollection.Shaders["Background"].GetShader();
 
-            float aspect = cam.CalculatedWorldScale.Y / cam.CalculatedWorldScale.X;
+
+
+            cam.WorldScaleChanged += CalculateGrid;
+            CalculateGrid(cam);
+        }
+
+        private void CalculateGrid(Camera cam)
+        {
+            float aspect = cam.WorldScale.Y / cam.WorldScale.X;
             const float size = 50;
             TextureTransform.Scale.Set(size, aspect * size);
         }
