@@ -7,11 +7,12 @@ namespace IAmTwo.Game
 {
     public class SpecialActor : PhysicsObject, IScriptable
     {
-        private SpecialObject _lastSpecialObject;
+        protected SpecialObject _lastSpecialObject;
 
         public bool UpdateActive { get; set; } = true;
         public virtual void Update(UpdateContext context)
         {
+            if (!CanCollide) return;
             if (!CollidedWith.Contains(_lastSpecialObject))
             {
                 _lastSpecialObject?.EndCollision(this, Vector2.Zero);

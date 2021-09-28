@@ -2,7 +2,7 @@
 
 Menus:
 ESC - Guess...
-Q - Open Object Selection
+Right Click - Open Object Selection
 P - Open Proerty Menu 
 	Context Specific: When Object selected, it will show the object properties.
 			Otherwise it will show the Level properties.

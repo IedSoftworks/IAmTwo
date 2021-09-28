@@ -33,6 +33,6 @@ void main() {
 		vec4 emission = texture2DGamma(Emission, v_TexCoords);
 		emission.a = 0;
 
-		color += emission * EmissionTint * EmissionStrength;
+		color += emission * EmissionTint * EmissionStrength * 2;
 	}
 }

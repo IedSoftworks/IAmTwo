@@ -80,8 +80,7 @@ namespace IAmTwo.LevelObjects
 
                 foreach (Tuple<int, int> connection in Constructor.Connections)
                 {
-                    IPlaceableObject origin = _placedObjects.Find(a => 
-                        a.ID == connection.Item1);
+                    IPlaceableObject origin = _placedObjects.Find(a => a.ID == connection.Item1);
                     IPlaceableObject target = _placedObjects.Find(a => a.ID == connection.Item2);
 
                     if (origin != null && target != null && origin is IConnectable connectable)

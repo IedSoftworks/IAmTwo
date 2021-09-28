@@ -29,7 +29,7 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
 
             Color = Color4.Aqua;
             Texture = Resource.RequestTexture(@".\Resources\button_d.png");
-            ShaderArguments["EmissionTex"] = Resource.RequestTexture(@".\Resources\button_e.png");
+            ShaderArguments["EmissionTex"] = Resource.RequestTexture(@".\Resources\button_e.png", OpenTK.Graphics.OpenGL4.TextureMinFilter.Nearest);
             ShaderArguments["EmissionStrength"] = 2f;
             Material.Blending = true;
 

@@ -73,11 +73,10 @@ namespace IAmTwo.Game
             }
 
             LevelSets = LevelSets.OrderBy(a => a.Key).ToDictionary(a => a.Key, b => b.Value);
-
-            foreach (KeyValuePair<string, List<LevelSet>> set in LevelSets)
+            /*foreach (KeyValuePair<string, List<LevelSet>> set in LevelSets)
             {
                 set.Value.Sort((a, b) => a.Position - b.Position);
-            }
+            }*/
         }
     }
 }

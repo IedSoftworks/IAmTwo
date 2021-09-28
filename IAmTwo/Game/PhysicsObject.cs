@@ -15,7 +15,7 @@ namespace IAmTwo.Game
     public class PhysicsObject : BaseGameObject, IFixedScriptable
     {
         public const float Drag = 100f;
-        public const float Gravity = -500f;
+        public const float Gravity = -1000f;
         public static bool Disabled = false;
 
         protected bool Grounded = false;
@@ -62,7 +62,7 @@ namespace IAmTwo.Game
 
             CollidedWith.Clear();
             Grounded = false;
-            foreach (Hitbox hitbox in Scene.Hitboxes)
+            foreach (Hitbox hitbox in Scene.Hitboxes.ToArray())
             {
                 if (hitbox == _hitbox || !hitbox.PhysicsObject.Active || !hitbox.PhysicsObject.CanCollide) continue;
 

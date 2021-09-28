@@ -17,8 +17,8 @@ namespace IAmTwo.LevelObjects.Objects
             Transform.ZIndex.Set(20);
             Texture = Resource.RequestTexture(@".\Resources\MovingBox_d.png");
 
-            ShaderArguments["EmissionTex"] = Resource.RequestTexture(@".\Resources\MovingBox_e.png");
-            ShaderArguments["EmissionStrength"] = 2f;
+            ShaderArguments["EmissionTex"] = Resource.RequestTexture(@".\Resources\MovingBox_e.png", OpenTK.Graphics.OpenGL4.TextureMinFilter.Nearest);
+            ShaderArguments["EmissionStrength"] = 1.75f;
 
             ChecksGrounded = true;
 

@@ -34,7 +34,7 @@ namespace IAmTwo.LevelEditor
             lineDraw.Transform.Position.Set(-500, Height / 2);
             lineDraw.Transform.Size.Set(1000);
             lineDraw.Color = Color4.Blue;
-            lineDraw.ShaderArguments["ColorScale"] = 1.5f;
+            lineDraw.ShaderArguments["ColorScale"] = 15f;
 
             ItemCollection collection = CreateLists();
             collection.Transform.Size.Set(1);

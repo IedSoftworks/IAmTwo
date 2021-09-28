@@ -10,9 +10,9 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
     public class Elevator : SpecialObject
     {
         private bool _reverse;
-        private bool _sideways;
+        public bool _sideways;
 
-        public float Speed = 1;
+        public float Speed = 2;
         
         public Elevator()
         {
@@ -64,9 +64,9 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
             base.Collided(p, mtv);
             if (p.CollidedWith.Count > 1) return;
 
-            float sped = -Gravity * Speed * (_sideways ? 1 : 10) * (_reverse ? -1 : 1) * Deltatime.FixedUpdateDelta;
-            if (_sideways) p.Velocity.X += sped;
-            else p.Velocity.Y += sped;
+            float sped = Speed * (_reverse ? -1 : 1) * Deltatime.FixedUpdateDelta;
+            if (_sideways) p.Velocity.X = 50000 * sped;
+            else p.Velocity.Y += -Gravity * sped;
         }
 
         protected override void DrawContext(ref DrawContext context)

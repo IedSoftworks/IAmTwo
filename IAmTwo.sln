@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30717.126
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IAmTwo", "IAmTwo\IAmTwo.csproj", "{2CD5EC57-E65E-4B28-80A7-8CF492C48D05}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "INIParser", "..\IedSoftworks\INIParser\INIParser\INIParser.csproj", "{10B49CB2-56EE-42F1-8EE7-28199FF1FC1F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,6 +20,12 @@ Global
 		{2CD5EC57-E65E-4B28-80A7-8CF492C48D05}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2CD5EC57-E65E-4B28-80A7-8CF492C48D05}.Test-Level|Any CPU.ActiveCfg = Controller|Any CPU
 		{2CD5EC57-E65E-4B28-80A7-8CF492C48D05}.Test-Level|Any CPU.Build.0 = Controller|Any CPU
+		{10B49CB2-56EE-42F1-8EE7-28199FF1FC1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10B49CB2-56EE-42F1-8EE7-28199FF1FC1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10B49CB2-56EE-42F1-8EE7-28199FF1FC1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10B49CB2-56EE-42F1-8EE7-28199FF1FC1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10B49CB2-56EE-42F1-8EE7-28199FF1FC1F}.Test-Level|Any CPU.ActiveCfg = Debug|Any CPU
+		{10B49CB2-56EE-42F1-8EE7-28199FF1FC1F}.Test-Level|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -6,6 +6,7 @@ using OpenTK;
 using OpenTK.Graphics;
 using SM.Base.Utility;
 using SM.Base.Window;
+using SM2D.Scene;
 
 namespace IAmTwo.LevelObjects.Objects.SpecialObjects
 {
@@ -69,13 +70,17 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
             if (allowed)
             {
                 Color = Mirror ? ColorPallete.Mirror : ColorPallete.Player;
+                Scene.Hitboxes.Remove(Hitbox);
+                CanCollide = false;
 
                 player.React = false;
-                player.Transform.Size.Interpolate(TimeSpan.FromSeconds(1), Vector2.Zero);
+                player.Transform.Size.Interpolate(TimeSpan.FromSeconds(1), Vector2.Zero).End += (a,b) =>
+                {
+                    (player.Parent as ItemCollection).Remove(player);
+                };
 
                 if (Scene is PlayScene playScene)
                 {
-                    CanCollide = false;
                     playScene.AddTarget();
                 }
             }

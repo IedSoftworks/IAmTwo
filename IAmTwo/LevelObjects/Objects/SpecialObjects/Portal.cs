@@ -12,8 +12,6 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
 {
     public class Portal : SpecialObject, IConnectable
     {
-        private Dictionary<SpecialActor, int> _entries = new Dictionary<SpecialActor, int>();
-
         internal PortalConnector _connector;
         internal Portal _counterPart;
         private float _rot;
@@ -59,25 +57,10 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
         public override void BeganCollision(SpecialActor a, Vector2 mtv)
         {
             base.BeganCollision(a, mtv);
-            if (!_entries.ContainsKey(a))
-                _entries.Add(a, Math.Sign(Transform.Position.X - a.Transform.Position.X));
-        }
 
-        public override void ColliedWithPlayer(SpecialActor a, Vector2 mtv)
-        {
-            base.ColliedWithPlayer(a, mtv);
-
-            if (_connector == null) return;
-            
-
-            float distance = Vector2.Distance(Transform.Position, a.Transform.Position);
-            a.Color = new Color4(a.Color.R, a.Color.G, a.Color.B, Math.Abs(distance));
-            
             if (GotTransported.Contains(a)) return;
-            if (Math.Sign(distance) != _entries[a])
-            {
-                _connector.ReadyTransport(this, _counterPart, a);
-            }
+
+            _connector.ReadyTransport(this, _counterPart, a);
         }
 
         public override void OnRemoved(object sender)
@@ -89,8 +72,6 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
         public override void EndCollision(SpecialActor a, Vector2 mtv)
         {
             base.EndCollision(a, mtv);
-            a.Color = new Color4(a.Color.R, a.Color.G, a.Color.B, 1);
-            _entries.Remove(a);
             if (GotTransported.Contains(a)) GotTransported.Remove(a);
         }
 

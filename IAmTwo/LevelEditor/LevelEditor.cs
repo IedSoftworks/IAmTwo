@@ -49,7 +49,7 @@ namespace IAmTwo.LevelEditor
             Camera.CalculateWorldScale(SMRenderer.CurrentWindow);
             HUDCamera = new Camera()
             {
-                RequestedWorldScale = new Vector2(1000,  LevelScene.Aspect * 1000)
+                RequestedWorldScale = new Vector2(1000,  Aspect * 1000)
             };
             HUDCamera.CalculateWorldScale(SMRenderer.CurrentWindow);
 
@@ -82,7 +82,7 @@ namespace IAmTwo.LevelEditor
                 Active = false
             };
 
-            PropertyControl propertyControl = new PropertyControl(Camera);
+            PropertyControl propertyControl = new PropertyControl(HUDCamera);
             propertyControl.Transform.Position.Set(500 - PropertyControl.Width / 2, 0);
 
             EscapeControl escControl = new EscapeControl();
@@ -187,7 +187,7 @@ namespace IAmTwo.LevelEditor
                 // Object Transformations
                 if (Keyboard.IsDown(Key.W, true))
                 {
-                    MouseAction = TransformationActions.MovingAction(Keyboard.IsDown(Key.ShiftLeft));
+                    MouseAction = TransformationActions.MovingAction(!Keyboard.IsDown(Key.ShiftLeft));
                 }
 
                 if (Keyboard.IsDown(Key.S, true))

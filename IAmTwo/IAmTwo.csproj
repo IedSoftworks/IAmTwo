@@ -205,9 +205,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="INIPass">
-      <Version>1.0.3</Version>
-    </PackageReference>
     <PackageReference Include="OpenTK">
       <Version>3.3.1</Version>
     </PackageReference>
@@ -221,8 +218,14 @@
       <Version>1.0.0-pre7</Version>
     </PackageReference>
     <PackageReference Include="SMRenderer2D">
-      <Version>1.0.15-pre9</Version>
+      <Version>1.0.15-pre12</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\IedSoftworks\INIParser\INIParser\INIParser.csproj">
+      <Project>{10b49cb2-56ee-42f1-8ee7-28199ff1fc1f}</Project>
+      <Name>INIParser</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

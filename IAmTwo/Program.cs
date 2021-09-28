@@ -25,7 +25,9 @@ namespace IAmTwo
             LevelSet.Load();
 
             GLWindow window = new GLWindow(1600,900, "I am two - DevBuild", WindowFlags.Window, VSyncMode.Off)
-            { };
+            {
+                
+            };
             window.ApplySetup(new Window2DSetup());
             window.UpdateFrame += Controller.MouseCursor;
             window.Loaded += genericWindow => UserSettings.Load();

@@ -18,7 +18,7 @@ namespace IAmTwo.Game
 {
     public class Player : SpecialActor
     {
-        public static float DefaultJumpHeight = 100;
+        public static float DefaultJumpHeight = 125;
         public static float PlayerSize = 100f;
         
         private float _speed = 500;
@@ -118,13 +118,9 @@ namespace IAmTwo.Game
             }
 
             float spd = xDir * _speed;
-            if (Grounded)
+            if (!(_lastSpecialObject is Elevator e && e._sideways))
             {
                 Velocity.X = spd;
-            }
-            else if (Math.Abs(Velocity.X) < _speed)
-            {
-                Velocity.X += spd * 2 * Deltatime.UpdateDelta;
             }
 
             bool jump = Controller.Actor.Get<bool>("p_jump");

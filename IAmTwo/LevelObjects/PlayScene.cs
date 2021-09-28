@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
@@ -14,6 +15,7 @@ using SM.Base.Window;
 using SM2D.Drawing;
 using SM2D.Scene;
 using Keyboard = SM.Base.Controls.Keyboard;
+using IAmTwo.LevelObjects.Objects.SpecialObjects;
 
 namespace IAmTwo.LevelObjects
 {
@@ -44,7 +46,8 @@ namespace IAmTwo.LevelObjects
         {
             base.Initialization();
 
-            _targetInGoal = Constructor.Spawner.Count;
+            Type targetType = typeof(Goal);
+            _targetInGoal = Constructor.Objects.Count(a => a.ObjectType == targetType);
 
             HUDCamera = new Camera()
             {

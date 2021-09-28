@@ -78,7 +78,7 @@ namespace IAmTwo.Menu
             {
                 Mesh = allowBorder ? (GenericMesh)_borderMesh : Plate.Object,
                 ForcedMeshType = PrimitiveType.LineLoop,
-                ShaderArguments = { ["ColorScale"] = 1.4f },
+                ShaderArguments = { ["ColorScale"] = 15f },
                 RenderActive = allowBorder
             };
             if (center)

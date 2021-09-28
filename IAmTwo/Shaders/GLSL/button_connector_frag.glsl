@@ -23,5 +23,5 @@ void main() {
 
     vec3 col = vec3(c) + b * vec3(.25);
 
-	Color = vec4(col, alpha) * Tint * 1.3;
+	Color = vec4(col, alpha) * Tint * 3;
 }

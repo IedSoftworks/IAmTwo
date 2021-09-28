@@ -40,7 +40,7 @@ namespace IAmTwo.LevelEditor
             _border = new DrawObject2D {Mesh = Models.QuadricBorder, Transform = {Position = obj.Transform.Position}};
             _border.Transform.Size.Set(1f, 1f);
             _border.Color = Color4.Blue;
-            _border.ShaderArguments["ColorScale"] = 1.4f;
+            _border.ShaderArguments["ColorScale"] = 10f;
             _border.Transform.Position.Set(0, -.1f);
 
             DrawText title = new DrawText(Fonts.Button, obj.Name);

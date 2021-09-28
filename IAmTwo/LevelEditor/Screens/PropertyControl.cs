@@ -32,7 +32,7 @@ namespace IAmTwo.LevelEditor
                 Mesh = Models.Border,
                 Color = new Color4(1f, 1f, 0, 1f),
             };
-            border.ShaderArguments["ColorScale"] = 1.1f;
+            border.ShaderArguments["ColorScale"] = 10f;
 
             border.Transform.Position.Set(-Width / 2, -cam.WorldScale.Y / 2);
             border.Transform.Size.Set(cam.WorldScale.Y);

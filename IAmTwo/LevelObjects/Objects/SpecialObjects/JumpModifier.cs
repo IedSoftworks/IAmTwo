@@ -42,7 +42,7 @@ namespace IAmTwo.LevelObjects.Objects.SpecialObjects
 
         private void HandleMultiplierChange()
         {
-            bool up = Transform.Rotation > 179;
+            bool up = Transform.Rotation < 179;
 
             Color = up ? ColorPallete.Up : ColorPallete.Down;
         }

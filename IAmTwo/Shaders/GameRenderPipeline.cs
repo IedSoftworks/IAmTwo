@@ -40,28 +40,31 @@ namespace IAmTwo.Shaders
         {
             MainFramebuffer = CreateWindowFramebuffer( UserSettings.AA != "Off" ? int.Parse(UserSettings.AA.Remove(UserSettings.AA.Length - 1, 1)) : 0, PixelInformation.RGBA_HDR );
 
-            Framebuffers.Add(_postBuffer = CreateWindowFramebuffer(0, PixelInformation.RGBA_HDR, false));
+            Framebuffers.Add(_postBuffer = CreateWindowFramebuffer(0, PixelInformation.RGB_HDR, false));
 
             if (UserSettings.Bloom != "Off")
             {
-                _bloom = new BloomEffect(_postBuffer, true, UserSettings.Bloom == "High" ? 1 : .5f)
+                _bloom = new BloomEffect(true)
                 {
-                    WeightCurvePickAmount = 8,
                     AmountMap = AmountTex,
-                    AmountTransform = BloomAmountTransform,
-                    MinAmount = 0,
-                    Radius = 1.5f
+                    AmountMapTransform = BloomAmountTransform,
+                    Radius = 5f,
+                    Intensity = 1
                 };
-                _bloom.Initilize(this);
                 BloomAmountTransform.Scale.Set(3);
+                _bloom.Initilize(this);
             }
-
             PostProcessUtility.Gamma = 2.2f;
 
             DefaultShader = ShaderCollection.Shaders["Default"].GetShader();
 
-
             base.Initialization();
+        }
+
+        public override void Resize(IGenericWindow window)
+        {
+            _bloom?.ScreenSizeChanged(window);
+            base.Resize(window);
         }
 
         protected override void RenderProcess(ref DrawContext context)
@@ -82,7 +85,7 @@ namespace IAmTwo.Shaders
             }
 
             Framebuffer.Screen.Activate(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            PostProcessUtility.FinalizeHDR(_postBuffer.ColorAttachments["color"], Exposure.X);
+            PostProcessUtility.FinalizeHDR(_postBuffer.ColorAttachments["color"], HDRColorCurve.OnlyExposure, Exposure.X);
         }
     }
 }
