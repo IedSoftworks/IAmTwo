@@ -40,8 +40,10 @@ namespace IAmTwo
         static Dictionary<string, Action> contactActions = new Dictionary<string, Action>()
         {
             { "Discord", DiscordAction },
-            { "GitHub", GithubAction }
+            { "GitHub", GithubAction },
+            { "Donate", DonateAction }
         };
+
 
         private ItemCollection _options;
         private ItemCollection _playMenu;
@@ -499,7 +501,12 @@ namespace IAmTwo
 
         private static void DiscordAction()
         {
-
+            Process.Start("https://discord.gg/bq8XEWZVPM");
+        }
+        
+        private static void DonateAction()
+        {
+            throw new NotImplementedException();
         }
     }
 }

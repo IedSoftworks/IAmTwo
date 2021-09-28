@@ -10,6 +10,7 @@ using SM2D.Types;
 using System.Linq;
 using IAmTwo.LevelObjects.Objects;
 using SM.Utils.Controls;
+using SM.Base;
 
 namespace IAmTwo
 {
@@ -18,6 +19,8 @@ namespace IAmTwo
         [STAThread]
         static void Main(string[] args)
         {
+            Log.SetLogFile("log.dat");
+
             Controller.Actor = GameKeybindActor.CreateKeyboardActor();
             Transformation.ZIndexPercision = 50;
             GameController.GlobalDeadband = .5f;
@@ -40,7 +43,7 @@ namespace IAmTwo
                 {
                     window.SetScene(new PlayScene(LevelConstructor.Load(stream)));
                 }
-            else window.SetScene(MainMenu.Menu);
+            else window.SetScene(new SplashScreen());
             //window.SetScene(new CreditsScene(LevelSet.LevelSets.First().Value[0]));
             //window.SetScene(new GameScene(new LevelConstructor() { Size = 650 }));
             window.RunFixedUpdate(100);

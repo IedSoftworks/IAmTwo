@@ -135,6 +135,7 @@
     <Compile Include="Shaders\ImportedShader.cs" />
     <Compile Include="Shaders\MatShader.cs" />
     <Compile Include="Shaders\ShaderCollection.cs" />
+    <Compile Include="SplashScreen.cs" />
     <Compile Include="UserOption.cs" />
     <Compile Include="UserSettings.cs" />
   </ItemGroup>
@@ -177,6 +178,9 @@
     <Content Include="Resources\cursor.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\large_logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="Resources\player_d.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
