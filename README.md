@@ -11,8 +11,8 @@ Additionally the game will have a level editor, so you can create your own level
 Just download it and check if your IDE want to download a few nuGet Packages.
 If not (or a few are missing) here is the complete list, of what you need:
 
-SMRenderer2D
-SMRenderer.Utils
-SharpFont.Dependencies & SharpFont
-INIPass
-OpenTK 3.3.1 (should get downloaded by installing SMRenderer2D)
+* SMRenderer2D
+* SMRenderer.Utils
+* SharpFont.Dependencies & SharpFont
+* INIPass
+* OpenTK 3.3.1 (should get downloaded by installing SMRenderer2D)
