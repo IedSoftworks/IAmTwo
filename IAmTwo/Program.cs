@@ -11,6 +11,7 @@ using System.Linq;
 using IAmTwo.LevelObjects.Objects;
 using SM.Utils.Controls;
 using SM.Base;
+using SM.Base.Utility;
 
 namespace IAmTwo
 {
@@ -27,13 +28,14 @@ namespace IAmTwo
 
             LevelSet.Load();
 
-            GLWindow window = new GLWindow(1600,900, "I am two - DevBuild", WindowFlags.Window, VSyncMode.Off)
+            GLWindow window = new GLWindow(1600, 900, "I am two - DevBuild", WindowFlags.Window, VSyncMode.Off)
             {
-                
+                Icon = new System.Drawing.Icon(AssemblyUtility.GetAssemblyStream("IAmTwo.Resources.icon.ico"))
             };
             window.ApplySetup(new Window2DSetup());
             window.UpdateFrame += Controller.MouseCursor;
-            window.Loaded += genericWindow => UserSettings.Load();
+            window.Loaded += (a) => UserSettings.Load();
+
 
             window.TargetUpdateFrequency = 60;
             window.SetRenderPipeline(new GameRenderPipeline());

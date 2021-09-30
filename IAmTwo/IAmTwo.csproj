@@ -45,6 +45,9 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpDX.4.2.0\lib\net45\SharpDX.dll</HintPath>
@@ -175,12 +178,14 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Game\Credits.txt" />
+    <Content Include="icon.ico" />
     <Content Include="Resources\cursor.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\large_logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <EmbeddedResource Include="Resources\icon.ico" />
     <Content Include="Resources\player_d.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -209,6 +214,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="INIPass">
+      <Version>1.0.3</Version>
+    </PackageReference>
     <PackageReference Include="OpenTK">
       <Version>3.3.1</Version>
     </PackageReference>
@@ -219,17 +227,11 @@
       <Version>2.6.0</Version>
     </PackageReference>
     <PackageReference Include="SMRenderer.Utils">
-      <Version>1.0.0-pre7</Version>
+      <Version>1.0.0</Version>
     </PackageReference>
     <PackageReference Include="SMRenderer2D">
-      <Version>1.0.15-pre12</Version>
+      <Version>1.0.15</Version>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\IedSoftworks\INIParser\INIParser\INIParser.csproj">
-      <Project>{10b49cb2-56ee-42f1-8ee7-28199ff1fc1f}</Project>
-      <Name>INIParser</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

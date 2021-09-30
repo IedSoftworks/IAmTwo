@@ -4,6 +4,7 @@ using IAmTwo.Resources;
 using OpenTK;
 using SM.Base.Animation;
 using SM.Base.Textures;
+using SM.Base.Window;
 using SM2D.Drawing;
 using SM2D.Scene;
 using System;
@@ -16,6 +17,8 @@ namespace IAmTwo
 {
     class SplashScreen : BaseScene
     {
+        InterpolationProcess proces;
+
         public override void Initialization()
         {
             base.Initialization();
@@ -39,8 +42,20 @@ namespace IAmTwo
             Objects.Add(item);
 
             Vector2 start = ((Vector2)item.Transform.Size) * .5f;
-            InterpolationProcess interpolation = item.Transform.Size.Interpolate(TimeSpan.FromSeconds(5), Vector2.Zero, ((Vector2)item.Transform.Size) * .25f, AnimationCurves.Smooth);
-            interpolation.End += (a,b) => ChangeScene(MainMenu.Menu);
+            proces = item.Transform.Size.Interpolate(TimeSpan.FromSeconds(5), Vector2.Zero, ((Vector2)item.Transform.Size) * .25f, AnimationCurves.Smooth);
+            proces.End += (a, b) => Switch();
+        }
+
+        public override void Update(UpdateContext context)
+        {
+            base.Update(context);
+            if ((bool)Controller.Actor.Get("c_skipCredits")) Switch();
+        }
+
+        private void Switch()
+        {
+            if (proces.Running) proces.Stop();
+            ChangeScene(MainMenu.Menu);
         }
     }
 }

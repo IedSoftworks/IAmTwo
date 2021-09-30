@@ -18,6 +18,8 @@ namespace IAmTwo.Shaders
 {
     public class GameRenderPipeline : RenderPipeline
     {
+        public static GameRenderPipeline RenderPipeline;
+
         public const float BaseExposure = .5f;
         public static CVector1 Exposure = new CVector1(0);
 
@@ -38,6 +40,8 @@ namespace IAmTwo.Shaders
 
         public override void Initialization()
         {
+            RenderPipeline = this;
+
             MainFramebuffer = CreateWindowFramebuffer( UserSettings.AA != "Off" ? int.Parse(UserSettings.AA.Remove(UserSettings.AA.Length - 1, 1)) : 0, PixelInformation.RGBA_HDR );
 
             Framebuffers.Add(_postBuffer = CreateWindowFramebuffer(0, PixelInformation.RGB_HDR, false));
