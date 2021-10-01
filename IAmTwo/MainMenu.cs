@@ -506,7 +506,7 @@ namespace IAmTwo
         
         private static void DonateAction()
         {
-            throw new NotImplementedException();
+            Process.Start("https://iedsoftworks.itch.io/iamtwo");
         }
     }
 }

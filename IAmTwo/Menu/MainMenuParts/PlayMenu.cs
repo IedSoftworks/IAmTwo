@@ -97,11 +97,14 @@ namespace IAmTwo.Menu.MainMenuParts
         protected virtual void Close()
         {
             MainMenu.Menu.HidePlayMenu();
+            SetLevelSelect(null);
         }
 
         protected virtual void SetLevelSelect(LevelSet set)
         {
             _levelSelect.Clear();
+
+            if (set == null) return;
 
             int i = 0;
             foreach (LevelConstructor constructor in set.Levels)
